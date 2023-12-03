@@ -16,7 +16,7 @@ $gameinfos = array(
 'game_name' => "My Great Game",
 
 // Game designer (or game designers, separated by commas)
-'designer' => 'John Doe',       
+'designer' => 'Molly Johnson, Robert Melvin, Aaron Mesburne, Kevin Russ and Shawn Stankewic',       
 
 // Game artist (or game artists, separated by commas)
 'artist' => 'Jane Doe',         

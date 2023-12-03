@@ -1,1 +1,22 @@
-{}
+{
+    "100": {
+        "name": "Variant",
+        "values": {
+            "1": {
+                "name": "Family",
+                "firstgameonly": true
+            },
+            "2": {
+                "name": "Default"
+            },
+            "3": {
+                "name": "Advanced",
+                "nobeginner": true
+            },
+            "4": {
+                "name": "Solo"
+            }
+        },
+        "default": 1
+    }
+}

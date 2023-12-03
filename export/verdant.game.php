@@ -36,7 +36,7 @@ class Verdant extends Table
             //    "my_first_global_variable" => 10,
             //    "my_second_global_variable" => 11,
             //      ...
-            //    "my_first_game_variant" => 100,
+                "game_variant" => 100,
             //    "my_second_game_variant" => 101,
             //      ...
         ) );        
