@@ -1,7 +1,7 @@
 <?php
 namespace NieuwenhovenGames\BGA\FrameworkInterfaces;
 /**
- * Access BGA game protected database methods
+ * Access BGA game static and protected database methods
  * @see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
  *------
  * BGA implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
@@ -21,7 +21,7 @@ interface Database {
     public function getCollection(string $query) : array;
 
     /*
-    Protected methods that cannot be called directly
+    Protected or static methods that cannot be called directly
 
     DbQuery($query);
     getUniqueValueFromDB( $sql );

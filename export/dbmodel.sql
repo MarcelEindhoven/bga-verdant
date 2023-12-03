@@ -23,30 +23,30 @@
 
 
 CREATE TABLE IF NOT EXISTS `plant` (
-  `plant_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `plant_type` varchar(16) NOT NULL,
-  `plant_type_arg` int(11) NOT NULL,
-  `plant_location` varchar(16) NOT NULL,
-  `plant_location_arg` int(11) NOT NULL,
-  PRIMARY KEY (`plant_id`)
+  `card_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `card_type` varchar(16) NOT NULL,
+  `card_type_arg` int(11) NOT NULL,
+  `card_location` varchar(16) NOT NULL,
+  `card_location_arg` int(11) NOT NULL,
+  PRIMARY KEY (`card_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS `room` (
-  `room_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `room_type` varchar(16) NOT NULL,
-  `room_type_arg` int(11) NOT NULL,
-  `room_location` varchar(16) NOT NULL,
-  `room_location_arg` int(11) NOT NULL,
-  PRIMARY KEY (`room_id`)
+  `card_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `card_type` varchar(16) NOT NULL,
+  `card_type_arg` int(11) NOT NULL,
+  `card_location` varchar(16) NOT NULL,
+  `card_location_arg` int(11) NOT NULL,
+  PRIMARY KEY (`card_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS `item` (
-  `item_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `item_type` varchar(16) NOT NULL,
-  `item_type_arg` int(11) NOT NULL,
-  `item_location` varchar(16) NOT NULL,
-  `item_location_arg` int(11) NOT NULL,
-  PRIMARY KEY (`item_id`)
+  `card_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `card_type` varchar(16) NOT NULL,
+  `card_type_arg` int(11) NOT NULL,
+  `card_location` varchar(16) NOT NULL,
+  `card_location_arg` int(11) NOT NULL,
+  PRIMARY KEY (`card_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS `robot` (

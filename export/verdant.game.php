@@ -19,8 +19,12 @@
 
 require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
 
+include_once(__DIR__.'/modules/BGA/FrameworkInterfaces/Database.php');
+include_once(__DIR__.'/modules/BGA/FrameworkInterfaces/Debugging.php');
 
-class Verdant extends Table
+include_once(__DIR__.'/modules/GameSetup/CardsSetup.php');
+
+class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces\Database, NieuwenhovenGames\BGA\FrameworkInterfaces\Debugging
 {
 	function __construct( )
 	{
@@ -39,7 +43,13 @@ class Verdant extends Table
                 "game_variant" => 100,
             //    "my_second_game_variant" => 101,
             //      ...
-        ) );        
+        ) );
+        $this->items = self::getNew('module.common.deck'); 
+        $this->items->init('item');
+        $this->plants = self::getNew('module.common.deck'); 
+        $this->plants->init('plant');
+        $this->rooms = self::getNew('module.common.deck'); 
+        $this->rooms->init('room');
 	}
 	
     protected function getGameName( )
@@ -47,6 +57,24 @@ class Verdant extends Table
 		// Used for translations and stuff. Please do not modify.
         return "verdant";
     }	
+
+    // NieuwenhovenGames\BGA\Database
+    public function query(string $query) : void  {
+        self::DbQuery($query);
+    }
+	
+    public function getObject(string $query) : array {
+        self::trace("getObject {$query}");
+        return self::getObjectFromDB($query);
+    }
+
+    public function getObjectList(string $query) : array {
+        return self::getObjectListFromDB($query);
+    }
+
+    public function getCollection(string $query) : array {
+        return self::getCollectionFromDb($query);
+    }
 
     /*
         setupNewGame:
@@ -56,7 +84,9 @@ class Verdant extends Table
         the game is ready to be played.
     */
     protected function setupNewGame( $players, $options = array() )
-    {    
+    {
+        NieuwenhovenGames\Verdant\CardsSetup::create($this->items)->setupItems();
+
         // Set the colors of the players with HTML color code
         // The default below is red/green/blue/orange/brown
         // The number of colors defined here must correspond to the maximum number of players allowed for the gams
