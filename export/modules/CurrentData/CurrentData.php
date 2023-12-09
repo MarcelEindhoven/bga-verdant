@@ -8,7 +8,15 @@ namespace NieuwenhovenGames\Verdant;
  *
  */
 
+ require_once(__DIR__.'/../BGA/CurrentPlayerRobotProperties.php');
+ require_once(__DIR__.'/../BGA/Storage.php');
+
 class CurrentData {
+    const RESULT_KEY_PLAYERS = 'players';
+    const RESULT_KEY_PLAYERSROBOTS = 'playersIncludingRobots';
+
+    protected array $all_data_common = [];
+
     public static function create($sql_database) : CurrentData {
         $object = new CurrentData();
         return $object->setDatabase($sql_database);
@@ -24,11 +32,24 @@ class CurrentData {
     public function setStorage($storage) : CurrentData {
         $this->storage = $storage;
 
+        $player_robot_properties = \NieuwenhovenGames\BGA\CurrentPlayerRobotProperties::create($this->storage);
+        $this->setPlayerRobotProperties($player_robot_properties);
+
         return $this;
     }
 
-    public function getAllDatas($player_id) : array {
-        return [];
+    public function setPlayerRobotProperties($player_robot_properties) : CurrentData {
+        $this->player_robot_properties = $player_robot_properties;
+
+        $this->all_data_common = [];
+        $this->all_data_common[CurrentData::RESULT_KEY_PLAYERS] = $this->player_robot_properties->getPlayerData();
+        $this->all_data_common[CurrentData::RESULT_KEY_PLAYERSROBOTS] = $this->all_data_common[CurrentData::RESULT_KEY_PLAYERS] + $this->player_robot_properties->getRobotData();
+
+        return $this;
+    }
+
+    public function getAllDatas() : array {
+        return $this->all_data_common;
     }
 }
 ?>

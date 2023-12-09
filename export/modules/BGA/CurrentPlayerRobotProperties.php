@@ -25,16 +25,17 @@ class CurrentPlayerRobotProperties {
 
     public function getPlayerData(): array {
         $properties = $this->storage->getBucket(UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME, UpdatePlayerRobotProperties::BUCKET_KEYS, UpdatePlayerRobotProperties::PLAYER_KEY_PREFIX);
-        foreach ($properties as & $property) {
-            $property['is_player'] = true;
-        }
-        return $properties;
+        return $this->set_is_player($properties, true);
     }
 
     public function getRobotData(): array {
         $properties = $this->storage->getBucket(UpdatePlayerRobotProperties::ROBOT_BUCKET_NAME, UpdatePlayerRobotProperties::BUCKET_KEYS, UpdatePlayerRobotProperties::PLAYER_KEY_PREFIX);
+        return $this->set_is_player($properties, false);
+    }
+
+    protected function set_is_player($properties, $is_player) {
         foreach ($properties as & $property) {
-            $property['is_player'] = false;
+            $property['is_player'] = $is_player;
         }
         return $properties;
     }
