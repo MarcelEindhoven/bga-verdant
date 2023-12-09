@@ -23,13 +23,29 @@ class CardsSetupTest extends TestCase{
         $this->sut = CardsSetup::create($this->mock_cards);
     }
 
-    public function testInitialisation__() {
+    public function testSetup_Items_createCardsAndShuffle() {
         // Arrange
         $this->mock_cards->expects($this->exactly(1))->method('createCards');
         $this->mock_cards->expects($this->exactly(1))->method('shuffle')->with(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK);
         // Act
         $this->sut->setupItems();
         // Assert
+    }
+
+    public function testSetup_Items_pickCardForLocation4() {
+        // Arrange
+        $this->mock_cards->expects($this->exactly(4))->method('pickCardForLocation');
+        // Act
+        $this->sut->setupItems();
+        // Assert
+    }
+
+    public function testgetItemDefinitions() {
+        // Arrange
+        // Act
+        $definitions = $this->sut->getItemDefinitions();
+        // Assert
+        $this->assertEquals(5*(5+4) + 3*15, count($definitions));
     }
 }
 ?>
