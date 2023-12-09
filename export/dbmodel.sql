@@ -50,11 +50,11 @@ CREATE TABLE IF NOT EXISTS `item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS `robot` (
-  `robot_number` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `player_number` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `player_id` int(10) NOT NULL,
   `player_no` int(10) NOT NULL,
   `player_name` varchar(32) NOT NULL,
   `player_color` varchar(6) NOT NULL,
   `player_score` int(10) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`robot_number`)
+  PRIMARY KEY (`player_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

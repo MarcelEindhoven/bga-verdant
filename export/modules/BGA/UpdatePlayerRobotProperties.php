@@ -61,6 +61,8 @@ class UpdatePlayerRobotProperties extends \ArrayObject {
 
     const KEY_IS_PLAYER = 'is_player';
 
+    const BUCKET_KEYS = ['id', 'score', 'no', 'name', 'color'];
+
     public function __construct(array $array = [], int $flags = 0, string $iteratorClass = \ArrayIterator::class) {
         parent::__construct([]);
         foreach($array as $player_id => $player_properties) {

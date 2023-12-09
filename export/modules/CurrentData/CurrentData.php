@@ -26,5 +26,9 @@ class CurrentData {
 
         return $this;
     }
+
+    public function getAllDatas($player_id) : array {
+        return [];
+    }
 }
 ?>

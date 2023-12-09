@@ -22,9 +22,11 @@ class CurrentDataTest extends TestCase{
         $this->mock_database = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Database::class);
         $this->sut = CurrentData::create($this->mock_database);
     }
-    public function testSetup_Items_createCardsAndShuffle() {
+
+    public function testgetAllDatas() {
         // Arrange
         // Act
+        $data = $this->sut->getAllDatas(1);
         // Assert
     }
 }

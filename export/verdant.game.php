@@ -24,6 +24,8 @@ include_once(__DIR__.'/modules/BGA/FrameworkInterfaces/Debugging.php');
 
 include_once(__DIR__.'/modules/GameSetup/CardsSetup.php');
 
+include_once(__DIR__.'/modules/CurrentData/CurrentData.php');
+
 class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces\Database, NieuwenhovenGames\BGA\FrameworkInterfaces\Debugging
 {
 	function __construct( )
@@ -140,7 +142,8 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         $result = array();
     
         $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
-    
+        $data_handler = NieuwenhovenGames\MilleFiori\CurrentData::create($this);
+
         // Get information about players
         // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
         $sql = "SELECT player_id id, player_score score FROM player ";
