@@ -23,6 +23,7 @@ include_once(__DIR__.'/modules/BGA/FrameworkInterfaces/Database.php');
 include_once(__DIR__.'/modules/BGA/FrameworkInterfaces/Debugging.php');
 
 include_once(__DIR__.'/modules/GameSetup/CardsSetup.php');
+include_once(__DIR__.'/modules/GameSetup/GameSetup.php');
 
 include_once(__DIR__.'/modules/CurrentData/CurrentData.php');
 
@@ -42,7 +43,8 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
             //    "my_first_global_variable" => 10,
             //    "my_second_global_variable" => 11,
             //      ...
-                "game_variant" => 100,
+                "number_ai_players" => 100,
+                "game_variant" => 101,
             //    "my_second_game_variant" => 101,
             //      ...
         ) );
@@ -93,10 +95,11 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         // The default below is red/green/blue/orange/brown
         // The number of colors defined here must correspond to the maximum number of players allowed for the gams
         $gameinfos = self::getGameinfos();
-        $default_colors = $gameinfos['player_colors'];
  
         // Create players
         // Note: if you added some extra field on "player" table in the database (dbmodel.sql), you can initialize it there.
+        /*
+        $default_colors = $gameinfos['player_colors'];
         $sql = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar) VALUES ";
         $values = array();
         foreach( $players as $player_id => $player )
@@ -106,6 +109,9 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         }
         $sql .= implode( $values, ',' );
         self::DbQuery( $sql );
+        */
+        NieuwenhovenGames\Verdant\GameSetup::create($this)->setupPlayers($players, $gameinfos['player_colors'], $this->getGameStateValue('number_ai_players'));
+
         self::reattributeColorsBasedOnPreferences( $players, $gameinfos['player_colors'] );
         self::reloadPlayersBasicInfos();
         
