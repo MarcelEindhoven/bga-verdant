@@ -29,15 +29,12 @@ class CurrentDataTest extends TestCase{
     public function testgetAllDatas_PlayerRobotData_() {
         // Arrange
         $expected_player_data = [1 => 'x'];
-        $expected_robot_data = [2 => 'y'];
         $this->mock_properties->expects($this->exactly(1))->method('getPlayerData')->will($this->returnValue($expected_player_data));
-        $this->mock_properties->expects($this->exactly(1))->method('getRobotData')->will($this->returnValue($expected_robot_data));
         $this->sut->setPlayerRobotProperties($this->mock_properties);
         // Act
         $data = $this->sut->getAllDatas();
         // Assert
         $this->assertEquals($expected_player_data, $data[CurrentData::RESULT_KEY_PLAYERS]);
-        $this->assertEquals($expected_player_data + $expected_robot_data, $data[CurrentData::RESULT_KEY_PLAYERSROBOTS]);
     }
 }
 ?>

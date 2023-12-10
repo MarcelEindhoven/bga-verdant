@@ -13,7 +13,6 @@ namespace NieuwenhovenGames\Verdant;
 
 class CurrentData {
     const RESULT_KEY_PLAYERS = 'players';
-    const RESULT_KEY_PLAYERSROBOTS = 'playersIncludingRobots';
 
     protected array $all_data_common = [];
 
@@ -43,7 +42,6 @@ class CurrentData {
 
         $this->all_data_common = [];
         $this->all_data_common[CurrentData::RESULT_KEY_PLAYERS] = $this->player_robot_properties->getPlayerData();
-        $this->all_data_common[CurrentData::RESULT_KEY_PLAYERSROBOTS] = $this->all_data_common[CurrentData::RESULT_KEY_PLAYERS] + $this->player_robot_properties->getRobotData();
 
         return $this;
     }
