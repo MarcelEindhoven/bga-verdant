@@ -11,18 +11,23 @@ namespace NieuwenhovenGames\Verdant;
  require_once(__DIR__.'/../BGA/CurrentPlayerRobotProperties.php');
  require_once(__DIR__.'/../BGA/Storage.php');
 
-class CurrentMarket {
-    public static function create($decks) : CurrentMarket {
-        $object = new CurrentMarket();
+class CurrentDecks {
+    public static function create($decks) : CurrentDecks {
+        $object = new CurrentDecks();
         return $object->setDecks($decks);
     }
 
-    public function setDecks($decks) : CurrentMarket {
+    public function setDecks($decks) : CurrentDecks {
+        $this->decks = $decks;
         return $this;
     }
 
     public function getAllDatas() : array {
-        return [];
+        $decks = [];
+        foreach ($this->decks as $name => $deck) {
+            $decks[$name] = $deck->getCardsInLocation(null);
+        }
+        return $decks;
     }
 }
 ?>

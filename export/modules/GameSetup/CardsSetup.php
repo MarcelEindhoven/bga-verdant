@@ -18,7 +18,7 @@ class CardsSetup {
     const NUMBER_NURTURE_TYPES = 3;
     const NUMBER_NURTURE_TOKENS_PER_TYPE = 15;
     const MARKET_WIDTH = 4;
-    const MARKET_ITEM_LOCATION = 1;
+    const MARKET_ITEM_LOCATION = 'Market';
 
     static public function create($deck) : CardsSetup {
         $object = new CardsSetup();

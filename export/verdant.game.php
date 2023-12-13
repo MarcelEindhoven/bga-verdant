@@ -26,6 +26,7 @@ include_once(__DIR__.'/modules/GameSetup/CardsSetup.php');
 include_once(__DIR__.'/modules/GameSetup/GameSetup.php');
 
 include_once(__DIR__.'/modules/CurrentData/CurrentData.php');
+include_once(__DIR__.'/modules/CurrentData/CurrentDecks.php');
 
 class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces\Database, NieuwenhovenGames\BGA\FrameworkInterfaces\Debugging
 {
@@ -48,8 +49,9 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
             //    "my_second_game_variant" => 101,
             //      ...
         ) );
-        $this->items = self::getNew('module.common.deck'); 
-        $this->items->init('item');
+        $this->decks = [];
+        $this->decks['item'] = self::getNew('module.common.deck'); 
+        $this->decks['item']->init('item');
         $this->plants = self::getNew('module.common.deck'); 
         $this->plants->init('plant');
         $this->rooms = self::getNew('module.common.deck'); 
@@ -148,8 +150,9 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
 
         $data_handler = NieuwenhovenGames\Verdant\CurrentData::create($this);
+        $deck_handler = NieuwenhovenGames\Verdant\CurrentDecks::create($this->decks);
   
-        return $data_handler->getAllDatas();
+        return $data_handler->getAllDatas() + ['decks' => $deck_handler->getAllDatas()];
     }
 
     /*
