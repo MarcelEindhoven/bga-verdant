@@ -10,6 +10,7 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/GameSetup/CardsSetup.php');
+include_once(__DIR__.'/../../export/modules/GameSetup/ItemsSetup.php');
 include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/Deck.php');
 
 class CardsSetupTest extends TestCase{
@@ -28,7 +29,7 @@ class CardsSetupTest extends TestCase{
         $this->mock_cards->expects($this->exactly(1))->method('createCards');
         $this->mock_cards->expects($this->exactly(1))->method('shuffle')->with(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK);
         // Act
-        $this->sut->setupItems();
+        $this->sut->setup();
         // Assert
     }
 
@@ -36,14 +37,14 @@ class CardsSetupTest extends TestCase{
         // Arrange
         $this->mock_cards->expects($this->exactly(4))->method('pickCardForLocation');
         // Act
-        $this->sut->setupItems();
+        $this->sut->setup();
         // Assert
     }
 
     public function testgetItemDefinitions() {
         // Arrange
         // Act
-        $definitions = $this->sut->getItemDefinitions();
+        $definitions = $this->sut->setup['items']->getItemDefinitions();
         // Assert
         $this->assertEquals(5*(5+4) + 3*15, count($definitions));
     }

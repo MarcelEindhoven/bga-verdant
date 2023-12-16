@@ -91,7 +91,7 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
     */
     protected function setupNewGame( $players, $options = array() )
     {
-        NieuwenhovenGames\Verdant\CardsSetup::create($this->decks)->setupItems();
+        NieuwenhovenGames\Verdant\CardsSetup::create($this->decks)->setup();
 
         // Set the colors of the players with HTML color code
         // The default below is red/green/blue/orange/brown

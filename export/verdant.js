@@ -75,9 +75,9 @@ function (dojo, declare) {
         setupDecks: function(decks) {
             console.log("setupDecks");
             console.log(decks);
-            this.setupItems(decks.items);
+            this.setup(decks.items);
         },
-        setupItems: function(items) {
+        setup: function(items) {
             console.log(items);
             for (var number in items) {
                 item = items[number];
