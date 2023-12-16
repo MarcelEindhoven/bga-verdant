@@ -73,7 +73,7 @@
 .item {
     width: 56px;
     height: 56px;
-    position: absolute;
+    position: relative;
     background-image: url('img/items.png');
 }
 

@@ -81,18 +81,29 @@ function (dojo, declare) {
             console.log(items);
             for (var number in items) {
                 item = items[number];
-                if (item['location'] != 'deck') {
+                if (item['location'] == 'Market') {
                     this.setupItem(item);
                 }
             }
         },
         setupItem: function(item) {
             console.log("setupItem");
+            console.log(item);
+
+            var location = 'Item' + item.location_arg;
+            nr = item['id'];
+            type = this.itemwidth * Number(item['type']);
+            color = this.itemheight * Number(item['type_arg']);
+            /*
+            location = item['location_arg'];
+            */
+            
             dojo.place( this.format_block( 'jstpl_item', {
-                nr: item['id'],
-                type: item['type'],
-                color: item['type_arg']
-            } ) , 'Item0' );
+                nr: nr,
+                type: type,
+                color: color
+            } ) ,  location);
+            
         },
        
 

@@ -28,23 +28,20 @@
 <div id = "Market" style="display: inline-block">
     Market<br>
     <div id = "Item0" style="display: inline-block" class=".single_card">
-    Item
     </div>
     <div id = "Item1" style="display: inline-block" class=".single_card">
-    Item
     </div>
     <div id = "Item2" style="display: inline-block" class=".single_card">
-    Item
     </div>
     <div id = "Item3" style="display: inline-block" class=".single_card">
-    Item
     </div>
 </div>
 
 <script type="text/javascript">
 // <div id="tokens"/>
 // Javascript HTML templates
-var jstpl_item='<div class="item" id="item_${nr}" style="background-position: {type}px {color}px;"></div>';
+var jstpl_item='<div class="item" id="item_${nr}" style="background-position: -${type}px ${color}px;"></div>';
+// var jstpl_item='<div class="item" id="item_${nr}" ></div>';
 
 /*
 // Example:
