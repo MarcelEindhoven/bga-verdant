@@ -94,14 +94,11 @@ function (dojo, declare) {
             nr = item['id'];
             type = this.itemwidth * Number(item['type']);
             color = this.itemheight * Number(item['type_arg']);
-            /*
-            location = item['location_arg'];
-            */
             
             dojo.place( this.format_block( 'jstpl_item', {
                 nr: nr,
-                type: type,
-                color: color
+                background_horizontal: type,
+                background_vertical: color
             } ) ,  location);
             
         },
