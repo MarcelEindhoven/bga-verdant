@@ -50,8 +50,8 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
             //      ...
         ) );
         $this->decks = [];
-        $this->decks['item'] = self::getNew('module.common.deck'); 
-        $this->decks['item']->init('item');
+        $this->decks['items'] = self::getNew('module.common.deck'); 
+        $this->decks['items']->init('item');
         $this->plants = self::getNew('module.common.deck'); 
         $this->plants->init('plant');
         $this->rooms = self::getNew('module.common.deck'); 
@@ -91,7 +91,7 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
     */
     protected function setupNewGame( $players, $options = array() )
     {
-        NieuwenhovenGames\Verdant\CardsSetup::create($this->items)->setupItems();
+        NieuwenhovenGames\Verdant\CardsSetup::create($this->decks)->setupItems();
 
         // Set the colors of the players with HTML color code
         // The default below is red/green/blue/orange/brown

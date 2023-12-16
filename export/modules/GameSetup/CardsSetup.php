@@ -20,13 +20,13 @@ class CardsSetup {
     const MARKET_WIDTH = 4;
     const MARKET_ITEM_LOCATION = 'Market';
 
-    static public function create($deck) : CardsSetup {
+    static public function create($decks) : CardsSetup {
         $object = new CardsSetup();
-        return $object->setDeck($deck);
+        return $object->setDeck($decks);
     }
 
-    public function setDeck($deck) : CardsSetup {
-        $this->deck = $deck;
+    public function setDeck($decks) : CardsSetup {
+        $this->decks = $decks;
         return $this;
     }
 
@@ -36,11 +36,12 @@ class CardsSetup {
      * Reveal 4 tokens from the bag and place them in a row adjacent to the bag to begin to form the Market.
      */
     public function setupItems() {
-        $this->deck->createCards($this->getItemDefinitions(), \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK);
-        $this->deck->shuffle(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK);
+        $items = $this->decks['items'];
+        $items->createCards($this->getItemDefinitions(), \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK);
+        $items->shuffle(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK);
 
         for ($i = 0; $i < CardsSetup::MARKET_WIDTH; $i++) {
-            $this->deck->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, CardsSetup::MARKET_ITEM_LOCATION, $i);
+            $items->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, CardsSetup::MARKET_ITEM_LOCATION, $i);
         }
     }
     /**

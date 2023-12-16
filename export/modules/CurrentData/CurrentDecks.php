@@ -25,7 +25,7 @@ class CurrentDecks {
     public function getAllDatas() : array {
         $decks = [];
         foreach ($this->decks as $name => $deck) {
-            $decks[$name] = $deck->getCardsInLocation(null);
+            $decks[$name] = $deck->getCardsInLocation('Market');
         }
         return $decks;
     }

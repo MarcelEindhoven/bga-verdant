@@ -18,7 +18,8 @@
 define([
     "dojo","dojo/_base/declare",
     "ebg/core/gamegui",
-    "ebg/counter"
+    "ebg/counter",
+    "ebg/stock",
 ],
 function (dojo, declare) {
     return declare("bgagame.verdant", ebg.core.gamegui, {
@@ -28,6 +29,13 @@ function (dojo, declare) {
             // Here, you can init the global variables of your user interface
             // Example:
             // this.myGlobalValue = 0;
+            this.cardwidth = 100;
+            this.cardheight = 150;
+
+            this.itemwidth = 50;
+            this.itemheight = 50;
+
+            this.stocks = [];
 
         },
         
@@ -57,12 +65,34 @@ function (dojo, declare) {
             }
             
             // TODO: Set up your game interface here, according to "gamedatas"
-            
- 
+            this.setupDecks(gamedatas.decks);
+
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
 
             console.log( "Ending game setup" );
+        },
+        setupDecks: function(decks) {
+            console.log("setupDecks");
+            console.log(decks);
+            this.setupItems(decks.items);
+        },
+        setupItems: function(items) {
+            console.log(items);
+            for (var number in items) {
+                item = items[number];
+                if (item['location'] != 'deck') {
+                    this.setupItem(item);
+                }
+            }
+        },
+        setupItem: function(item) {
+            console.log("setupItem");
+            dojo.place( this.format_block( 'jstpl_item', {
+                nr: item['id'],
+                type: item['type'],
+                color: item['type_arg']
+            } ) , 'Item0' );
         },
        
 

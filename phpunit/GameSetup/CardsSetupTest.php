@@ -20,7 +20,7 @@ class CardsSetupTest extends TestCase{
 
     protected function setUp(): void {
         $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
-        $this->sut = CardsSetup::create($this->mock_cards);
+        $this->sut = CardsSetup::create(['items'=> $this->mock_cards]);
     }
 
     public function testSetup_Items_createCardsAndShuffle() {
