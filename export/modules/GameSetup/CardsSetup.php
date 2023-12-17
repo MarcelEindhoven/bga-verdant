@@ -9,6 +9,7 @@ namespace NieuwenhovenGames\Verdant;
  */
 
 require_once(__DIR__.'/../BGA/FrameworkInterfaces/Deck.php');
+require_once(__DIR__.'/ItemsSetup.php');
 
 class CardsSetup {
     const NUMBER_COLOURS = 5;
@@ -18,7 +19,9 @@ class CardsSetup {
     const NUMBER_NURTURE_TYPES = 3;
     const NUMBER_NURTURE_TOKENS_PER_TYPE = 15;
     const MARKET_WIDTH = 4;
-    const MARKET_ITEM_LOCATION = 'Market';
+    const MARKET_LOCATION = 'Market';
+
+    public array $setup = [];
 
     static public function create($decks) : CardsSetup {
         $object = new CardsSetup();
@@ -26,7 +29,7 @@ class CardsSetup {
     }
 
     public function setDeck($decks) : CardsSetup {
-        $this->decks = $decks;
+        $this->setup['items'] = ItemsSetup::create($decks['items']);
         return $this;
     }
 
@@ -35,33 +38,8 @@ class CardsSetup {
      * Place the bag in the centre of the play area within easy reach of all players.
      * Reveal 4 tokens from the bag and place them in a row adjacent to the bag to begin to form the Market.
      */
-    public function setupItems() {
-        $items = $this->decks['items'];
-        $items->createCards($this->getItemDefinitions(), \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK);
-        $items->shuffle(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK);
-
-        for ($i = 0; $i < CardsSetup::MARKET_WIDTH; $i++) {
-            $items->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, CardsSetup::MARKET_ITEM_LOCATION, $i);
-        }
-    }
-    /**
-     * 5 each of nine Furniture and Pet types + 15 each of Nurture items
-     */
-    public function getItemDefinitions() {
-        $definitions = array ();
-        for ($c = CardsSetup::FIRST_COLOUR;  $c < CardsSetup::FIRST_COLOUR + CardsSetup::NUMBER_COLOURS; $c++ ) {
-            for ($t = 0;  $t < CardsSetup::NUMBER_UNIQUE_ITEM_TYPES; $t++ ) {
-                $definitions [] = array ('type' => $c,'type_arg' => $t,'nbr' => 1 );
-            }
-        }
-
-        for ($c = 0;  $c <  CardsSetup::NUMBER_NURTURE_TYPES; $c++ ) {
-            for ($t = 0;  $t < CardsSetup::NUMBER_NURTURE_TOKENS_PER_TYPE; $t++ ) {
-                $definitions [] = array ('type' => CardsSetup::NURTURE_TYPE,'type_arg' => $c,'nbr' => 1 );
-            }
-        }
-
-        return $definitions;
+    public function setup() {
+        $this->setup['items']->setup();
     }
 }
 ?>
