@@ -9,37 +9,29 @@ namespace NieuwenhovenGames\Verdant;
  */
 
 require_once(__DIR__.'/../BGA/FrameworkInterfaces/Deck.php');
-require_once(__DIR__.'/ItemsSetup.php');
+require_once(__DIR__.'/DecksSetup.php');
+require_once(__DIR__.'/CardsAndItemsSetup.php');
 
-class CardsSetup {
-    const NUMBER_COLOURS = 5;
-    const FIRST_COLOUR = 1;
-    const NUMBER_UNIQUE_ITEM_TYPES = 9;
-    const NURTURE_TYPE = 0;
-    const NUMBER_NURTURE_TYPES = 3;
-    const NUMBER_NURTURE_TOKENS_PER_TYPE = 15;
-    const MARKET_WIDTH = 4;
-    const MARKET_LOCATION = 'Market';
+class CardsSetup extends CardsAndItemsSetup {
+    const NUMBER_CARDS_PER_COLOUR = 12;
 
-    public array $setup = [];
-
-    static public function create($decks) : CardsSetup {
+    static public function create($deck) : CardsSetup {
         $object = new CardsSetup();
-        return $object->setDeck($decks);
-    }
-
-    public function setDeck($decks) : CardsSetup {
-        $this->setup['items'] = ItemsSetup::create($decks['items']);
-        return $this;
+        return $object->setDeck($deck);
     }
 
     /**
-     * Place all 45 Item Tokens and 45 Nurtured Tokens in the Cloth Bag and shuffle/shake them well.
-     * Place the bag in the centre of the play area within easy reach of all players.
-     * Reveal 4 tokens from the bag and place them in a row adjacent to the bag to begin to form the Market.
+     * 12 each of 5 types
      */
-    public function setup() {
-        $this->setup['items']->setup();
+    public function getItemDefinitions() {
+        $definitions = array ();
+        for ($c = DecksSetup::FIRST_COLOUR;  $c < DecksSetup::FIRST_COLOUR + DecksSetup::NUMBER_COLOURS; $c++ ) {
+            for ($t = 0;  $t < CardsSetup::NUMBER_CARDS_PER_COLOUR; $t++ ) {
+                $definitions [] = array ('type' => $c,'type_arg' => $t,'nbr' => 1 );
+            }
+        }
+
+        return $definitions;
     }
 }
 ?>

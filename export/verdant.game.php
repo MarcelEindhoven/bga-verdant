@@ -22,7 +22,7 @@ require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
 include_once(__DIR__.'/modules/BGA/FrameworkInterfaces/Database.php');
 include_once(__DIR__.'/modules/BGA/FrameworkInterfaces/Debugging.php');
 
-include_once(__DIR__.'/modules/GameSetup/CardsSetup.php');
+include_once(__DIR__.'/modules/GameSetup/DecksSetup.php');
 include_once(__DIR__.'/modules/GameSetup/GameSetup.php');
 
 include_once(__DIR__.'/modules/CurrentData/CurrentData.php');
@@ -52,12 +52,12 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         $this->decks = [];
         $this->decks['items'] = self::getNew('module.common.deck'); 
         $this->decks['items']->init('item');
-        $this->plants = self::getNew('module.common.deck'); 
-        $this->plants->init('plant');
-        $this->rooms = self::getNew('module.common.deck'); 
-        $this->rooms->init('room');
+        $this->decks['plants'] = self::getNew('module.common.deck'); 
+        $this->decks['plants']->init('plant');
+        $this->decks['rooms'] = self::getNew('module.common.deck'); 
+        $this->decks['rooms']->init('room');
 	}
-	
+
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.
@@ -91,7 +91,7 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
     */
     protected function setupNewGame( $players, $options = array() )
     {
-        NieuwenhovenGames\Verdant\CardsSetup::create($this->decks)->setup();
+        NieuwenhovenGames\Verdant\DecksSetup::create($this->decks)->setup();
 
         // Set the colors of the players with HTML color code
         // The default below is red/green/blue/orange/brown
