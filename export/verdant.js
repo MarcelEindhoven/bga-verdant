@@ -110,7 +110,7 @@ function (dojo, declare) {
             }
             this.fillCards('Plant', decks.plants);
         },
-        setup: function(items) {
+        setupItems: function(items) {
             console.log(items);
             for (var number in items) {
                 item = items[number];
