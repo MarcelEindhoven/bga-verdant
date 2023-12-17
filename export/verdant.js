@@ -29,8 +29,8 @@ function (dojo, declare) {
             // Here, you can init the global variables of your user interface
             // Example:
             // this.myGlobalValue = 0;
-            this.cardwidth = 100;
-            this.cardheight = 150;
+            this.cardwidth = 72;
+            this.cardheight = 50;
 
             this.itemwidth = 50;
             this.itemheight = 50;
@@ -72,10 +72,43 @@ function (dojo, declare) {
 
             console.log( "Ending game setup" );
         },
+        setupCardStock: function(element) {
+            hand = new ebg.stock();
+            hand.create(this, $(element), this.cardwidth, this.cardheight);
+            hand.image_items_per_row = 12;
+            for (var colour = 1; colour <= 5; colour++) {
+                for (var type = 0; type <= 11; type++) {
+                    var card_type_id = type + (colour -1)*12;
+                    hand.addItemType(card_type_id, card_type_id, g_gamethemeurl+'img/cards.png', card_type_id);
+                }
+            }
+            console.log(element);
+            this.stocks[element] = hand;
+        },
+        fillCards: function(element_name, cards) {
+            console.log(cards);
+            for (var number in cards) {
+                var card = cards[number];
+                if (card['location'] == 'Market') {
+                    this.fillMarketCard(element_name, card);
+                }
+            }
+        },
+        fillMarketCard: function(element_name, card) {
+            console.log('fillMarketCard ' + element_name + ': ');
+            console.log(card);
+            console.log(element_name + card['location_arg']);
+            this.stocks[element_name + card['location_arg']].addToStock(0);
+        },
         setupDecks: function(decks) {
             console.log("setupDecks");
             console.log(decks);
             this.setupItems(decks.items);
+            for (var place = 0; place <4; place ++) {
+                this.setupCardStock('Plant'+ place);
+                this.setupCardStock('Room'+ place);
+            }
+            this.fillCards('Plant', decks.plants);
         },
         setupItems: function(items) {
             console.log(items);
