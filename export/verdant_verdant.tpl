@@ -26,33 +26,83 @@
 -->
 
 <div id = "Market" style="display: inline-block">
-    Market<br>
-    <div id = "Plant0" style="display: inline-block" class=".single_card">
+    <table>
+    <tr>
+    <td>
+    .....Market 0....
+    </td>
+    <td>
+    .....Market 0....
+    </td>
+    <td>
+    .....Market 0....
+    </td>
+    <td>
+    .....Market 0....
+    </td>
+    </tr>
+    <tr>
+    <td>
+    <div style="display: inline-block">
+    <div id = "Plant0" class=".single_card">
     </div>
-    <div id = "Plant1" style="display: inline-block" class=".single_card">
     </div>
+    </td>
+    <td>
+    <div style="display: inline-block">
+    <div id = "Plant1" class=".single_card">
+    </div>
+    </div>
+    </td>
+    <td>
     <div id = "Plant2" style="display: inline-block" class=".single_card">
     </div>
+    </td>
+    <td>
     <div id = "Plant3" style="display: inline-block" class=".single_card">
     </div>
-    <br>
+    </td>
+    </tr>
+    <tr>
+    <td>
     <div id = "Item0" style="display: inline-block" class=".single_card">
     </div>
+    </td>
+    <td>
     <div id = "Item1" style="display: inline-block" class=".single_card">
     </div>
+    </td>
+    <td>
     <div id = "Item2" style="display: inline-block" class=".single_card">
     </div>
+    </td>
+    <td>
     <div id = "Item3" style="display: inline-block" class=".single_card">
     </div>
-    <br>
-    <div id = "Room0" style="display: inline-block" class=".single_card">
+    </td>
+    </tr>
+    <tr>
+    <td>
+    <div style="display: inline-block">
+    <div id = "Room0" class=".single_card">
     </div>
-    <div id = "Room1" style="display: inline-block" class=".single_card">
     </div>
+    </td>
+    <td>
+    <div style="display: inline-block">
+    <div id = "Room1" class=".single_card">
+    </div>
+    </div>
+    </td>
+    <td>
     <div id = "Room2" style="display: inline-block" class=".single_card">
     </div>
+    </td>
+    <td>
     <div id = "Room3" style="display: inline-block" class=".single_card">
     </div>
+    </tr>
+    <table>
 </div>
 
 <script type="text/javascript">

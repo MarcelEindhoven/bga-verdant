@@ -98,7 +98,7 @@ function (dojo, declare) {
             console.log('fillMarketCard ' + element_name + ': ');
             console.log(card);
             console.log(element_name + card['location_arg']);
-            this.stocks[element_name + card['location_arg']].addToStock(0);
+            this.stocks[element_name + card['location_arg']].addToStock(card['type_arg']);
         },
         setupDecks: function(decks) {
             console.log("setupDecks");
@@ -109,6 +109,7 @@ function (dojo, declare) {
                 this.setupCardStock('Room'+ place);
             }
             this.fillCards('Plant', decks.plants);
+            this.fillCards('Room', decks.rooms);
         },
         setupItems: function(items) {
             console.log(items);
