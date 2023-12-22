@@ -36,6 +36,7 @@ function (dojo, declare) {
             this.itemheight = 50;
 
             this.stocks = [];
+            this.colour_names = ['Succulent', 'Flowering', 'Foliage', 'Vining', 'Unusual'];
 
         },
         
@@ -82,8 +83,18 @@ function (dojo, declare) {
                     hand.addItemType(card_type_id, card_type_id, g_gamethemeurl+'img/cards.png', card_type_id);
                 }
             }
+            hand.onItemCreate = dojo.hitch( this, 'setupNewCard' ); 
             console.log(element);
             this.stocks[element] = hand;
+        },
+        setupNewCard: function( card_div, card_type_id, card_id )
+        {
+            console.log('setupNewCard');
+            console.log(card_div);
+            console.log(card_type_id);
+            console.log(card_id);
+           // Add a special tooltip on the card:
+           this.addTooltip(card_div.id, "" + this.colour_names[Math.floor(card_type_id/12)]);
         },
         fillCards: function(element_name, cards) {
             console.log(cards);
@@ -98,7 +109,8 @@ function (dojo, declare) {
             console.log('fillMarketCard ' + element_name + ': ');
             console.log(card);
             console.log(element_name + card['location_arg']);
-            this.stocks[element_name + card['location_arg']].addToStock(card['type_arg']);
+            console.log(+card['type_arg'] + (+card['type'] - 1)*12);
+            this.stocks[element_name + card['location_arg']].addToStock(+card['type_arg'] + (+card['type'] - 1)*12);
         },
         setupDecks: function(decks) {
             console.log("setupDecks");
