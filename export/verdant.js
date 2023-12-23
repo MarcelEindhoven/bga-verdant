@@ -67,7 +67,7 @@ function (dojo, declare) {
             }
             
             // TODO: Set up your game interface here, according to "gamedatas"
-            this.setupDecks(gamedatas.decks);
+            // this.setupDecks(gamedatas.decks);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();

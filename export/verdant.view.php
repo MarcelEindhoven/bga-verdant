@@ -25,7 +25,9 @@
  */
   
 require_once( APP_BASE_PATH."view/common/game.view.php" );
-  
+
+include_once(__DIR__.'/modules/GameView/GameView.php');
+
 class view_verdant_verdant extends game_view
 {
     protected function getGameName()
@@ -41,6 +43,7 @@ class view_verdant_verdant extends game_view
         $players_nbr = count( $players );
 
         /*********** Place your code below:  ************/
+        NieuwenhovenGames\Verdant\GameView::create($this->page)->build_page();
 
 
         /*

@@ -41,67 +41,16 @@
     .....Market 0....
     </td>
     </tr>
-    <tr>
-    <td>
-    <div style="display: inline-block">
-    <div id = "Plant0" class=".single_card">
-    </div>
-    </div>
-    </td>
-    <td>
-    <div style="display: inline-block">
-    <div id = "Plant1" class=".single_card">
-    </div>
-    </div>
-    </td>
-    <td>
-    <div id = "Plant2" style="display: inline-block" class=".single_card">
-    </div>
-    </td>
-    <td>
-    <div id = "Plant3" style="display: inline-block" class=".single_card">
-    </div>
-    </td>
-    </tr>
-    <tr>
-    <td>
-    <div id = "Item0" style="display: inline-block" class=".single_card">
-    </div>
-    </td>
-    <td>
-    <div id = "Item1" style="display: inline-block" class=".single_card">
-    </div>
-    </td>
-    <td>
-    <div id = "Item2" style="display: inline-block" class=".single_card">
-    </div>
-    </td>
-    <td>
-    <div id = "Item3" style="display: inline-block" class=".single_card">
-    </div>
-    </td>
-    </tr>
-    <tr>
-    <td>
-    <div style="display: inline-block">
-    <div id = "Room0" class=".single_card">
-    </div>
-    </div>
-    </td>
-    <td>
-    <div style="display: inline-block">
-    <div id = "Room1" class=".single_card">
-    </div>
-    </div>
-    </td>
-    <td>
-    <div id = "Room2" style="display: inline-block" class=".single_card">
-    </div>
-    </td>
-    <td>
-    <div id = "Room3" style="display: inline-block" class=".single_card">
-    </div>
-    </tr>
+    <!-- BEGIN market_row -->
+        <tr>
+            <!-- BEGIN market_element -->
+                <td>
+                <div id = "{ROW}{PLACE}" style="display: inline-block" class=".single_card">
+                </div>
+                </td>
+            <!-- END market_element -->
+        </tr>
+    <!-- END market_row -->
     </table>
 </div>
 
