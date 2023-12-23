@@ -8,8 +8,15 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-interface PageInterface {
-    public function begin_block();
-    public function reset_subblocks();
-    public function insert_block();
+class PageBuilder {
+    static public function create($page) : PageBuilder {
+        $object = new PageBuilder();
+        return $object->setPage($page);
+    }
+
+    public function setPage($page) : PageBuilder {
+        $this->page = $page;
+        return $this;
+    }
 }
+?>

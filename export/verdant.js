@@ -58,6 +58,7 @@ function (dojo, declare) {
             console.log( "Starting game setup" );
             
             // Setting up player boards
+            console.log(gamedatas.players);
             for( var player_id in gamedatas.players )
             {
                 var player = gamedatas.players[player_id];
