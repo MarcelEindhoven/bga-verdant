@@ -24,6 +24,7 @@ class TemplateBlockTest extends TestCase{
     protected ?TemplateBlock $sut = null;
     protected ?GameView $mock_game_view = null;
     protected string $block_name = 'test ';
+    protected string $child_block_name = 'child ';
 
     protected function setUp(): void {
         $this->mock_game_view = $this->createMock(GameView::class);
@@ -56,19 +57,34 @@ class TemplateBlockTest extends TestCase{
 
     public function test_build_page_Children_Call_begin_block_insertElements() {
         // Arrange
-        $child_block_name = 'child ';
+        $this->arrange_children(2);
 
-        $child = new ExampleTemplateBlock();
-        $child->setParent($this->sut);
-
-        $child->setBlockName($child_block_name);
-        $this->sut->addChild($child);
-
-        $this->mock_game_view->expects($this->exactly(2))->method('begin_block')->withConsecutive([$child_block_name], [$this->block_name]);
+        $this->mock_game_view->expects($this->exactly(2))->method('begin_block')->withConsecutive([$this->child_block_name], [$this->block_name]);
 
         // Act
         $this->sut->build_page();
         // Assert
+    }
+
+    public function test_build_page_Children_Call_reset_subblocks_insertElements() {
+        // Arrange
+        $this->arrange_children(2);
+
+        $this->mock_game_view->expects($this->exactly(3))->method('reset_subblocks')->withConsecutive([$this->child_block_name], [$this->child_block_name], [$this->block_name]);
+
+        // Act
+        $this->sut->build_page();
+        // Assert
+    }
+
+    protected function arrange_children(int $number) {
+        for ($child_number = 0; $child_number < $number; $child_number ++) {
+            $child = new ExampleTemplateBlock();
+            $child->setParent($this->sut);
+    
+            $child->setBlockName($this->child_block_name);
+            $this->sut->addChild($child);    
+        }
     }
 }
 ?>

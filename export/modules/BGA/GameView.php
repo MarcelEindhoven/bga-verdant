@@ -88,6 +88,18 @@ class TemplateBlock implements View, BlockFunctions {
         return $this;
     }
 
+    public function build_page() : TemplateBlock {
+        $this->begin();
+
+        foreach ($this->children as $child) {
+            $child->insertBlock();
+        }
+
+        $this->insertBlock();
+
+        return $this;
+    }
+
     protected function begin() {
         if ($this->children) {
             $this->children[0]->begin();
@@ -95,14 +107,10 @@ class TemplateBlock implements View, BlockFunctions {
         $this->begin_block($this->block_name);
     }
 
-    public function build_page() : TemplateBlock {
-        $this->begin();
-
+    protected function insertBlock() {
         $this->reset_subblocks($this->block_name);
 
         $this->insertElements();
-
-        return $this;
     }
 
     public function begin_block($block_name) : TemplateBlock {
