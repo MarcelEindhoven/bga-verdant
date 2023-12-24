@@ -36,5 +36,40 @@ class GameView implements View {
         }
         return $this;
     }
+    public function begin_block($block_name) {}
+    public function insert_block($block_name, $arguments) {}
+}
+
+class TemplateBlock implements View {
+    protected ?GameView $view = null;
+    protected ?string $block_name = '';
+
+    static public function create($view) : TemplateBlock {
+        $object = new TemplateBlock();
+        return $object->setView($view);
+    }
+
+    public function setView($view) : TemplateBlock {
+        $this->view = $view;
+        return $this;
+    }
+
+    public function setBlockName($block_name) : TemplateBlock {
+        $this->block_name = $block_name;
+        return $this;
+    }
+
+    public function build_page() : TemplateBlock {
+        $this->view->begin_block($this->block_name);
+
+        $this->insertElements();
+
+        return $this;
+    }
+
+    public function insert_block($arguments) : TemplateBlock {
+        $this->view->insert_block($this->block_name, $arguments);
+        return $this;
+    }
 }
 ?>

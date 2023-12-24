@@ -6,12 +6,12 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-include_once(__DIR__.'/../../vendor/autoload.php');
+include_once(__DIR__.'/../../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../../export/modules/BGA/GameView.php');
+include_once(__DIR__.'/../../../export/modules/BGA/GameView.php');
 
-include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/PageInterface.php');
+include_once(__DIR__.'/../../../export/modules/BGA/FrameworkInterfaces/PageInterface.php');
 
 class GameViewTest extends TestCase{
     protected ?GameView $sut = null;
