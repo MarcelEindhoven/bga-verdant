@@ -64,15 +64,16 @@ class GameView implements View, BlockFunctions {
 }
 
 class TemplateBlock implements View, BlockFunctions {
-    protected ?GameView $parent = null;
+    protected ?BlockFunctions $parent = null;
     protected ?string $block_name = '';
+    protected array $children = [];
 
     static public function create($parent) : TemplateBlock {
         $object = new TemplateBlock();
-        return $object->setView($parent);
+        return $object->setParent($parent);
     }
 
-    public function setView($parent) : TemplateBlock {
+    public function setParent($parent) : TemplateBlock {
         $this->parent = $parent;
         return $this;
     }
@@ -82,8 +83,20 @@ class TemplateBlock implements View, BlockFunctions {
         return $this;
     }
 
-    public function build_page() : TemplateBlock {
+    public function addChild($child) : TemplateBlock {
+        $this->children[] = $child;
+        return $this;
+    }
+
+    protected function begin() {
+        if ($this->children) {
+            $this->children[0]->begin();
+        }
         $this->begin_block($this->block_name);
+    }
+
+    public function build_page() : TemplateBlock {
+        $this->begin();
 
         $this->reset_subblocks($this->block_name);
 

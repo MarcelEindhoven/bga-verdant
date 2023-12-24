@@ -23,21 +23,21 @@ class ExampleTemplateBlock extends TemplateBlock {
 class TemplateBlockTest extends TestCase{
     protected ?TemplateBlock $sut = null;
     protected ?GameView $mock_game_view = null;
+    protected string $block_name = 'test ';
 
     protected function setUp(): void {
         $this->mock_game_view = $this->createMock(GameView::class);
 
         $this->sut = new ExampleTemplateBlock();
-        $this->sut->setView($this->mock_game_view);
+        $this->sut->setParent($this->mock_game_view);
+
+        $this->sut->setBlockName($this->block_name);
     }
 
     public function test_build_page_NoChildren_Call_begin_block_insertElements() {
         // Arrange
-        $block_name = 'x';
-        $this->sut->setBlockName($block_name);
-
-        $this->mock_game_view->expects($this->exactly(1))->method('begin_block')->with($block_name);
-        $this->mock_game_view->expects($this->exactly(1))->method('reset_subblocks')->with($block_name);
+        $this->mock_game_view->expects($this->exactly(1))->method('begin_block')->with($this->block_name);
+        $this->mock_game_view->expects($this->exactly(1))->method('reset_subblocks')->with($this->block_name);
         // Act
         $this->sut->build_page();
         // Assert
@@ -46,13 +46,28 @@ class TemplateBlockTest extends TestCase{
 
     public function test_insert_block_Arguments_CallViewWithBlockNameAndArguments() {
         // Arrange
-        $block_name = 'x';
-        $this->sut->setBlockName($block_name);
         $arguments = [];
 
-        $this->mock_game_view->expects($this->exactly(1))->method('insert_block')->with($block_name, $arguments);
+        $this->mock_game_view->expects($this->exactly(1))->method('insert_block')->with($this->block_name, $arguments);
         // Act
         $this->sut->insert($arguments);
+        // Assert
+    }
+
+    public function test_build_page_Children_Call_begin_block_insertElements() {
+        // Arrange
+        $child_block_name = 'child ';
+
+        $child = new ExampleTemplateBlock();
+        $child->setParent($this->sut);
+
+        $child->setBlockName($child_block_name);
+        $this->sut->addChild($child);
+
+        $this->mock_game_view->expects($this->exactly(2))->method('begin_block')->withConsecutive([$child_block_name], [$this->block_name]);
+
+        // Act
+        $this->sut->build_page();
         // Assert
     }
 }
