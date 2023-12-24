@@ -12,7 +12,15 @@ interface View {
     function build_page();
 }
 
-class GameView implements View {
+interface BlockFunctions {
+    public function begin_block($block_name);
+
+    public function reset_subblocks($block_name);
+
+    public function insert_block($block_name, $arguments);
+}
+
+class GameView implements View, BlockFunctions {
     protected array $blocks = [];
 
     static public function create($page) : GameView {
@@ -41,8 +49,13 @@ class GameView implements View {
         }
         return $this;
     }
+
     public function begin_block($block_name) {
         $this->page->begin_block($this->template_name, $block_name);
+    }
+
+    public function reset_subblocks($block_name) {
+        $this->page->reset_subblocks($block_name);
     }
 
     public function insert_block($block_name, $arguments) {
@@ -50,17 +63,17 @@ class GameView implements View {
     }
 }
 
-class TemplateBlock implements View {
-    protected ?GameView $view = null;
+class TemplateBlock implements View, BlockFunctions {
+    protected ?GameView $parent = null;
     protected ?string $block_name = '';
 
-    static public function create($view) : TemplateBlock {
+    static public function create($parent) : TemplateBlock {
         $object = new TemplateBlock();
-        return $object->setView($view);
+        return $object->setView($parent);
     }
 
-    public function setView($view) : TemplateBlock {
-        $this->view = $view;
+    public function setView($parent) : TemplateBlock {
+        $this->parent = $parent;
         return $this;
     }
 
@@ -70,15 +83,32 @@ class TemplateBlock implements View {
     }
 
     public function build_page() : TemplateBlock {
-        $this->view->begin_block($this->block_name);
+        $this->begin_block($this->block_name);
+
+        $this->reset_subblocks($this->block_name);
 
         $this->insertElements();
 
         return $this;
     }
 
-    public function insert_block($arguments) : TemplateBlock {
-        $this->view->insert_block($this->block_name, $arguments);
+    public function begin_block($block_name) : TemplateBlock {
+        $this->parent->begin_block($block_name);
+        return $this;
+    }
+
+    public function reset_subblocks($block_name) : TemplateBlock {
+        $this->parent->reset_subblocks($block_name);
+        return $this;
+    }
+
+    public function insert($arguments) : TemplateBlock {
+        $this->parent->insert_block($this->block_name, $arguments);
+        return $this;
+    }
+
+    public function insert_block($block_name, $arguments) : TemplateBlock {
+        $this->parent->insert_block($block_name, $arguments);
         return $this;
     }
 }

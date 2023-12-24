@@ -19,13 +19,32 @@ class MarketView extends \NieuwenhovenGames\BGA\GameView{
     public function build_page() : MarketView {
         $this->page->begin_block( "verdant_verdant", "market_element" ); // Nested block must be declared first
         $this->page->begin_block( "verdant_verdant", "market_row" );
+
         $this->page->reset_subblocks( 'market_element' );
         $this->page->insert_block( "market_element", array( 
             'ROW' => 'Plant',
             'PLACE' => 0
          ));
+         $this->page->insert_block( "market_element", array( 
+            'ROW' => 'Plant',
+            'PLACE' => 1
+         ));
+
          $this->page->insert_block( 'market_row', array());
-            return $this;
+ 
+         $this->page->reset_subblocks( 'market_element' );
+         $this->page->insert_block( "market_element", array( 
+             'ROW' => 'Room',
+             'PLACE' => 0
+          ));
+          $this->page->insert_block( "market_element", array( 
+             'ROW' => 'Room',
+             'PLACE' => 1
+          ));
+ 
+          $this->page->insert_block( 'market_row', array());
+ 
+          return $this;
     }
 }
 ?>

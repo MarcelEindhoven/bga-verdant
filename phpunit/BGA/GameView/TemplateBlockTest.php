@@ -37,6 +37,7 @@ class TemplateBlockTest extends TestCase{
         $this->sut->setBlockName($block_name);
 
         $this->mock_game_view->expects($this->exactly(1))->method('begin_block')->with($block_name);
+        $this->mock_game_view->expects($this->exactly(1))->method('reset_subblocks')->with($block_name);
         // Act
         $this->sut->build_page();
         // Assert
@@ -51,7 +52,7 @@ class TemplateBlockTest extends TestCase{
 
         $this->mock_game_view->expects($this->exactly(1))->method('insert_block')->with($block_name, $arguments);
         // Act
-        $this->sut->insert_block($arguments);
+        $this->sut->insert($arguments);
         // Assert
     }
 }
