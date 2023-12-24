@@ -25,6 +25,11 @@ class GameView implements View {
         return $this;
     }
 
+    public function setTemplateName($template_name) : GameView {
+        $this->template_name = $template_name;
+        return $this;
+    }
+
     public function addTemplateBlock($block) : GameView {
         $this->blocks[] = $block;
         return $this;
@@ -36,8 +41,13 @@ class GameView implements View {
         }
         return $this;
     }
-    public function begin_block($block_name) {}
-    public function insert_block($block_name, $arguments) {}
+    public function begin_block($block_name) {
+        $this->page->begin_block($this->template_name, $block_name);
+    }
+
+    public function insert_block($block_name, $arguments) {
+        $this->page->insert_block($block_name, $arguments);
+    }
 }
 
 class TemplateBlock implements View {

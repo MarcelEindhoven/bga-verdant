@@ -19,6 +19,7 @@ class ExampleTemplateBlock extends TemplateBlock {
         $this->number_insert_called++;
     }
 }
+
 class TemplateBlockTest extends TestCase{
     protected ?TemplateBlock $sut = null;
     protected ?GameView $mock_game_view = null;
