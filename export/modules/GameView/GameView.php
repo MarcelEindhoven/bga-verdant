@@ -8,26 +8,16 @@ namespace NieuwenhovenGames\Verdant;
  *
  */
 
- require_once(__DIR__.'/../BGA/GameView.php');
+ require_once(__DIR__.'/../BGA/GameView/GameView.php');
+ require_once(__DIR__.'/MarketView.php');
 
 class GameView extends \NieuwenhovenGames\BGA\GameView {
     const TEMPLATE_NAME = 'verdant_verdant';
 
     static public function create($page) : GameView {
         $object = new GameView();
-        return $object->setPage($page);
-    }
-
-    public function build_page() : GameView {
-        $this->page->begin_block( "verdant_verdant", "market_element" ); // Nested block must be declared first
-        $this->page->begin_block( "verdant_verdant", "market_row" );
-        $this->page->reset_subblocks( 'market_element' );
-        $this->page->insert_block( "market_element", array( 
-            'ROW' => 'Plant',
-            'PLACE' => 0
-         ));
-         $this->page->insert_block( 'market_row', array());
-        return $this;
+        $market = MarketView::create($object);
+        return $object->setPage($page)->setTemplateName(GameView::TEMPLATE_NAME)->addTemplateBlock($market);
     }
 }
 ?>

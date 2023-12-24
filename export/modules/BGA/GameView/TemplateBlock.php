@@ -36,8 +36,9 @@ class TemplateBlock implements BlockFunctions {
     }
 
     protected function begin() {
+
         if ($this->children) {
-            $this->children[0]->begin();
+            reset($this->children)->begin();
         }
         $this->begin_block($this->block_name);
     }

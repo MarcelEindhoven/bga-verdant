@@ -8,43 +8,41 @@ namespace NieuwenhovenGames\Verdant;
  *
  */
 
- require_once(__DIR__.'/../BGA/GameView.php');
+ require_once(__DIR__.'/../BGA/GameView/TemplateBlock.php');
 
-class MarketView extends \NieuwenhovenGames\BGA\GameView{
-    static public function create($page) : MarketView {
+class MarketView extends \NieuwenhovenGames\BGA\CompleteTemplateBlock{
+    const BLOCK_NAME = 'market_row';
+
+    static public function create($parent) : MarketView {
         $object = new MarketView();
-        return $object->setPage($page);
+        $plants = MarketRow::create($object)->setID('Plant');
+        $items = MarketRow::create($object)->setID('Item');
+        $rooms = MarketRow::create($object)->setID('Room');
+        return $object->setParent($parent)->setBlockName(MarketView::BLOCK_NAME)->addChild($plants)->addChild($items)->addChild($rooms);
+    }
+}
+
+class MarketRow extends \NieuwenhovenGames\BGA\TemplateBlock{
+    const BLOCK_NAME = 'market_element';
+    protected string $identifier = '';
+
+    static public function create($parent) : MarketRow {
+        $object = new MarketRow();
+        return $object->setParent($parent)->setBlockName(MarketRow::BLOCK_NAME);
     }
 
-    public function build_page() : MarketView {
-        $this->page->begin_block( "verdant_verdant", "market_element" ); // Nested block must be declared first
-        $this->page->begin_block( "verdant_verdant", "market_row" );
+    public function setID($identifier) : MarketRow {
+        $this->identifier = $identifier;
+        return $this;
+    }
 
-        $this->page->reset_subblocks( 'market_element' );
-        $this->page->insert_block( "market_element", array( 
-            'ROW' => 'Plant',
-            'PLACE' => 0
-         ));
-         $this->page->insert_block( "market_element", array( 
-            'ROW' => 'Plant',
-            'PLACE' => 1
-         ));
-
-         $this->page->insert_block( 'market_row', array());
- 
-         $this->page->reset_subblocks( 'market_element' );
-         $this->page->insert_block( "market_element", array( 
-             'ROW' => 'Room',
-             'PLACE' => 0
-          ));
-          $this->page->insert_block( "market_element", array( 
-             'ROW' => 'Room',
-             'PLACE' => 1
-          ));
- 
-          $this->page->insert_block( 'market_row', array());
- 
-          return $this;
+    public function insertElements() : MarketRow {
+        for ($number = 0; $number <4; $number ++) {
+            $this->insert([
+                'ROW' => $this->identifier,
+                'PLACE' => $number]);
+        }
+        return $this;
     }
 }
 ?>
