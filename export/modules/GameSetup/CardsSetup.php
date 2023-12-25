@@ -17,15 +17,18 @@ class CardsSetup extends CardsAndItemsSetup {
 
     public array $players = [];
 
-    static public function create($deck, $players) : CardsSetup {
-        $object = new CardsSetup();
-        return $object->setPlayers($players)->setDeck($deck);
-    }
-
     public function setPlayers($players) : CardsSetup {
         $this->players = $players;
 
         return $this;
+    }
+
+    public function setup() {
+        parent::setup();
+
+        foreach ($this->players as $player_id => $player) {
+            $this->pickCard($player_id);
+        }
     }
 
     /**
@@ -42,4 +45,27 @@ class CardsSetup extends CardsAndItemsSetup {
         return $definitions;
     }
 }
+
+class PlantsSetup extends CardsSetup {
+    static public function create($deck, $players) : PlantsSetup {
+        $object = new PlantsSetup();
+        return $object->setPlayers($players)->setDeck($deck);
+    }
+
+    protected function pickCard($player_id) {
+        $this->deck->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, $player_id, 12);
+    }
+}
+
+class RoomsSetup extends CardsSetup {
+    static public function create($deck, $players) : RoomsSetup {
+        $object = new RoomsSetup();
+        return $object->setPlayers($players)->setDeck($deck);
+    }
+
+    protected function pickCard($player_id) {
+        $this->deck->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, $player_id, 13);
+    }
+}
+
 ?>

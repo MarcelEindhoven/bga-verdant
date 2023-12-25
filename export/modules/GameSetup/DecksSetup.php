@@ -34,8 +34,8 @@ class DecksSetup {
 
     public function setDeck($decks) : DecksSetup {
         $this->setup['items'] = ItemsSetup::create($decks['items']);
-        $this->setup['plants'] = CardsSetup::create($decks['plants'], $this->players);
-        $this->setup['rooms'] = CardsSetup::create($decks['rooms'], $this->players);
+        $this->setup['plants'] = PlantsSetup::create($decks['plants'], $this->players);
+        $this->setup['rooms'] = RoomsSetup::create($decks['rooms'], $this->players);
 
         return $this;
     }

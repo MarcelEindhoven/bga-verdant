@@ -45,7 +45,7 @@ class DecksSetupTest extends TestCase{
         // Arrange
         $this->mock_items->expects($this->exactly(4))->method('pickCardForLocation');
 
-        $this->mock_cards->expects($this->exactly(8))->method('pickCardForLocation');
+        $this->mock_cards->expects($this->exactly(10))->method('pickCardForLocation');
         // Act
         $this->sut->setup();
         // Assert
