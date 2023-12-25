@@ -9,15 +9,23 @@ namespace NieuwenhovenGames\Verdant;
  */
 
  require_once(__DIR__.'/../BGA/GameView/GameView.php');
+ require_once(__DIR__.'/HomesView.php');
  require_once(__DIR__.'/MarketView.php');
 
 class GameView extends \NieuwenhovenGames\BGA\GameView {
     const TEMPLATE_NAME = 'verdant_verdant';
 
-    static public function create($page) : GameView {
+    static public function create($page, $players) : GameView {
         $object = new GameView();
-        $market = MarketView::create($object);
-        return $object->setPage($page)->setTemplateName(GameView::TEMPLATE_NAME)->addTemplateBlock($market);
+        return $object->setPage($page)->setTemplateName(GameView::TEMPLATE_NAME)->createMarket()->createHomes($players);
+    }
+
+    public function createMarket() : GameView {
+        return $this->addTemplateBlock(MarketView::create($this));
+    }
+
+    public function createHomes($players) : GameView {
+        return $this->addTemplateBlock(HomesView::create($this, $players));
     }
 }
 ?>

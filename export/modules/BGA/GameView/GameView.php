@@ -13,11 +13,6 @@ include_once(__DIR__.'/interfaces.php');
 class GameView implements View, BlockFunctions {
     protected array $blocks = [];
 
-    static public function create($page) : GameView {
-        $object = new GameView();
-        return $object->setPage($page);
-    }
-
     public function setPage($page) : GameView {
         $this->page = $page;
         return $this;

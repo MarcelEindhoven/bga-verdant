@@ -81,10 +81,11 @@
     <!-- BEGIN card_row -->
     <tr>
             <!-- BEGIN card_place -->
-    <td>
+            <td>
                 <div id = "{PLAYER_ID}{ROW}{PLACE}" style="display: inline-block" class=".single_card">
                 </div>
-    </td>
+            </td>
+            <!-- END card_place -->
     </tr>
     <!-- END card_row -->
     </table>

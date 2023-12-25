@@ -43,7 +43,7 @@ class view_verdant_verdant extends game_view
         $players_nbr = count( $players );
 
         /*********** Place your code below:  ************/
-        NieuwenhovenGames\Verdant\GameView::create($this->page)->build_page();
+        NieuwenhovenGames\Verdant\GameView::create($this->page, $players)->build_page();
 
 
         /*

@@ -20,7 +20,8 @@ class GameViewTest extends TestCase{
 
     protected function setUp(): void {
         $this->mock_page = $this->createMock(FrameworkInterfaces\PageInterface::class);
-        $this->sut = GameView::create($this->mock_page);
+        $this->sut = new GameView();
+        $this->sut->setPage($this->mock_page);
 
         $this->sut->setTemplateName($this->template_name);
     }
