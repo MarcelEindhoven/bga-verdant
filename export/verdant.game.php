@@ -89,9 +89,8 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         In this method, you must setup the game according to the game rules, so that
         the game is ready to be played.
     */
-    protected function setupNewGame( $players, $options = array() )
-    {
-        NieuwenhovenGames\Verdant\DecksSetup::create($this->decks)->setup();
+    protected function setupNewGame($players, $options = array()) {
+        NieuwenhovenGames\Verdant\DecksSetup::create($this->decks, $players)->setup();
 
         // Set the colors of the players with HTML color code
         // The default below is red/green/blue/orange/brown

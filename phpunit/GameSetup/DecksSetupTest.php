@@ -23,7 +23,10 @@ class DecksSetupTest extends TestCase{
     protected function setUp(): void {
         $this->mock_items = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
         $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
-        $this->sut = DecksSetup::create(['plants'=> $this->mock_cards, 'items'=> $this->mock_items, 'rooms'=> $this->mock_cards]);
+
+        $this->players = [77 => ['player_id' => 77, 'player_name' => 'test ']];
+
+        $this->sut = DecksSetup::create(['plants'=> $this->mock_cards, 'items'=> $this->mock_items, 'rooms'=> $this->mock_cards], $this->players);
     }
 
     public function testSetup_Items_createCardsAndShuffle() {

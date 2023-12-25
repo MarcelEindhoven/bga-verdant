@@ -20,6 +20,7 @@ class HomesView extends \NieuwenhovenGames\BGA\CompleteTemplateBlock{
         $object = new HomesView();
         return $object->setParent($parent)->setBlockName(HomesView::BLOCK_NAME)->setPlayers($players)->createChildren();
     }
+
     public function setPlayers($players) : HomesView {
         $this->remaining_players = $players;
 

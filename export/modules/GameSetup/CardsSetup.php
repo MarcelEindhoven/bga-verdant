@@ -15,9 +15,17 @@ require_once(__DIR__.'/CardsAndItemsSetup.php');
 class CardsSetup extends CardsAndItemsSetup {
     const NUMBER_CARDS_PER_COLOUR = 12;
 
-    static public function create($deck) : CardsSetup {
+    public array $players = [];
+
+    static public function create($deck, $players) : CardsSetup {
         $object = new CardsSetup();
-        return $object->setDeck($deck);
+        return $object->setPlayers($players)->setDeck($deck);
+    }
+
+    public function setPlayers($players) : CardsSetup {
+        $this->players = $players;
+
+        return $this;
     }
 
     /**

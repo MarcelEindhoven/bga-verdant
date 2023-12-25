@@ -19,16 +19,23 @@ class DecksSetup {
     const MARKET_LOCATION = 'Market';
 
     public array $setup = [];
+    public array $players = [];
 
-    static public function create($decks) : DecksSetup {
+    static public function create($decks, $players) : DecksSetup {
         $object = new DecksSetup();
-        return $object->setDeck($decks);
+        return $object->setPlayers($players)->setDeck($decks);
+    }
+
+    public function setPlayers($players) : DecksSetup {
+        $this->players = $players;
+
+        return $this;
     }
 
     public function setDeck($decks) : DecksSetup {
         $this->setup['items'] = ItemsSetup::create($decks['items']);
-        $this->setup['plants'] = CardsSetup::create($decks['plants']);
-        $this->setup['rooms'] = CardsSetup::create($decks['rooms']);
+        $this->setup['plants'] = CardsSetup::create($decks['plants'], $this->players);
+        $this->setup['rooms'] = CardsSetup::create($decks['rooms'], $this->players);
 
         return $this;
     }
