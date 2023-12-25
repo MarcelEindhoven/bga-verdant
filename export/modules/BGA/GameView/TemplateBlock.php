@@ -35,29 +35,32 @@ class TemplateBlock implements BlockFunctions {
         return $this;
     }
 
-    protected function begin() {
-
+    protected function begin() : TemplateBlock {
         if ($this->children) {
             reset($this->children)->begin();
         }
         $this->begin_block($this->block_name);
+        return $this;
     }
 
-    protected function insertBlock() {
+    protected function insertBlock() : TemplateBlock {
         $this->reset_subblocks($this->block_name);
 
         if ($this->children) {
-            $this->insertChildren();
-        } else {
-            $this->insertElements();
+            return $this->insertChildren();
         }
+
+        $this->insertElements();
+
+        return $this;
     }
 
-    protected function insertChildren() {
+    protected function insertChildren() : TemplateBlock {
         foreach ($this->children as $child) {
             $child->insertBlock();
-            $this->insert([]);
+            $this->insertAfterChildren();
         }
+        return $this;
     }
 
     public function begin_block($block_name) : TemplateBlock {

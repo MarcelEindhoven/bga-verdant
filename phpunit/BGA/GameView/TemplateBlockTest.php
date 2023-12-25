@@ -15,8 +15,13 @@ include_once(__DIR__.'/../../../export/modules/BGA/FrameworkInterfaces/PageInter
 
 class ExampleTemplateBlock extends CompleteTemplateBlock {
     public int $number_insert_called = 0;
+    public int $number_insert_after_children_called = 0;
+
     public function insertElements() {
         $this->number_insert_called++;
+    }
+    public function insertAfterChildren() {
+        $this->number_insert_after_children_called++;
     }
 }
 
@@ -43,6 +48,7 @@ class TemplateBlockTest extends TestCase{
         $this->sut->build_page();
         // Assert
         $this->assertEquals(1, $this->sut->number_insert_called);
+        $this->assertEquals(0, $this->sut->number_insert_after_children_called);
     }
 
     public function test_insert_block_Arguments_CallViewWithBlockNameAndArguments() {
@@ -72,14 +78,12 @@ class TemplateBlockTest extends TestCase{
 
         $this->mock_game_view->expects($this->exactly(3))->method('reset_subblocks')->withConsecutive([$this->block_name], [$this->child_block_name], [$this->child_block_name]);
 
-        $arguments = [];
-
-        $this->mock_game_view->expects($this->exactly(2))->method('insert_block')->with($this->block_name, $arguments);
-
         // Act
         $this->sut->build_page();
+
         // Assert
         $this->assertEquals(0, $this->sut->number_insert_called);
+        $this->assertEquals(2, $this->sut->number_insert_after_children_called);
     }
 
     protected function arrange_children(int $number) {

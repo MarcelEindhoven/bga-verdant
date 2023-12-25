@@ -20,6 +20,10 @@ class MarketView extends \NieuwenhovenGames\BGA\CompleteTemplateBlock{
         $rooms = MarketRow::create($object)->setID('Room');
         return $object->setParent($parent)->setBlockName(MarketView::BLOCK_NAME)->addChild($plants)->addChild($items)->addChild($rooms);
     }
+
+    public function insertAfterChildren() {
+        $this->insert([]);
+    }
 }
 
 class MarketRow extends \NieuwenhovenGames\BGA\TemplateBlock{
