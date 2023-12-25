@@ -68,7 +68,8 @@
 */
 
 .single_card {
-    width: 200px;
+    width: 80px;
+    height: 100px;
 }
 .item {
     width: 56px;

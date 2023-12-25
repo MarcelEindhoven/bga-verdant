@@ -57,15 +57,37 @@
 <!-- BEGIN player -->
     <div style="display: inline-block" id="home_{PLAYER_ID}">
         {PLAYER_NAME}
-        <div class="card_places">
+    <table>
+    <tr>
+    <td>
+    .....Market 0..
+    </td>
+    <td>
+    .....Market 0..
+    </td>
+    <td>
+    .....Market 0..
+    </td>
+    <td>
+    .....Market 0..
+    </td>
+    <td>
+    .....Market 0..
+    </td>
+    </tr>
+    <!-- BEGIN card_row -->
+    <tr>
             <!-- BEGIN card_place -->
-            <div id="card_place_{PLAYER_ID}_{PLACE_ID}">
-            </div>
-            <!-- END card_place -->
-        </div>
-
+    <td>
+                <div id = "{PLAYER_ID}{ROW}{PLACE}" style="display: inline-block" class=".single_card">
+                </div>
+    </td>
+    </tr>
+    <!-- END card_row -->
+    </table>
     </div>
 <!-- END player -->
+
 </div>
 <script type="text/javascript">
 // <div id="tokens"/>

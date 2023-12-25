@@ -29,8 +29,8 @@ function (dojo, declare) {
             // Here, you can init the global variables of your user interface
             // Example:
             // this.myGlobalValue = 0;
-            this.cardwidth = 72;
-            this.cardheight = 50;
+            this.cardwidth = 100;
+            this.cardheight = 152;
 
             this.itemwidth = 50;
             this.itemheight = 50;
@@ -81,7 +81,7 @@ function (dojo, declare) {
             for (var colour = 1; colour <= 5; colour++) {
                 for (var type = 0; type <= 11; type++) {
                     var card_type_id = type + (colour -1)*12;
-                    hand.addItemType(card_type_id, card_type_id, g_gamethemeurl+'img/cards.png', card_type_id);
+                    hand.addItemType(card_type_id, card_type_id, g_gamethemeurl+'img/plants.png', card_type_id);
                 }
             }
             hand.onItemCreate = dojo.hitch( this, 'setupNewCard' ); 
