@@ -74,14 +74,14 @@ function (dojo, declare) {
 
             console.log( "Ending game setup" );
         },
-        setupCardStock: function(element) {
+        setupCardStock: function(element, category) {
             hand = new ebg.stock();
             hand.create(this, $(element), this.cardwidth, this.cardheight);
             hand.image_items_per_row = 12;
             for (var colour = 1; colour <= 5; colour++) {
                 for (var type = 0; type <= 11; type++) {
                     var card_type_id = type + (colour -1)*12;
-                    hand.addItemType(card_type_id, card_type_id, g_gamethemeurl+'img/plants.png', card_type_id);
+                    hand.addItemType(card_type_id, card_type_id, g_gamethemeurl+'img/' + category + '.png', card_type_id);
                 }
             }
             hand.onItemCreate = dojo.hitch( this, 'setupNewCard' ); 
@@ -118,8 +118,8 @@ function (dojo, declare) {
             console.log(decks);
             this.setupItems(decks.items);
             for (var place = 0; place <4; place ++) {
-                this.setupCardStock('Plant'+ place);
-                this.setupCardStock('Room'+ place);
+                this.setupCardStock('Plant'+ place, 'plants');
+                this.setupCardStock('Room'+ place, 'rooms');
             }
             this.fillCards('Plant', decks.plants);
             this.fillCards('Room', decks.rooms);
