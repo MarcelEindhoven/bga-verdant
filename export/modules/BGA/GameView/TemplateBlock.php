@@ -15,11 +15,6 @@ class TemplateBlock implements BlockFunctions {
     protected ?string $block_name = '';
     protected array $children = [];
 
-    static public function create($parent) : TemplateBlock {
-        $object = new TemplateBlock();
-        return $object->setParent($parent);
-    }
-
     public function setParent($parent) : TemplateBlock {
         $this->parent = $parent;
         return $this;
