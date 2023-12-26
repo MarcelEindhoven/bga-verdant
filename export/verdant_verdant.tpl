@@ -26,6 +26,7 @@
 -->
 <div id="Game">
 <div id = "Market" style="display: inline-block">
+    <h3>Market</h3>
     <table>
     <tr>
     <td>
@@ -54,9 +55,15 @@
     </table>
 </div>
 
+<div style="display: inline-block">
+    <h3>Selected card</h3>
+    <div id="SelectedCard" class="single_card">
+    </div>
+</div>
+
 <!-- BEGIN player -->
     <div style="display: inline-block" id="home_{PLAYER_ID}">
-        {PLAYER_NAME}
+    <h3>{PLAYER_NAME}</h3>
     <table>
     <tr>
     <td>
