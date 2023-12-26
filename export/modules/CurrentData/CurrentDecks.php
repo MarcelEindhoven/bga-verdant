@@ -12,9 +12,14 @@ namespace NieuwenhovenGames\Verdant;
  require_once(__DIR__.'/../BGA/Storage.php');
 
 class CurrentDecks {
-    public static function create($decks) : CurrentDecks {
+    public static function create($decks, $players) : CurrentDecks {
         $object = new CurrentDecks();
-        return $object->setDecks($decks);
+        return $object->setDecks($decks)->setPlayers($players);
+    }
+
+    public function setPlayers($players) : CurrentDecks {
+        $this->players = $players;
+        return $this;
     }
 
     public function setDecks($decks) : CurrentDecks {
@@ -25,8 +30,11 @@ class CurrentDecks {
     public function getAllDatas() : array {
         $decks = [];
         foreach ($this->decks as $name => $deck) {
-            $decks[$name] = $deck->getCardsInLocation('Market');
-        }
+            $decks[$name] = $deck->getCardsInLocation('Plant') + $deck->getCardsInLocation('Item') + $deck->getCardsInLocation('Room');
+            foreach ($this->players as $player_id => $player) {
+                $decks[$name] = array_merge($decks[$name], $deck->getCardsInLocation($player_id));
+            }
+            }
         return $decks;
     }
 }

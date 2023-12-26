@@ -45,7 +45,7 @@ class HomesView extends \NieuwenhovenGames\BGA\CompleteTemplateBlock{
 class Home extends \NieuwenhovenGames\BGA\TemplateBlock{
     const BLOCK_NAME = 'card_row';
     protected int $player_id = 0;
-    const NUMBER_ROWS = 3;
+    const NUMBER_ROWS = 5;
 
     static public function create($parent, $player_id) : Home {
         $object = new Home();
@@ -72,7 +72,7 @@ class Home extends \NieuwenhovenGames\BGA\TemplateBlock{
 
 class HomesRow extends \NieuwenhovenGames\BGA\TemplateBlock{
     const BLOCK_NAME = 'card_place';
-    const NUMBER_PLACES = 6;
+    const NUMBER_PLACES = 9;
     const ARGUMENT_ROW = 'ROW';
     const ARGUMENT_PLACE = 'PLACE';
 

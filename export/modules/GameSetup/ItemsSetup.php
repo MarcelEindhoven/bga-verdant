@@ -20,13 +20,13 @@ class ItemsSetup extends CardsAndItemsSetup {
 
     static public function create($deck) : ItemsSetup {
         $object = new ItemsSetup();
-        return $object->setDeck($deck);
+        return $object->setTemplatePrefix('Item')->setDeck($deck);
     }
 
     /**
      * 5 each of nine Furniture and Pet types + 15 each of Nurture items
      */
-    public function getItemDefinitions() {
+    public function getDefinitions() {
         $definitions = array ();
         for ($c = DecksSetup::FIRST_COLOUR;  $c < DecksSetup::FIRST_COLOUR + DecksSetup::NUMBER_COLOURS; $c++ ) {
             for ($t = 0;  $t < ItemsSetup::NUMBER_UNIQUE_ITEM_TYPES; $t++ ) {

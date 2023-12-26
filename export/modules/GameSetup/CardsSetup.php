@@ -34,7 +34,7 @@ class CardsSetup extends CardsAndItemsSetup {
     /**
      * 12 each of 5 types
      */
-    public function getItemDefinitions() {
+    public function getDefinitions() {
         $definitions = array ();
         for ($c = DecksSetup::FIRST_COLOUR;  $c < DecksSetup::FIRST_COLOUR + DecksSetup::NUMBER_COLOURS; $c++ ) {
             for ($t = 0;  $t < CardsSetup::NUMBER_CARDS_PER_COLOUR; $t++ ) {
@@ -49,22 +49,22 @@ class CardsSetup extends CardsAndItemsSetup {
 class PlantsSetup extends CardsSetup {
     static public function create($deck, $players) : PlantsSetup {
         $object = new PlantsSetup();
-        return $object->setPlayers($players)->setDeck($deck);
+        return $object->setTemplatePrefix('Plant')->setPlayers($players)->setDeck($deck);
     }
 
     protected function pickCard($player_id) {
-        $this->deck->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, $player_id, 12);
+        $this->deck->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, $player_id, 15);
     }
 }
 
 class RoomsSetup extends CardsSetup {
     static public function create($deck, $players) : RoomsSetup {
         $object = new RoomsSetup();
-        return $object->setPlayers($players)->setDeck($deck);
+        return $object->setTemplatePrefix('Room')->setPlayers($players)->setDeck($deck);
     }
 
     protected function pickCard($player_id) {
-        $this->deck->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, $player_id, 13);
+        $this->deck->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, $player_id, 24);
     }
 }
 

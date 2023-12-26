@@ -17,7 +17,10 @@ class CurrentDecksTest extends TestCase{
     protected CurrentDecks $sut;
 
     protected function setUp(): void {
-        $this->sut = CurrentDecks::create([]);
+        $this->players = [
+            77 => ['player_id' => 77, 'player_name' => 'test '], 
+            17 => ['player_id' => 17, 'player_naam' => 'tests']];
+        $this->sut = CurrentDecks::create([], $this->players);
     }
 
     public function testgetAllDatas_NoDecks_EmptyData() {
@@ -34,13 +37,15 @@ class CurrentDecksTest extends TestCase{
         $this->mock_deck = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
         $this->sut->setDecks(['items' => $this->mock_deck]);
 
-        $this->mock_deck->expects($this->exactly(1))->method('getCardsInLocation');
+        $this->mock_deck->expects($this->exactly(3))->method('getCardsInLocation')
+        ->withConsecutive(['Market'], [77], [17])
+        ->willReturnOnConsecutiveCalls([[5 => 3], [8 => 3]], [[6 => 3]], []);
 
         // Act
         $data = $this->sut->getAllDatas();
 
         // Assert
-        $this->assertEquals(['items' => []], $data);
+        $this->assertEquals(['items' => [[5 => 3], [8 => 3], [6 => 3]]], $data);
     }
 }
 ?>

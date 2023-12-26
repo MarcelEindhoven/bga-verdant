@@ -12,8 +12,15 @@ require_once(__DIR__.'/../BGA/FrameworkInterfaces/Deck.php');
 require_once(__DIR__.'/DecksSetup.php');
 
 class CardsAndItemsSetup {
+    protected string $template_prefix = '';
+
     public function setDeck($deck) : CardsAndItemsSetup {
         $this->deck = $deck;
+        return $this;
+    }
+
+    public function setTemplatePrefix($template_prefix) : CardsAndItemsSetup {
+        $this->template_prefix = $template_prefix;
         return $this;
     }
 
@@ -23,11 +30,11 @@ class CardsAndItemsSetup {
      * Reveal 4 tokens from the bag and place them in a row adjacent to the bag to begin to form the Market.
      */
     public function setup() {
-        $this->deck->createCards($this->getItemDefinitions(), \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK);
+        $this->deck->createCards($this->getDefinitions(), \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK);
         $this->deck->shuffle(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK);
 
         for ($i = 0; $i < DecksSetup::MARKET_WIDTH; $i++) {
-            $this->deck->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, DecksSetup::MARKET_LOCATION, $i);
+            $this->deck->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, $this->template_prefix, $i);
         }
     }
 }

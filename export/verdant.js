@@ -67,6 +67,7 @@ function (dojo, declare) {
             }
             
             // TODO: Set up your game interface here, according to "gamedatas"
+            this.setupStocks(gamedatas.players);
             this.setupDecks(gamedatas.decks);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
@@ -74,14 +75,34 @@ function (dojo, declare) {
 
             console.log( "Ending game setup" );
         },
-        setupDecks: function(decks) {
-            console.log("setupDecks");
-            console.log(decks);
-            this.setupItems(decks.items);
-            for (var place = 0; place <4; place ++) {
+        setupStocks: function(players) {
+            this.setupMarketStocks();
+            this.setupPlayersStocks(players);
+        },
+        setupMarketStocks: function() {
+            for (var place = 0; place < 4; place ++) {
                 this.setupCardStock('Plant'+ place, 'plants');
                 this.setupCardStock('Room'+ place, 'rooms');
             }
+        },
+        setupPlayersStocks: function(players) {
+            for(var player_id in players) {
+                for (var row = 0; row < 5; row ++) {
+                    for (var place = 0; place < 9; place ++) {
+                        template_id = ''+ player_id + row + place;
+                        console.log(template_id);
+                        this.setupCardStock(template_id, (row + place) % 2 ? 'plants' : 'rooms');
+                    }
+                }
+            }
+        },
+        setupDecks: function(decks) {
+            console.log("setupDecks");
+            console.log(decks);
+            this.setupCards(decks);
+            this.setupItems(decks.items);
+        },
+        setupCards: function(decks) {
             this.fillCards('Plant', decks.plants);
             this.fillCards('Room', decks.rooms);
         },
@@ -89,7 +110,7 @@ function (dojo, declare) {
             console.log(items);
             for (var number in items) {
                 item = items[number];
-                if (item['location'] == 'Market') {
+                if (item['location'] == 'Item') {
                     this.setupItem(item);
                 }
             }
@@ -105,8 +126,8 @@ function (dojo, declare) {
             
             dojo.place( this.format_block( 'jstpl_item', {
                 nr: nr,
-                background_horizontal: type,
-                background_vertical: color
+                background_horizontal: color,
+                background_vertical: type
             } ) ,  location);
             
         },
@@ -114,9 +135,9 @@ function (dojo, declare) {
             hand = new ebg.stock();
             hand.create(this, $(element), this.cardwidth, this.cardheight);
             hand.image_items_per_row = 12;
-            for (var colour = 1; colour <= 5; colour++) {
+            for (var colour = 0; colour <= 5; colour++) {
                 for (var type = 0; type <= 11; type++) {
-                    var card_type_id = type + (colour -1)*12;
+                    var card_type_id = type + colour*12;
                     hand.addItemType(card_type_id, card_type_id, g_gamethemeurl+'img/' + category + '.png', card_type_id);
                 }
             }
@@ -137,17 +158,13 @@ function (dojo, declare) {
             console.log(cards);
             for (var number in cards) {
                 var card = cards[number];
-                if (card['location'] == 'Market') {
-                    this.fillMarketCard(element_name, card);
-                }
+                this.fillCard(card);
             }
         },
-        fillMarketCard: function(element_name, card) {
-            console.log('fillMarketCard ' + element_name + ': ');
-            console.log(card);
-            console.log(element_name + card['location_arg']);
-            console.log(+card['type_arg'] + (+card['type'] - 1)*12);
-            this.stocks[element_name + card['location_arg']].addToStock(+card['type_arg'] + (+card['type'] - 1)*12);
+        fillCard: function(card) {
+            console.log(card['location'] + card['location_arg']);
+            console.log(+card['type_arg'] + +card['type']*12);
+            this.stocks[card['location'] + card['location_arg']].addToStock(+card['type_arg'] + +card['type']*12);
         },
        
 

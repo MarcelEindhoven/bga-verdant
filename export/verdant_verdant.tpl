@@ -60,22 +60,31 @@
     <table>
     <tr>
     <td>
-    .....Market 0..
+    ....Market 0....
     </td>
     <td>
-    .....Market 0..
+    ....Market 0....
     </td>
     <td>
-    .....Market 0..
+    ....Market 0....
     </td>
     <td>
-    .....Market 0..
+    ....Market 0....
     </td>
     <td>
-    .....Market 0..
+    ....Market 0....
     </td>
     <td>
-    .....Market 0..
+    ....Market 0....
+    </td>
+    <td>
+    ....Market 0....
+    </td>
+    <td>
+    ....Market 0....
+    </td>
+    <td>
+    ....Market 0....
     </td>
     </tr>
     <!-- BEGIN card_row -->

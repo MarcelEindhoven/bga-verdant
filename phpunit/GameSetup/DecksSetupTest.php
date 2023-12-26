@@ -51,10 +51,10 @@ class DecksSetupTest extends TestCase{
         // Assert
     }
 
-    public function testgetItemDefinitions() {
+    public function testgetDefinitions() {
         // Arrange
         // Act
-        $definitions = $this->sut->setup['items']->getItemDefinitions();
+        $definitions = $this->sut->setup['items']->getDefinitions();
         // Assert
         $this->assertEquals(5*(5+4) + 3*15, count($definitions));
     }
@@ -62,7 +62,7 @@ class DecksSetupTest extends TestCase{
     public function testgetPlantDefinitions() {
         // Arrange
         // Act
-        $definitions = $this->sut->setup['plants']->getItemDefinitions();
+        $definitions = $this->sut->setup['plants']->getDefinitions();
         // Assert
         $this->assertEquals(5*12, count($definitions));
     }
