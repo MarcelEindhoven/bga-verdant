@@ -74,6 +74,42 @@ function (dojo, declare) {
 
             console.log( "Ending game setup" );
         },
+        setupDecks: function(decks) {
+            console.log("setupDecks");
+            console.log(decks);
+            this.setupItems(decks.items);
+            for (var place = 0; place <4; place ++) {
+                this.setupCardStock('Plant'+ place, 'plants');
+                this.setupCardStock('Room'+ place, 'rooms');
+            }
+            this.fillCards('Plant', decks.plants);
+            this.fillCards('Room', decks.rooms);
+        },
+        setupItems: function(items) {
+            console.log(items);
+            for (var number in items) {
+                item = items[number];
+                if (item['location'] == 'Market') {
+                    this.setupItem(item);
+                }
+            }
+        },
+        setupItem: function(item) {
+            console.log("setupItem");
+            console.log(item);
+
+            var location = 'Item' + item.location_arg;
+            nr = item['id'];
+            type = this.itemwidth * Number(item['type']);
+            color = this.itemheight * Number(item['type_arg']);
+            
+            dojo.place( this.format_block( 'jstpl_item', {
+                nr: nr,
+                background_horizontal: type,
+                background_vertical: color
+            } ) ,  location);
+            
+        },
         setupCardStock: function(element, category) {
             hand = new ebg.stock();
             hand.create(this, $(element), this.cardwidth, this.cardheight);
@@ -112,42 +148,6 @@ function (dojo, declare) {
             console.log(element_name + card['location_arg']);
             console.log(+card['type_arg'] + (+card['type'] - 1)*12);
             this.stocks[element_name + card['location_arg']].addToStock(+card['type_arg'] + (+card['type'] - 1)*12);
-        },
-        setupDecks: function(decks) {
-            console.log("setupDecks");
-            console.log(decks);
-            this.setupItems(decks.items);
-            for (var place = 0; place <4; place ++) {
-                this.setupCardStock('Plant'+ place, 'plants');
-                this.setupCardStock('Room'+ place, 'rooms');
-            }
-            this.fillCards('Plant', decks.plants);
-            this.fillCards('Room', decks.rooms);
-        },
-        setupItems: function(items) {
-            console.log(items);
-            for (var number in items) {
-                item = items[number];
-                if (item['location'] == 'Market') {
-                    this.setupItem(item);
-                }
-            }
-        },
-        setupItem: function(item) {
-            console.log("setupItem");
-            console.log(item);
-
-            var location = 'Item' + item.location_arg;
-            nr = item['id'];
-            type = this.itemwidth * Number(item['type']);
-            color = this.itemheight * Number(item['type_arg']);
-            
-            dojo.place( this.format_block( 'jstpl_item', {
-                nr: nr,
-                background_horizontal: type,
-                background_vertical: color
-            } ) ,  location);
-            
         },
        
 
