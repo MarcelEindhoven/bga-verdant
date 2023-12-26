@@ -56,8 +56,14 @@
 </div>
 
 <div style="display: inline-block">
-    <h3>Selected card</h3>
-    <div id="SelectedCard" class="single_card">
+    <h3>Selected plant card</h3>
+    <div id="SelectedPlantCard" class="single_card">
+    </div>
+</div>
+
+<div style="display: inline-block">
+    <h3>Selected room card</h3>
+    <div id="SelectedRoomCard" class="single_card">
     </div>
 </div>
 

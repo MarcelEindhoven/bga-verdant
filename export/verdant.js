@@ -77,6 +77,7 @@ function (dojo, declare) {
         },
         setupStocks: function(players) {
             this.setupMarketStocks();
+            this.setupSelectedStocks();
             this.setupPlayersStocks(players);
         },
         setupMarketStocks: function() {
@@ -84,6 +85,10 @@ function (dojo, declare) {
                 this.setupCardStock('Plant'+ place, 'plants');
                 this.setupCardStock('Room'+ place, 'rooms');
             }
+        },
+        setupSelectedStocks: function() {
+            this.setupCardStock('SelectedPlantCard', 'plants');
+            this.setupCardStock('SelectedRoomCard', 'rooms');
         },
         setupPlayersStocks: function(players) {
             for(var player_id in players) {
@@ -158,13 +163,19 @@ function (dojo, declare) {
             console.log(cards);
             for (var number in cards) {
                 var card = cards[number];
-                this.fillCard(card);
+                this.fillCard(element_name, card);
             }
         },
-        fillCard: function(card) {
+        fillCard: function(element_name, card) {
             console.log(card['location'] + card['location_arg']);
             console.log(+card['type_arg'] + +card['type']*12);
-            this.stocks[card['location'] + card['location_arg']].addToStock(+card['type_arg'] + +card['type']*12);
+            if (99 == +card['location_arg']) {
+                if (this.player_id == +card['location']) {
+                    this.stocks['Selected' + element_name + 'Card'].addToStock(+card['type_arg'] + +card['type']*12);
+                }
+            } else {
+                this.stocks[card['location'] + card['location_arg']].addToStock(+card['type_arg'] + +card['type']*12);
+            }
         },
        
 
