@@ -22,6 +22,8 @@ require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
 include_once(__DIR__.'/modules/BGA/FrameworkInterfaces/Database.php');
 include_once(__DIR__.'/modules/BGA/FrameworkInterfaces/Debugging.php');
 
+include_once(__DIR__.'/modules/Actions/Actions.php');
+
 include_once(__DIR__.'/modules/GameSetup/DecksSetup.php');
 include_once(__DIR__.'/modules/GameSetup/GameSetup.php');
 
@@ -130,9 +132,17 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
        
 
         // Activate first player (which is in general a good idea :) )
-        $this->activeNextPlayer();
+        $this->initialize();
 
         /************ End of the game initialization *****/
+    }
+
+    protected function initialize() {
+        $this->actions = NieuwenhovenGames\Verdant\Actions::create($this);
+
+        $this->actions->setGameState($this->gamestate);
+
+        $this->actions->initialize();
     }
 
     /*
@@ -266,6 +276,11 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         $this->gamestate->nextState( 'some_gamestate_transition' );
     }    
     */
+    public function stRobotsPlaceCard() {
+        self::trace(__FUNCTION__);
+
+        $this->actions->stRobotsPlaceCard();
+    }
 
 //////////////////////////////////////////////////////////////////////////////
 //////////// Zombie

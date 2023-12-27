@@ -58,7 +58,7 @@ $machinestates = array(
         "description" => "",
         "type" => "manager",
         "action" => "stGameSetup",
-        "transitions" => array( "" => 2 )
+        "transitions" => array( "" => 3 )
     ),
     
     // Note: ID=2 => your first state
@@ -70,6 +70,13 @@ $machinestates = array(
     		"type" => "activeplayer",
     		"possibleactions" => array( "playCard", "pass" ),
     		"transitions" => array( "playCard" => 2, "pass" => 2 )
+    ),
+    3 => array(
+        "name" => "allRobotsPlaceCard",
+        "description" => clienttranslate('Robots place initial plant card'),
+        "type" => "game",
+        "action" => "stRobotsPlaceCard",
+        "transitions" => array("" => 2)
     ),
     
 /*
