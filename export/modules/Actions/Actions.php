@@ -32,7 +32,7 @@ class Actions {
         return $this;
     }
 
-    public function stRobotsPlaceCard() {
+    public function stAIsPlaceCard() {
     }
 }
 ?>

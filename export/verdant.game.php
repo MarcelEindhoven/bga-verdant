@@ -276,10 +276,10 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         $this->gamestate->nextState( 'some_gamestate_transition' );
     }    
     */
-    public function stRobotsPlaceCard() {
+    public function stAIsPlaceCard() {
         self::trace(__FUNCTION__);
 
-        $this->actions->stRobotsPlaceCard();
+        $this->actions->stAIsPlaceCard();
     }
 
 //////////////////////////////////////////////////////////////////////////////

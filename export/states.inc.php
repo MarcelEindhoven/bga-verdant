@@ -72,10 +72,10 @@ $machinestates = array(
     		"transitions" => array( "playCard" => 2, "pass" => 2 )
     ),
     3 => array(
-        "name" => "allRobotsPlaceCard",
+        "name" => "allAIsPlaceCard",
         "description" => clienttranslate('Robots place initial plant card'),
         "type" => "game",
-        "action" => "stRobotsPlaceCard",
+        "action" => "stAIsPlaceCard",
         "transitions" => array("" => 2)
     ),
     
