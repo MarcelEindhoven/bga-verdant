@@ -18,8 +18,7 @@ class Actions {
     }
 
     public function setDatabase($sql_database) : Actions {
-        $storage = \NieuwenhovenGames\BGA\Storage::create($sql_database);
-        //$this->setStorage($storage);
+        $this->storage = \NieuwenhovenGames\BGA\Storage::create($sql_database);
 
         return $this;
     }
