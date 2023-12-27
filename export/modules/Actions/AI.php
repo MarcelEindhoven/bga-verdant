@@ -9,8 +9,11 @@ namespace NieuwenhovenGames\Verdant;
  */
 
 class AI {
+    public static function create() : AI {
+        return new AI();
+    }
 
-    public function placeSelectedCard() : AI {
+    public function placeSelectedPlantCard() : AI {
         return $this;
     }
 }

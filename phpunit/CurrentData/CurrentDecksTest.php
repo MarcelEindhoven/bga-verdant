@@ -46,5 +46,22 @@ class CurrentDecksTest extends TestCase{
         // Assert
         $this->assertEquals(['items' => [[5 => 3], [8 => 3], [6 => 3]]], $data);
     }
+
+    public function testGetSelectable_NoSelectedCard_NothingSelectable() {
+        // Arrange
+
+        $this->mock_deck_plants = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
+        $this->mock_deck_rooms = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
+        $this->sut->setDecks(['plants' => $this->mock_deck_plants, 'rooms' => $this->mock_deck_rooms]);
+
+        $player_id = 77;
+        $this->mock_deck_plants->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, 99)->willReturn([]);
+        $this->mock_deck_rooms->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, 99)->willReturn([]);
+
+        // Act
+        $positions = $this->sut->getSelectableHomePositions($player_id);
+        // Assert
+        $this->assertEquals([], $positions);
+    }
 }
 ?>

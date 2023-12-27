@@ -32,9 +32,9 @@ class AIsPlaceCardTest extends TestCase{
         $this->sut->setAIs([$this->mock_ai]);
     }
 
-    public function testExecute_SingleAI_PlaceSelectedCard() {
+    public function testExecute_SingleAI_placeSelectedPlantCard() {
         // Arrange
-        $this->mock_ai->expects($this->exactly(1))->method('placeSelectedCard')->with();
+        $this->mock_ai->expects($this->exactly(1))->method('placeSelectedPlantCard')->with();
         // Act
         $this->sut->execute();
         // Assert

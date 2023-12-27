@@ -24,7 +24,7 @@ class AIsPlaceCard extends \NieuwenhovenGames\BGA\Action {
 
     public function execute() : AIsPlaceCard {
         foreach($this->ais as $player_id => $ai) {
-            $ai->placeSelectedCard();
+            $ai->placeSelectedPlantCard();
         }
         return $this;
     }

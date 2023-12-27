@@ -12,6 +12,9 @@ namespace NieuwenhovenGames\Verdant;
  require_once(__DIR__.'/../BGA/Storage.php');
 
 class CurrentDecks {
+    protected array $players = [];
+    protected array $decks = [];
+
     public static function create($decks, $players) : CurrentDecks {
         $object = new CurrentDecks();
         return $object->setDecks($decks)->setPlayers($players);
@@ -36,6 +39,20 @@ class CurrentDecks {
             }
             }
         return $decks;
+    }
+
+    public function getSelectableHomePositions($player_id) : array {
+        return $this->getPlantCardSelectableHomePositions($player_id) + $this->getRoomCardSelectableHomePositions($player_id);
+    }
+
+    public function getPlantCardSelectableHomePositions($player_id) : array {
+        $this->decks['plants']->getCardsInLocation($player_id, 99);
+        return [];
+    }
+
+    public function getRoomCardSelectableHomePositions($player_id) : array {
+        $this->decks['rooms']->getCardsInLocation($player_id, 99);
+        return [];
     }
 }
 ?>
