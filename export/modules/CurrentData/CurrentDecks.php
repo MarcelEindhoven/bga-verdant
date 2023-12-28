@@ -42,11 +42,11 @@ class CurrentDecks {
     }
 
     public function getSelectableHomePositions($player_id) : array {
-        return $this->getPlantCardSelectableHomePositions($player_id) + $this->getRoomCardSelectableHomePositions($player_id);
+        return $this->getPlantSelectableHomePositions($player_id) + $this->getRoomSelectableHomePositions($player_id);
     }
 
-    public function getPlantCardSelectableHomePositions($player_id) : array {
-        if ($this->decks['plants']->getCardsInLocation($player_id, 99)) {
+    public function getPlantSelectableHomePositions($player_id) : array {
+        if ($this->getSelectedCard($player_id, 'plants')) {
             $positions = [];
             $cards_plants = $this->decks['plants']->getCardsInLocation($player_id);    
             $cards_rooms = $this->decks['rooms']->getCardsInLocation($player_id); 
@@ -62,9 +62,14 @@ class CurrentDecks {
         return [];
     }
 
-    public function getRoomCardSelectableHomePositions($player_id) : array {
+    public function getRoomSelectableHomePositions($player_id) : array {
         $this->decks['rooms']->getCardsInLocation($player_id, 99);
         return [];
+    }
+
+    public function getSelectedCard($player_id, $deck_name) {
+        $cards = $this->decks[$deck_name]->getCardsInLocation($player_id, 99);
+        return array_pop($cards);
     }
 }
 ?>

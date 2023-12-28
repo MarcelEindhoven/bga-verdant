@@ -79,9 +79,32 @@ class CurrentDecksTest extends TestCase{
         $this->mock_deck_rooms->method('getCardsInLocation')->willReturn([$room_card]);
 
         // Act
-        $positions = $this->sut->getPlantCardSelectableHomePositions($player_id);
+        $positions = $this->sut->getPlantSelectableHomePositions($player_id);
         // Assert
         $this->assertEquals(['77_10', '77_1', '77_12', '77_21'], $positions);
+    }
+
+    public function testGetSelected__SingleCard__ReturnCard() {
+        // Arrange
+        $player_id = 77;
+        $card = [5 => 3];
+        $this->mock_deck_plants->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, 99)->willReturn([$card]);
+
+        // Act
+        $selected_card = $this->sut->getSelectedCard($player_id, 'plants');
+        // Assert
+        $this->assertEquals($card, $selected_card);
+    }
+
+    public function testGetSelected__NoCard__ReturnNull() {
+        // Arrange
+        $player_id = 77;
+        $this->mock_deck_plants->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, 99)->willReturn([]);
+
+        // Act
+        $selected_card = $this->sut->getSelectedCard($player_id, 'plants');
+        // Assert
+        $this->assertEquals(null, $selected_card);
     }
 }
 ?>
