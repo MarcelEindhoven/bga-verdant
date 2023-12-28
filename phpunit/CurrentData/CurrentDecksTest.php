@@ -14,13 +14,21 @@ include_once(__DIR__.'/../../export/modules/CurrentData/CurrentDecks.php');
 include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/Deck.php');
 
 class CurrentDecksTest extends TestCase{
-    protected CurrentDecks $sut;
+    protected ?CurrentDecks $sut = null;
+    protected ?\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck $mock_deck_plants = null;
+    protected ?\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck $mock_deck_rooms = null;
 
     protected function setUp(): void {
         $this->players = [
             77 => ['player_id' => 77, 'player_name' => 'test '], 
             17 => ['player_id' => 17, 'player_naam' => 'tests']];
+
         $this->sut = CurrentDecks::create([], $this->players);
+
+        $this->mock_deck_plants = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
+        $this->mock_deck_rooms = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
+
+        $this->sut->setDecks(['plants' => $this->mock_deck_plants, 'rooms' => $this->mock_deck_rooms]);
     }
 
     public function testgetAllDatas_NoDecks_EmptyData() {
@@ -50,10 +58,6 @@ class CurrentDecksTest extends TestCase{
     public function testGetSelectable_NoSelectedCard_NothingSelectable() {
         // Arrange
 
-        $this->mock_deck_plants = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
-        $this->mock_deck_rooms = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
-        $this->sut->setDecks(['plants' => $this->mock_deck_plants, 'rooms' => $this->mock_deck_rooms]);
-
         $player_id = 77;
         $this->mock_deck_plants->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, 99)->willReturn([]);
         $this->mock_deck_rooms->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, 99)->willReturn([]);
@@ -62,6 +66,22 @@ class CurrentDecksTest extends TestCase{
         $positions = $this->sut->getSelectableHomePositions($player_id);
         // Assert
         $this->assertEquals([], $positions);
+    }
+
+    public function testGetSelectable__SelectedPlantCard1FreeRoomCard__4SelectablePositions() {
+        // Arrange
+        $player_id = 77;
+
+        $plant_card = ['location' => $player_id, 'location_arg' => 99];
+        $room_card = ['location' => $player_id, 'location_arg' => '11'];
+
+        $this->mock_deck_plants->method('getCardsInLocation')->willReturn([$plant_card]);
+        $this->mock_deck_rooms->method('getCardsInLocation')->willReturn([$room_card]);
+
+        // Act
+        $positions = $this->sut->getPlantCardSelectableHomePositions($player_id);
+        // Assert
+        $this->assertEquals(['77_10', '77_1', '77_12', '77_21'], $positions);
     }
 }
 ?>

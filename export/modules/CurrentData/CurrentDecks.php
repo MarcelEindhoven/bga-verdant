@@ -46,7 +46,19 @@ class CurrentDecks {
     }
 
     public function getPlantCardSelectableHomePositions($player_id) : array {
-        $this->decks['plants']->getCardsInLocation($player_id, 99);
+        if ($this->decks['plants']->getCardsInLocation($player_id, 99)) {
+            $positions = [];
+            $cards_plants = $this->decks['plants']->getCardsInLocation($player_id);    
+            $cards_rooms = $this->decks['rooms']->getCardsInLocation($player_id); 
+            foreach ($cards_rooms as $card_room) {   
+                $location = +$card_room['location_arg'];
+                $positions[] = '' . $player_id . '_' . ($location - 1);
+                $positions[] = '' . $player_id . '_' . ($location - 10);
+                $positions[] = '' . $player_id . '_' . ($location + 1);
+                $positions[] = '' . $player_id . '_' . ($location + 10);
+            }
+            return $positions;
+        }
         return [];
     }
 
