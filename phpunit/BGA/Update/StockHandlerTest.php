@@ -6,11 +6,11 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-include_once(__DIR__.'/../../vendor/autoload.php');
+include_once(__DIR__.'/../../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../../export/modules/BGA/StockHandler.php');
-include_once(__DIR__.'/../../export/modules/BGA/PlayerRobotNotifications.php');
+include_once(__DIR__.'/../../../export/modules/BGA/Update/StockHandler.php');
+include_once(__DIR__.'/../../../export/modules/BGA/PlayerRobotNotifications.php');
 
 class StockHandlerTest extends TestCase{
     protected StockHandler $sut;

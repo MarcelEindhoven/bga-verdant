@@ -10,7 +10,7 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/BGA/CurrentPlayerRobotProperties.php');
-include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
+include_once(__DIR__.'/../../export/modules/BGA/Current/CurrentStorage.php');
 
 class CurrentPlayerRobotPropertiesTest extends TestCase{
     const FIELDS = ['id', 'score', 'no', 'name', 'color'];
@@ -24,7 +24,7 @@ class CurrentPlayerRobotPropertiesTest extends TestCase{
     protected CurrentPlayerRobotProperties $sut;
 
     protected function setUp(): void {
-        $this->mock_storage = $this->createMock(Storage::class);
+        $this->mock_storage = $this->createMock(CurrentStorage::class);
         $this->sut = CurrentPlayerRobotProperties::create($this->mock_storage);
     }
 

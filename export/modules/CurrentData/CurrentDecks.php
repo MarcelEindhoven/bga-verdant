@@ -9,8 +9,7 @@ namespace NieuwenhovenGames\Verdant;
  */
 
  require_once(__DIR__.'/../BGA/CurrentPlayerRobotProperties.php');
- require_once(__DIR__.'/../BGA/Storage.php');
-
+ 
 class CurrentDecks {
     protected array $players = [];
     protected array $decks = [];
@@ -52,10 +51,10 @@ class CurrentDecks {
             $cards_rooms = $this->decks['rooms']->getCardsInLocation($player_id); 
             foreach ($cards_rooms as $card_room) {   
                 $location = +$card_room['location_arg'];
-                $positions[] = '' . $player_id . '_' . ($location - 1);
-                $positions[] = '' . $player_id . '_' . ($location - 10);
-                $positions[] = '' . $player_id . '_' . ($location + 1);
-                $positions[] = '' . $player_id . '_' . ($location + 10);
+                $positions[] = $location - 1;
+                $positions[] = $location - 10;
+                $positions[] = $location + 1;
+                $positions[] = $location + 10;
             }
             return $positions;
         }

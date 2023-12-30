@@ -9,6 +9,7 @@ namespace NieuwenhovenGames\Verdant;
  */
 
 class AI {
+    const MESSAGE_PLACE_SELECTED_CARD = 'Placing card';
     protected int $player_id = 0;
 
     public static function create($player_id) : AI {
@@ -21,14 +22,20 @@ class AI {
         return $this;
     }
 
-    public function setDecks($decks) : AI {
+    public function setCurrentDecks($decks) : AI {
         $this->decks = $decks;
         return $this;
     }
 
+    public function setUpdateDecks($stocks) : AI {
+        $this->stocks = $stocks;
+        return $this;
+    }
+
     public function placeSelectedPlantCard() : AI {
-        $this->decks->getPlantSelectableHomePositions($this->player_id);
-        $this->decks->getSelectedCard($this->player_id, 'plants');
+        $positions = $this->decks->getPlantSelectableHomePositions($this->player_id);
+        $position = array_pop($positions);
+        $this->stocks['plants']->movePrivateToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, $this->player_id . '_99', $this->player_id . '_' . $position);
 
         return $this;
     }

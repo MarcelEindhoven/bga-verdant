@@ -141,6 +141,8 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         $this->actions = NieuwenhovenGames\Verdant\Actions::create($this);
 
         $this->actions->setGameState($this->gamestate);
+        $this->actions->setNotifications($this);
+        $this->actions->setDecks($this->decks);
 
         $this->actions->initialize();
     }
@@ -226,6 +228,10 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
     }
     
     */
+    public function stSelectCardMultipleActivePlayers() {
+        self::trace( "stSelectCardMultipleActivePlayers" );
+        $this->gamestate->setAllPlayersMultiactive();
+    }
 
     
 //////////////////////////////////////////////////////////////////////////////

@@ -82,8 +82,8 @@ function (dojo, declare) {
         },
         setupMarketStocks: function() {
             for (var place = 0; place < 4; place ++) {
-                this.setupCardStock('Plant'+ place, 'plants');
-                this.setupCardStock('Room'+ place, 'rooms');
+                this.setupCardStock('Plant_'+ place, 'plants');
+                this.setupCardStock('Room_'+ place, 'rooms');
             }
         },
         setupSelectedStocks: function() {
@@ -94,7 +94,7 @@ function (dojo, declare) {
             for(var player_id in players) {
                 for (var row = 0; row < 5; row ++) {
                     for (var place = 0; place < 9; place ++) {
-                        template_id = ''+ player_id + row + place;
+                        template_id = ''+ player_id + '_' + row + place;
                         console.log(template_id);
                         this.setupCardStock(template_id, (row + place) % 2 ? 'plants' : 'rooms');
                     }
@@ -124,10 +124,14 @@ function (dojo, declare) {
             console.log("setupItem");
             console.log(item);
 
-            var location = 'Item' + item.location_arg;
+            var location = 'Item_' + item.location_arg;
             nr = item['id'];
             type = this.itemwidth * Number(item['type']);
             color = this.itemheight * Number(item['type_arg']);
+            console.log(location);
+            console.log(nr);
+            console.log(type);
+            console.log(color);
             
             dojo.place( this.format_block( 'jstpl_item', {
                 nr: nr,
@@ -167,14 +171,14 @@ function (dojo, declare) {
             }
         },
         fillCard: function(element_name, card) {
-            console.log(card['location'] + card['location_arg']);
+            console.log(card['location'] + '_' + card['location_arg']);
             console.log(+card['type_arg'] + +card['type']*12);
             if (99 == +card['location_arg']) {
                 if (this.player_id == +card['location']) {
                     this.stocks['Selected' + element_name + 'Card'].addToStock(+card['type_arg'] + +card['type']*12);
                 }
             } else {
-                this.stocks[card['location'] + card['location_arg']].addToStock(+card['type_arg'] + +card['type']*12);
+                this.stocks[card['location'] + '_' + card['location_arg']].addToStock(+card['type_arg'] + +card['type']*12);
             }
         },
        

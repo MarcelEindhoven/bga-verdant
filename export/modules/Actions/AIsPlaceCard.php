@@ -11,8 +11,6 @@ namespace NieuwenhovenGames\Verdant;
  include_once(__DIR__.'/../BGA/Action.php');
 
 class AIsPlaceCard extends \NieuwenhovenGames\BGA\Action {
-    protected array $ais = [];
-
     public static function create($gamestate) : AIsPlaceCard {
         return new AIsPlaceCard($gamestate);
     }
@@ -30,7 +28,7 @@ class AIsPlaceCard extends \NieuwenhovenGames\BGA\Action {
     }
 
     public function getTransitionName() : string {
-        return '';
+        return 'x';
     }
 }
 ?>

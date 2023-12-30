@@ -8,13 +8,14 @@ namespace NieuwenhovenGames\Verdant;
  *
  */
 
- require_once(__DIR__.'/../BGA/CurrentPlayerRobotProperties.php');
- require_once(__DIR__.'/../BGA/Storage.php');
+ require_once(__DIR__.'/../BGA/UpdatePlayerRobotProperties.php');
+ require_once(__DIR__.'/../BGA/Current/CurrentStorage.php');
 
 class CurrentData {
     const RESULT_KEY_PLAYERS = 'players';
 
     protected array $all_data_common = [];
+    protected ?\NieuwenhovenGames\BGA\CurrentStorage $storage = null;
 
     public static function create($sql_database) : CurrentData {
         $object = new CurrentData();
@@ -22,7 +23,7 @@ class CurrentData {
     }
 
     public function setDatabase($sql_database) : CurrentData {
-        $storage = \NieuwenhovenGames\BGA\Storage::create($sql_database);
+        $storage = \NieuwenhovenGames\BGA\CurrentStorage::create($sql_database);
         $this->setStorage($storage);
 
         return $this;
@@ -30,18 +31,10 @@ class CurrentData {
 
     public function setStorage($storage) : CurrentData {
         $this->storage = $storage;
-
-        $player_robot_properties = \NieuwenhovenGames\BGA\CurrentPlayerRobotProperties::create($this->storage);
-        $this->setPlayerRobotProperties($player_robot_properties);
-
-        return $this;
-    }
-
-    public function setPlayerRobotProperties($player_robot_properties) : CurrentData {
-        $this->player_robot_properties = $player_robot_properties;
-
-        $this->all_data_common = [];
-        $this->all_data_common[CurrentData::RESULT_KEY_PLAYERS] = $this->player_robot_properties->getPlayerData();
+        $this->all_data_common[CurrentData::RESULT_KEY_PLAYERS] = $this->storage->getBucket(
+            \NieuwenhovenGames\BGA\UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME,
+            \NieuwenhovenGames\BGA\UpdatePlayerRobotProperties::BUCKET_KEYS,
+            \NieuwenhovenGames\BGA\UpdatePlayerRobotProperties::PLAYER_KEY_PREFIX);
 
         return $this;
     }

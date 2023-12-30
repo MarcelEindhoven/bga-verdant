@@ -8,7 +8,6 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-require_once(__DIR__.'/Storage.php');
 require_once(__DIR__.'/UpdatePlayerRobotProperties.php');
 
 class CurrentPlayerRobotProperties {

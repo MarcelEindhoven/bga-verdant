@@ -13,30 +13,32 @@ include_once(__DIR__.'/../../export/modules/Actions/AI.php');
 
 include_once(__DIR__.'/../../export/modules/CurrentData/CurrentDecks.php');
 
-include_once(__DIR__.'/../../export/modules/BGA/CurrentPlayerRobotProperties.php');
-include_once(__DIR__.'/../../export/modules/BGA/UpdateStorage.php');
-
-include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/GameState.php');
+include_once(__DIR__.'/../../export/modules/BGA/Update/UpdateDeck.php');
 
 class AITest extends TestCase{
     protected ?AI $sut = null;
     protected int $player_id = 77;
     protected ?CurrentDecks $mock_decks = null;
+    protected ?\NieuwenhovenGames\BGA\UpdateDeck $mock_deck = null;
 
     protected function setUp(): void {
         $this->mock_decks = $this->createMock(CurrentDecks::class);
+        $this->mock_deck = $this->createMock(\NieuwenhovenGames\BGA\UpdateDeck::class);
+
         
         $this->sut = AI::create($this->player_id);
-        $this->sut->setDecks($this->mock_decks);
+        $this->sut->setCurrentDecks($this->mock_decks);
+        $this->sut->setUpdateDecks(['plants' => $this->mock_deck]);
     }
 
     public function testExecute_SingleAI_placeSelectedPlantCard() {
         // Arrange
-        $this->mock_decks->expects($this->exactly(1))->method('getSelectedCard')
-        ->with(77, 'plants');
-
         $this->mock_decks->expects($this->exactly(1))->method('getPlantSelectableHomePositions')
-        ->willReturn(['77_10', '77_1', '77_12', '77_21']);
+        ->willReturn([10]);
+
+        $this->mock_deck->expects($this->exactly(1))->method('movePrivateToPublic')
+        ->with(AI::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, '77_99', '77_10');
+
         // Act
         $this->sut->placeSelectedPlantCard();
         // Assert

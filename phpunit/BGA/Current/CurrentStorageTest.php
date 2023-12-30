@@ -6,18 +6,18 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-include_once(__DIR__.'/../../vendor/autoload.php');
+include_once(__DIR__.'/../../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
-include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/Database.php');
+include_once(__DIR__.'/../../../export/modules/BGA/Current/CurrentStorage.php');
+include_once(__DIR__.'/../../../export/modules/BGA/FrameworkInterfaces/Database.php');
 
-class StorageTest extends TestCase{
-    protected Storage $sut;
+class CurrentStorageTest extends TestCase{
+    protected CurrentStorage $sut;
 
     protected function setUp(): void {
         $this->mock_database = $this->createMock(FrameworkInterfaces\Database::class);
-        $this->sut = Storage::create($this->mock_database);
+        $this->sut = CurrentStorage::create($this->mock_database);
     }
 
     public function testGet_2Fields_getCollection() {

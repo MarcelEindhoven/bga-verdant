@@ -11,15 +11,15 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-include_once(__DIR__.'/FrameworkInterfaces/Database.php');
+include_once(__DIR__.'/../FrameworkInterfaces/Database.php');
 
-class Storage {
-    static public function create($sql_database) : Storage {
-        $object = new Storage();
+class CurrentStorage {
+    static public function create($sql_database) : CurrentStorage {
+        $object = new CurrentStorage();
         return $object->setDatabase($sql_database);
     }
 
-    public function setDatabase($sql_database) : Storage {
+    public function setDatabase($sql_database) : CurrentStorage {
         $this->sql_database = $sql_database;
         return $this;
     }

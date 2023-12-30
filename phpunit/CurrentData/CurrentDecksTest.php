@@ -81,7 +81,7 @@ class CurrentDecksTest extends TestCase{
         // Act
         $positions = $this->sut->getPlantSelectableHomePositions($player_id);
         // Assert
-        $this->assertEquals(['77_10', '77_1', '77_12', '77_21'], $positions);
+        $this->assertEquals([10, 1, 12, 21], $positions);
     }
 
     public function testGetSelected__SingleCard__ReturnCard() {

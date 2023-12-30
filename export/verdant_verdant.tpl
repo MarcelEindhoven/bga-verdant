@@ -46,7 +46,7 @@
         <tr>
             <!-- BEGIN market_element -->
                 <td>
-                <div id = "{ROW}{PLACE}" style="display: inline-block" class=".single_card">
+                <div id = "{ROW}_{PLACE}" style="display: inline-block" class=".single_card">
                 </div>
                 </td>
             <!-- END market_element -->
@@ -104,7 +104,7 @@
     <tr>
             <!-- BEGIN card_place -->
             <td>
-                <div id = "{PLAYER_ID}{ROW}{PLACE}" style="display: inline-block" class=".single_card">
+                <div id = "{PLAYER_ID}_{ROW}{PLACE}" style="display: inline-block" class=".single_card">
                 </div>
             </td>
             <!-- END card_place -->
