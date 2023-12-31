@@ -38,7 +38,8 @@ class CurrentDecks {
             foreach ($this->players as $player_id => $player) {
                 $decks[$name] = array_merge($decks[$name], $deck->getCardsInLocation($player_id));
             }
-            }
+        }
+        // TODO In the initial step, when multiple players place their plant card, filter out selected plants of other players
         return $decks;
     }
 
@@ -64,12 +65,12 @@ class CurrentDecks {
     }
 
     public function getRoomSelectableHomePositions($player_id) : array {
-        $this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id, 99);
+        $this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id, Constants::LOCATION_SELECTED);
         return [];
     }
 
     public function getSelectedCard($player_id, $deck_name) {
-        $cards = $this->decks[$deck_name]->getCardsInLocation($player_id, 99);
+        $cards = $this->decks[$deck_name]->getCardsInLocation($player_id, Constants::LOCATION_SELECTED);
         return array_pop($cards);
     }
 }

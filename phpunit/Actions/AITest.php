@@ -15,6 +15,8 @@ include_once(__DIR__.'/../../export/modules/CurrentData/CurrentDecks.php');
 
 include_once(__DIR__.'/../../export/modules/BGA/Update/UpdateDeck.php');
 
+require_once(__DIR__.'/../../export/modules/Constants.php');
+
 class AITest extends TestCase{
     protected ?AI $sut = null;
     protected int $player_id = 77;
@@ -37,7 +39,7 @@ class AITest extends TestCase{
         ->willReturn([10]);
 
         $this->mock_deck->expects($this->exactly(1))->method('movePrivateToPublic')
-        ->with(AI::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, '77_99', '77_10');
+        ->with(AI::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, '77_' . Constants::LOCATION_SELECTED, '77_10');
 
         // Act
         $this->sut->placeSelectedPlantCard();

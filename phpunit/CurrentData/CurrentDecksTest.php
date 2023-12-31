@@ -13,6 +13,8 @@ include_once(__DIR__.'/../../export/modules/CurrentData/CurrentDecks.php');
 
 include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/Deck.php');
 
+require_once(__DIR__.'/../../export/modules/Constants.php');
+
 class CurrentDecksTest extends TestCase{
     protected ?CurrentDecks $sut = null;
     protected ?\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck $mock_deck_plants = null;
@@ -59,8 +61,8 @@ class CurrentDecksTest extends TestCase{
         // Arrange
 
         $player_id = 77;
-        $this->mock_deck_plants->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, 99)->willReturn([]);
-        $this->mock_deck_rooms->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, 99)->willReturn([]);
+        $this->mock_deck_plants->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, Constants::LOCATION_SELECTED)->willReturn([]);
+        $this->mock_deck_rooms->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, Constants::LOCATION_SELECTED)->willReturn([]);
 
         // Act
         $positions = $this->sut->getSelectableHomePositions($player_id);
@@ -72,7 +74,7 @@ class CurrentDecksTest extends TestCase{
         // Arrange
         $player_id = 77;
 
-        $plant_card = ['location' => $player_id, 'location_arg' => 99];
+        $plant_card = ['location' => $player_id, 'location_arg' => Constants::LOCATION_SELECTED];
         $room_card = ['location' => $player_id, 'location_arg' => '11'];
 
         $this->mock_deck_plants->method('getCardsInLocation')->willReturn([$plant_card]);
@@ -88,7 +90,7 @@ class CurrentDecksTest extends TestCase{
         // Arrange
         $player_id = 77;
         $card = [5 => 3];
-        $this->mock_deck_plants->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, 99)->willReturn([$card]);
+        $this->mock_deck_plants->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, Constants::LOCATION_SELECTED)->willReturn([$card]);
 
         // Act
         $selected_card = $this->sut->getSelectedCard($player_id, 'plant');
@@ -99,7 +101,7 @@ class CurrentDecksTest extends TestCase{
     public function testGetSelected__NoCard__ReturnNull() {
         // Arrange
         $player_id = 77;
-        $this->mock_deck_plants->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, 99)->willReturn([]);
+        $this->mock_deck_plants->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, Constants::LOCATION_SELECTED)->willReturn([]);
 
         // Act
         $selected_card = $this->sut->getSelectedCard($player_id, 'plant');
