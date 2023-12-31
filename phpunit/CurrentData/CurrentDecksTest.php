@@ -45,8 +45,8 @@ class CurrentDecksTest extends TestCase{
         $this->mock_deck = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
         $this->sut->setDecks(['item' => $this->mock_deck]);
 
-        $this->mock_deck->expects($this->exactly(5))->method('getCardsInLocation')
-        ->willReturnOnConsecutiveCalls([], [[5 => 3], [8 => 3]], [], [[6 => 3]], []);
+        $this->mock_deck->expects($this->exactly(3))->method('getCardsInLocation')
+        ->willReturnOnConsecutiveCalls([[5 => 3], [8 => 3]], [[6 => 3]], []);
 
         // Act
         $data = $this->sut->getAllDatas();

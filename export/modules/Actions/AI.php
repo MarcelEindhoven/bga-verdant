@@ -7,6 +7,8 @@ namespace NieuwenhovenGames\Verdant;
  * See http://en.doc.boardgamearena.com/Studio for more information.
  *
  */
+ 
+require_once(__DIR__.'/../Constants.php');
 
 class AI {
     const MESSAGE_PLACE_SELECTED_CARD = 'Placing card';
@@ -35,7 +37,7 @@ class AI {
     public function placeSelectedPlantCard() : AI {
         $positions = $this->decks->getPlantSelectableHomePositions($this->player_id);
         $position = array_pop($positions);
-        $this->stocks['plant']->movePrivateToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, $this->player_id . '_99', $this->player_id . '_' . $position);
+        $this->stocks[Constants::PLANT_NAME]->movePrivateToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, $this->player_id . '_99', $this->player_id . '_' . $position);
 
         return $this;
     }

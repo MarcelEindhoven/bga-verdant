@@ -11,6 +11,8 @@ namespace NieuwenhovenGames\Verdant;
 require_once(__DIR__.'/../BGA/FrameworkInterfaces/Deck.php');
 require_once(__DIR__.'/DecksSetup.php');
 require_once(__DIR__.'/CardsAndItemsSetup.php');
+ 
+require_once(__DIR__.'/../Constants.php');
 
 class ItemsSetup extends CardsAndItemsSetup {
     const NUMBER_UNIQUE_ITEM_TYPES = 9;
@@ -20,7 +22,7 @@ class ItemsSetup extends CardsAndItemsSetup {
 
     static public function create($deck) : ItemsSetup {
         $object = new ItemsSetup();
-        return $object->setTemplatePrefix('item')->setDeck($deck);
+        return $object->setTemplatePrefix(Constants::ITEM_NAME)->setDeck($deck);
     }
 
     /**

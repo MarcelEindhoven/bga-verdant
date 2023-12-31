@@ -12,6 +12,8 @@ require_once(__DIR__.'/../BGA/FrameworkInterfaces/Deck.php');
 require_once(__DIR__.'/DecksSetup.php');
 require_once(__DIR__.'/CardsAndItemsSetup.php');
 
+require_once(__DIR__.'/../Constants.php');
+
 class CardsSetup extends CardsAndItemsSetup {
     const NUMBER_CARDS_PER_COLOUR = 12;
 
@@ -52,7 +54,7 @@ class CardsSetup extends CardsAndItemsSetup {
     class PlantsSetup extends CardsSetup {
     static public function create($deck, $players) : PlantsSetup {
         $object = new PlantsSetup();
-        return $object->setTemplatePrefix('plant')->setPlayers($players)->setDeck($deck);
+        return $object->setTemplatePrefix(Constants::PLANT_NAME)->setPlayers($players)->setDeck($deck);
     }
 
     protected function pickCard($player_id) {
@@ -63,7 +65,7 @@ class CardsSetup extends CardsAndItemsSetup {
 class RoomsSetup extends CardsSetup {
     static public function create($deck, $players) : RoomsSetup {
         $object = new RoomsSetup();
-        return $object->setTemplatePrefix('room')->setPlayers($players)->setDeck($deck);
+        return $object->setTemplatePrefix(Constants::ROOM_NAME)->setPlayers($players)->setDeck($deck);
     }
 
     protected function pickCard($player_id) {

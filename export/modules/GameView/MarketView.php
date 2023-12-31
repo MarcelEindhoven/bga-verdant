@@ -9,15 +9,17 @@ namespace NieuwenhovenGames\Verdant;
  */
 
  require_once(__DIR__.'/../BGA/GameView/TemplateBlock.php');
+ 
+ require_once(__DIR__.'/../Constants.php');
 
 class MarketView extends \NieuwenhovenGames\BGA\CompleteTemplateBlock{
     const BLOCK_NAME = 'market_row';
 
     static public function create($parent) : MarketView {
         $object = new MarketView();
-        $plants = MarketRow::create($object)->setID('plant');
-        $items = MarketRow::create($object)->setID('item');
-        $rooms = MarketRow::create($object)->setID('room');
+        $plants = MarketRow::create($object)->setID(Constants::PLANT_NAME);
+        $items = MarketRow::create($object)->setID(Constants::ITEM_NAME);
+        $rooms = MarketRow::create($object)->setID(Constants::ROOM_NAME);
         return $object->setParent($parent)->setBlockName(MarketView::BLOCK_NAME)->addChild($plants)->addChild($items)->addChild($rooms);
     }
 

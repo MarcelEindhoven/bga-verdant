@@ -8,8 +8,10 @@ namespace NieuwenhovenGames\Verdant;
  *
  */
 
- require_once(__DIR__.'/../BGA/CurrentPlayerRobotProperties.php');
- 
+require_once(__DIR__.'/../BGA/CurrentPlayerRobotProperties.php');
+
+require_once(__DIR__.'/../Constants.php');
+
 class CurrentDecks {
     protected array $players = [];
     protected array $decks = [];
@@ -32,7 +34,7 @@ class CurrentDecks {
     public function getAllDatas() : array {
         $decks = [];
         foreach ($this->decks as $name => $deck) {
-            $decks[$name] = $deck->getCardsInLocation('plant') + $deck->getCardsInLocation('item') + $deck->getCardsInLocation('room');
+            $decks[$name] = $deck->getCardsInLocation($name);
             foreach ($this->players as $player_id => $player) {
                 $decks[$name] = array_merge($decks[$name], $deck->getCardsInLocation($player_id));
             }
@@ -45,10 +47,10 @@ class CurrentDecks {
     }
 
     public function getPlantSelectableHomePositions($player_id) : array {
-        if ($this->getSelectedCard($player_id, 'plant')) {
+        if ($this->getSelectedCard($player_id, Constants::PLANT_NAME)) {
             $positions = [];
-            $cards_plants = $this->decks['plant']->getCardsInLocation($player_id);    
-            $cards_rooms = $this->decks['room']->getCardsInLocation($player_id); 
+            $cards_plants = $this->decks[Constants::PLANT_NAME]->getCardsInLocation($player_id);    
+            $cards_rooms = $this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id); 
             foreach ($cards_rooms as $card_room) {   
                 $location = +$card_room['location_arg'];
                 $positions[] = $location - 1;
@@ -62,7 +64,7 @@ class CurrentDecks {
     }
 
     public function getRoomSelectableHomePositions($player_id) : array {
-        $this->decks['room']->getCardsInLocation($player_id, 99);
+        $this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id, 99);
         return [];
     }
 

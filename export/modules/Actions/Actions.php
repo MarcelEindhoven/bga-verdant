@@ -17,6 +17,8 @@ include_once(__DIR__.'/AIsPlaceCard.php');
 include_once(__DIR__.'/../CurrentData/CurrentData.php');
 include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
 
+require_once(__DIR__.'/../Constants.php');
+
 class Actions {
     protected ?\NieuwenhovenGames\BGA\StockHandler $stock_handler = null;
 
@@ -56,8 +58,8 @@ class Actions {
     public function initialize() : Actions {
         $this->stock_handler = \NieuwenhovenGames\BGA\StockHandler::create($this->notifications);
 
-        $this->update_decks['plant'] = \NieuwenhovenGames\BGA\UpdateDeck::create($this->decks['plant']);
-        $this->update_decks['plant']->setStockHandler($this->stock_handler);
+        $this->update_decks[Constants::PLANT_NAME] = \NieuwenhovenGames\BGA\UpdateDeck::create($this->decks[Constants::PLANT_NAME]);
+        $this->update_decks[Constants::PLANT_NAME]->setStockHandler($this->stock_handler);
 
         $players = $this->current_data->getAllDatas()[CurrentData::RESULT_KEY_PLAYERS];
 

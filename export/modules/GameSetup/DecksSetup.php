@@ -11,6 +11,8 @@ namespace NieuwenhovenGames\Verdant;
 require_once(__DIR__.'/../BGA/FrameworkInterfaces/Deck.php');
 require_once(__DIR__.'/ItemsSetup.php');
 require_once(__DIR__.'/CardsSetup.php');
+ 
+require_once(__DIR__.'/../Constants.php');
 
 class DecksSetup {
     const NUMBER_COLOURS = 5;
@@ -33,8 +35,8 @@ class DecksSetup {
     }
 
     public function setDeck($decks) : DecksSetup {
-        $this->setup['item'] = ItemsSetup::create($decks['item']);
-        $this->setup['plant'] = PlantsSetup::create($decks['plant'], $this->players);
+        $this->setup[Constants::ITEM_NAME] = ItemsSetup::create($decks[Constants::ITEM_NAME]);
+        $this->setup[Constants::PLANT_NAME] = PlantsSetup::create($decks[Constants::PLANT_NAME], $this->players);
         $this->setup['room'] = RoomsSetup::create($decks['room'], $this->players);
 
         return $this;
