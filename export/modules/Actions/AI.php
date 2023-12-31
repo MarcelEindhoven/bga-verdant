@@ -35,7 +35,7 @@ class AI {
     public function placeSelectedPlantCard() : AI {
         $positions = $this->decks->getPlantSelectableHomePositions($this->player_id);
         $position = array_pop($positions);
-        $this->stocks['plants']->movePrivateToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, $this->player_id . '_99', $this->player_id . '_' . $position);
+        $this->stocks['plant']->movePrivateToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, $this->player_id . '_99', $this->player_id . '_' . $position);
 
         return $this;
     }

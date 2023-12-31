@@ -28,7 +28,7 @@ class CurrentDecksTest extends TestCase{
         $this->mock_deck_plants = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
         $this->mock_deck_rooms = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
 
-        $this->sut->setDecks(['plants' => $this->mock_deck_plants, 'rooms' => $this->mock_deck_rooms]);
+        $this->sut->setDecks(['plant' => $this->mock_deck_plants, 'room' => $this->mock_deck_rooms]);
     }
 
     public function testgetAllDatas_NoDecks_EmptyData() {
@@ -43,7 +43,7 @@ class CurrentDecksTest extends TestCase{
     public function testgetAllDatas_1Decks_1Array() {
         // Arrange
         $this->mock_deck = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
-        $this->sut->setDecks(['items' => $this->mock_deck]);
+        $this->sut->setDecks(['item' => $this->mock_deck]);
 
         $this->mock_deck->expects($this->exactly(5))->method('getCardsInLocation')
         ->willReturnOnConsecutiveCalls([], [[5 => 3], [8 => 3]], [], [[6 => 3]], []);
@@ -52,7 +52,7 @@ class CurrentDecksTest extends TestCase{
         $data = $this->sut->getAllDatas();
 
         // Assert
-        $this->assertEquals(['items' => [[5 => 3], [8 => 3], [6 => 3]]], $data);
+        $this->assertEquals(['item' => [[5 => 3], [8 => 3], [6 => 3]]], $data);
     }
 
     public function testGetSelectable_NoSelectedCard_NothingSelectable() {
@@ -91,7 +91,7 @@ class CurrentDecksTest extends TestCase{
         $this->mock_deck_plants->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, 99)->willReturn([$card]);
 
         // Act
-        $selected_card = $this->sut->getSelectedCard($player_id, 'plants');
+        $selected_card = $this->sut->getSelectedCard($player_id, 'plant');
         // Assert
         $this->assertEquals($card, $selected_card);
     }
@@ -102,7 +102,7 @@ class CurrentDecksTest extends TestCase{
         $this->mock_deck_plants->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, 99)->willReturn([]);
 
         // Act
-        $selected_card = $this->sut->getSelectedCard($player_id, 'plants');
+        $selected_card = $this->sut->getSelectedCard($player_id, 'plant');
         // Assert
         $this->assertEquals(null, $selected_card);
     }

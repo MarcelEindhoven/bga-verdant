@@ -20,7 +20,7 @@ class ItemsSetup extends CardsAndItemsSetup {
 
     static public function create($deck) : ItemsSetup {
         $object = new ItemsSetup();
-        return $object->setTemplatePrefix('Item')->setDeck($deck);
+        return $object->setTemplatePrefix('item')->setDeck($deck);
     }
 
     /**

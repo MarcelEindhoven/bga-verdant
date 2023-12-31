@@ -28,7 +28,7 @@ class AITest extends TestCase{
         
         $this->sut = AI::create($this->player_id);
         $this->sut->setCurrentDecks($this->mock_decks);
-        $this->sut->setUpdateDecks(['plants' => $this->mock_deck]);
+        $this->sut->setUpdateDecks(['plant' => $this->mock_deck]);
     }
 
     public function testExecute_SingleAI_placeSelectedPlantCard() {

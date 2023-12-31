@@ -26,7 +26,7 @@ class DecksSetupTest extends TestCase{
 
         $this->players = [77 => ['player_id' => 77, 'player_name' => 'test ']];
 
-        $this->sut = DecksSetup::create(['plants'=> $this->mock_cards, 'items'=> $this->mock_items, 'rooms'=> $this->mock_cards], $this->players);
+        $this->sut = DecksSetup::create(['plant'=> $this->mock_cards, 'item'=> $this->mock_items, 'room'=> $this->mock_cards], $this->players);
     }
 
     public function testSetup_Items_createCardsAndShuffle() {
@@ -54,7 +54,7 @@ class DecksSetupTest extends TestCase{
     public function testgetDefinitions() {
         // Arrange
         // Act
-        $definitions = $this->sut->setup['items']->getDefinitions();
+        $definitions = $this->sut->setup['item']->getDefinitions();
         // Assert
         $this->assertEquals(5*(5+4) + 3*15, count($definitions));
     }
@@ -62,7 +62,7 @@ class DecksSetupTest extends TestCase{
     public function testgetPlantDefinitions() {
         // Arrange
         // Act
-        $definitions = $this->sut->setup['plants']->getDefinitions();
+        $definitions = $this->sut->setup['plant']->getDefinitions();
         // Assert
         $this->assertEquals(5*12, count($definitions));
     }

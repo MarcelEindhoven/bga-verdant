@@ -56,8 +56,8 @@ class Actions {
     public function initialize() : Actions {
         $this->stock_handler = \NieuwenhovenGames\BGA\StockHandler::create($this->notifications);
 
-        $this->update_decks['plants'] = \NieuwenhovenGames\BGA\UpdateDeck::create($this->decks['plants']);
-        $this->update_decks['plants']->setStockHandler($this->stock_handler);
+        $this->update_decks['plant'] = \NieuwenhovenGames\BGA\UpdateDeck::create($this->decks['plant']);
+        $this->update_decks['plant']->setStockHandler($this->stock_handler);
 
         $players = $this->current_data->getAllDatas()[CurrentData::RESULT_KEY_PLAYERS];
 

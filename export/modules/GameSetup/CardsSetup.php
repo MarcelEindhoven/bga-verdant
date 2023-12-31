@@ -52,7 +52,7 @@ class CardsSetup extends CardsAndItemsSetup {
     class PlantsSetup extends CardsSetup {
     static public function create($deck, $players) : PlantsSetup {
         $object = new PlantsSetup();
-        return $object->setTemplatePrefix('Plant')->setPlayers($players)->setDeck($deck);
+        return $object->setTemplatePrefix('plant')->setPlayers($players)->setDeck($deck);
     }
 
     protected function pickCard($player_id) {
@@ -63,7 +63,7 @@ class CardsSetup extends CardsAndItemsSetup {
 class RoomsSetup extends CardsSetup {
     static public function create($deck, $players) : RoomsSetup {
         $object = new RoomsSetup();
-        return $object->setTemplatePrefix('Room')->setPlayers($players)->setDeck($deck);
+        return $object->setTemplatePrefix('room')->setPlayers($players)->setDeck($deck);
     }
 
     protected function pickCard($player_id) {
