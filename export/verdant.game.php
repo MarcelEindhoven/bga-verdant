@@ -52,12 +52,12 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
             //      ...
         ) );
         $this->decks = [];
-        $this->decks['items'] = self::getNew('module.common.deck'); 
-        $this->decks['items']->init('item');
-        $this->decks['plants'] = self::getNew('module.common.deck'); 
-        $this->decks['plants']->init('plant');
-        $this->decks['rooms'] = self::getNew('module.common.deck'); 
-        $this->decks['rooms']->init('room');
+        $this->decks['item'] = self::getNew('module.common.deck'); 
+        $this->decks['item']->init('item');
+        $this->decks['plant'] = self::getNew('module.common.deck'); 
+        $this->decks['plant']->init('plant');
+        $this->decks['room'] = self::getNew('module.common.deck'); 
+        $this->decks['room']->init('room');
 	}
 
     protected function getGameName( )

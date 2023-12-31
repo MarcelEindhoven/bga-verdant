@@ -58,7 +58,7 @@ function (dojo, declare) {
             console.log( "Starting game setup" );
             
             // Setting up player boards
-            console.log(gamedatas.players);
+            console.log(gamedatas);
             for( var player_id in gamedatas.players )
             {
                 var player = gamedatas.players[player_id];
@@ -82,13 +82,13 @@ function (dojo, declare) {
         },
         setupMarketStocks: function() {
             for (var place = 0; place < 4; place ++) {
-                this.setupCardStock('Plant_'+ place, 'plants');
-                this.setupCardStock('Room_'+ place, 'rooms');
+                this.setupCardStock('plant_'+ place, 'plant');
+                this.setupCardStock('room_'+ place, 'room');
             }
         },
         setupSelectedStocks: function() {
-            this.setupCardStock('SelectedPlantCard', 'plants');
-            this.setupCardStock('SelectedRoomCard', 'rooms');
+            this.setupCardStock('selected_plant', 'plant');
+            this.setupCardStock('selected_room', 'room');
         },
         setupPlayersStocks: function(players) {
             for(var player_id in players) {
@@ -96,7 +96,7 @@ function (dojo, declare) {
                     for (var place = 0; place < 9; place ++) {
                         template_id = ''+ player_id + '_' + row + place;
                         console.log(template_id);
-                        this.setupCardStock(template_id, (row + place) % 2 ? 'plants' : 'rooms');
+                        this.setupCardStock(template_id, (row + place) % 2 ? 'plant' : 'room');
                     }
                 }
             }
@@ -105,17 +105,17 @@ function (dojo, declare) {
             console.log("setupDecks");
             console.log(decks);
             this.setupCards(decks);
-            this.setupItems(decks.items);
+            this.setupItems(decks.item);
         },
         setupCards: function(decks) {
-            this.fillCards('Plant', decks.plants);
-            this.fillCards('Room', decks.rooms);
+            this.fillCards('plant', decks.plant);
+            this.fillCards('room', decks.room);
         },
         setupItems: function(items) {
             console.log(items);
             for (var number in items) {
                 item = items[number];
-                if (item['location'] == 'Item') {
+                if (item['location'] == 'item') {
                     this.setupItem(item);
                 }
             }
@@ -124,7 +124,7 @@ function (dojo, declare) {
             console.log("setupItem");
             console.log(item);
 
-            var location = 'Item_' + item.location_arg;
+            var location = 'item_' + item.location_arg;
             nr = item['id'];
             type = this.itemwidth * Number(item['type']);
             color = this.itemheight * Number(item['type_arg']);
@@ -175,7 +175,7 @@ function (dojo, declare) {
             console.log(+card['type_arg'] + +card['type']*12);
             if (99 == +card['location_arg']) {
                 if (this.player_id == +card['location']) {
-                    this.stocks['Selected' + element_name + 'Card'].addToStock(+card['type_arg'] + +card['type']*12);
+                    this.stocks['selected_' + element_name].addToStock(+card['type_arg'] + +card['type']*12);
                 }
             } else {
                 this.stocks[card['location'] + '_' + card['location_arg']].addToStock(+card['type_arg'] + +card['type']*12);

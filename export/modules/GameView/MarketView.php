@@ -15,9 +15,9 @@ class MarketView extends \NieuwenhovenGames\BGA\CompleteTemplateBlock{
 
     static public function create($parent) : MarketView {
         $object = new MarketView();
-        $plants = MarketRow::create($object)->setID('Plant');
-        $items = MarketRow::create($object)->setID('Item');
-        $rooms = MarketRow::create($object)->setID('Room');
+        $plants = MarketRow::create($object)->setID('plant');
+        $items = MarketRow::create($object)->setID('item');
+        $rooms = MarketRow::create($object)->setID('room');
         return $object->setParent($parent)->setBlockName(MarketView::BLOCK_NAME)->addChild($plants)->addChild($items)->addChild($rooms);
     }
 

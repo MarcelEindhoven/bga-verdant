@@ -32,7 +32,7 @@ class CurrentDecks {
     public function getAllDatas() : array {
         $decks = [];
         foreach ($this->decks as $name => $deck) {
-            $decks[$name] = $deck->getCardsInLocation('Plant') + $deck->getCardsInLocation('Item') + $deck->getCardsInLocation('Room');
+            $decks[$name] = $deck->getCardsInLocation('plant') + $deck->getCardsInLocation('item') + $deck->getCardsInLocation('room');
             foreach ($this->players as $player_id => $player) {
                 $decks[$name] = array_merge($decks[$name], $deck->getCardsInLocation($player_id));
             }
@@ -45,10 +45,10 @@ class CurrentDecks {
     }
 
     public function getPlantSelectableHomePositions($player_id) : array {
-        if ($this->getSelectedCard($player_id, 'plants')) {
+        if ($this->getSelectedCard($player_id, 'plant')) {
             $positions = [];
-            $cards_plants = $this->decks['plants']->getCardsInLocation($player_id);    
-            $cards_rooms = $this->decks['rooms']->getCardsInLocation($player_id); 
+            $cards_plants = $this->decks['plant']->getCardsInLocation($player_id);    
+            $cards_rooms = $this->decks['room']->getCardsInLocation($player_id); 
             foreach ($cards_rooms as $card_room) {   
                 $location = +$card_room['location_arg'];
                 $positions[] = $location - 1;
@@ -62,7 +62,7 @@ class CurrentDecks {
     }
 
     public function getRoomSelectableHomePositions($player_id) : array {
-        $this->decks['rooms']->getCardsInLocation($player_id, 99);
+        $this->decks['room']->getCardsInLocation($player_id, 99);
         return [];
     }
 
