@@ -20,7 +20,7 @@ class ExampleTemplateBlock extends CompleteTemplateBlock {
     public function insertElements() {
         $this->number_insert_called++;
     }
-    public function insertAfterChildren() {
+    public function insertAfterChild($child) {
         $this->number_insert_after_children_called++;
     }
 }

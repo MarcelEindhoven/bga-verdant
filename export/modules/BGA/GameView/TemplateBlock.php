@@ -53,7 +53,7 @@ class TemplateBlock implements BlockFunctions {
     protected function insertChildren() : TemplateBlock {
         foreach ($this->children as $child) {
             $child->insertBlock();
-            $this->insertAfterChildren();
+            $this->insertAfterChild($child);
         }
         return $this;
     }

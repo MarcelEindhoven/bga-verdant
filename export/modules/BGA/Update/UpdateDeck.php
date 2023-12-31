@@ -29,13 +29,15 @@ class UpdateDeck {
         return $this;
     }
 
-    public function movePrivateToPublic($message, $player_id, $from, $to) {
+    public function movePrivateToPublic($message, $player_id, $from_argument, $to, $to_argument) {
+        /*
         foreach ($this->deck->getCardsInLocation($player_id, $from) as $card) {
             $card_name = 'card_name';
             $this->stock_handler->moveCardPrivatePublic($player_id, $from, $to, $card, 'You ' . $message . ' ' . $card_name, '${player_name} ' . $message . ' ' . $card_name);
         }
+        */
 
-        $this->deck->moveAllCardsInLocation($from, $to, $player_id);
+        $this->deck->moveAllCardsInLocation($player_id, $to, $from_argument, $to_argument);
     }
 
     public function movePublicToPublic($from, $to) {

@@ -39,7 +39,7 @@ class AITest extends TestCase{
         ->willReturn([10]);
 
         $this->mock_deck->expects($this->exactly(1))->method('movePrivateToPublic')
-        ->with(AI::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, '77_' . Constants::LOCATION_SELECTED, '77_10');
+        ->with(AI::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, Constants::LOCATION_SELECTED, $this->player_id, 10);
 
         // Act
         $this->sut->placeSelectedPlantCard();

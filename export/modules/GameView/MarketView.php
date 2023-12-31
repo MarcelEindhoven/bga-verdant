@@ -23,7 +23,7 @@ class MarketView extends \NieuwenhovenGames\BGA\CompleteTemplateBlock{
         return $object->setParent($parent)->setBlockName(MarketView::BLOCK_NAME)->addChild($plants)->addChild($items)->addChild($rooms);
     }
 
-    public function insertAfterChildren() {
+    public function insertAfterChild($child) {
         $this->insert([]);
     }
 }

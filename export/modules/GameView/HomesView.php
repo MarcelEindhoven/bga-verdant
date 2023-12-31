@@ -14,7 +14,7 @@ class HomesView extends \NieuwenhovenGames\BGA\CompleteTemplateBlock{
     const BLOCK_NAME = 'player';
     const ARGUMENT_ID = 'PLAYER_ID';
     const ARGUMENT_NAME = 'PLAYER_NAME';
-    protected array $remaining_players = [];
+    protected array $players = [];
 
     static public function create($parent, $players) : HomesView {
         $object = new HomesView();
@@ -22,21 +22,21 @@ class HomesView extends \NieuwenhovenGames\BGA\CompleteTemplateBlock{
     }
 
     public function setPlayers($players) : HomesView {
-        $this->remaining_players = $players;
+        $this->players = $players;
 
         return $this;
     }
 
     public function createChildren() : HomesView {
-        foreach ($this->remaining_players as $player_id => $player) {
+        foreach ($this->players as $player_id => $player) {
             $this->addChild(Home::create($this, $player_id));
         }
 
         return $this;
     }
 
-    public function insertAfterChildren() : HomesView {
-        $player = array_pop($this->remaining_players);
+    public function insertAfterChild($child) : HomesView {
+        $player = $this->players[$child->player_id];
         $this->insert([HomesView::ARGUMENT_ID => $player['player_id'], HomesView::ARGUMENT_NAME => $player['player_name']]);
         return $this;
     }
@@ -44,7 +44,7 @@ class HomesView extends \NieuwenhovenGames\BGA\CompleteTemplateBlock{
 
 class Home extends \NieuwenhovenGames\BGA\TemplateBlock{
     const BLOCK_NAME = 'card_row';
-    protected int $player_id = 0;
+    public int $player_id = 0;
     const NUMBER_ROWS = 5;
 
     static public function create($parent, $player_id) : Home {
@@ -64,7 +64,7 @@ class Home extends \NieuwenhovenGames\BGA\TemplateBlock{
         return $this;
     }
 
-    public function insertAfterChildren() : Home {
+    public function insertAfterChild($child) : Home {
         $this->insert([]);
         return $this;
     }
