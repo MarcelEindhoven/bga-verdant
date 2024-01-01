@@ -154,7 +154,6 @@ function (dojo, declare) {
                 background_horizontal: color,
                 background_vertical: type
             } ) ,  location);
-            
         },
         setupCardStock: function(element, category) {
             hand = new ebg.stock();
@@ -162,7 +161,7 @@ function (dojo, declare) {
             hand.image_items_per_row = 12;
             for (var colour = 0; colour <= 5; colour++) {
                 for (var type = 0; type <= 11; type++) {
-                    var card_type_id = type + colour*12;
+                    var card_type_id = this.getCardTypeID(colour, type);
                     hand.addItemType(card_type_id, card_type_id, g_gamethemeurl+'img/' + category + '.png', card_type_id);
                 }
             }
@@ -187,15 +186,20 @@ function (dojo, declare) {
             }
         },
         fillCard: function(element_name, card) {
-            console.log(card['location'] + '_' + card['location_arg']);
-            console.log(+card['type_arg'] + +card['type']*12);
+            console.log(card);
             if (99 == +card['location_arg']) {
                 if (this.player_id == +card['location']) {
-                    this.stocks['selected_' + element_name].addToStock(+card['type_arg'] + +card['type']*12);
+                    this.stocks['selected_' + element_name].addToStock(this.getTypeID(card));
                 }
             } else {
-                this.stocks[card['location'] + '_' + card['location_arg']].addToStock(+card['type_arg'] + +card['type']*12);
+                this.stocks[card['location'] + '_' + card['location_arg']].addToStock(this.getTypeID(card));
             }
+        },
+        getTypeID: function(card) {
+            return this.getCardTypeID(+card['type'], +card['type_arg']);
+        },
+        getCardTypeID: function(colour, index) {
+            return 12*colour + index;
         },
        
 
