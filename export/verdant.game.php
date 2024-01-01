@@ -163,7 +163,7 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         $data_handler = NieuwenhovenGames\Verdant\CurrentData::create($this);
         $deck_handler = NieuwenhovenGames\Verdant\CurrentDecks::create($this->decks, $this->loadPlayersBasicInfos());
   
-        return $data_handler->getAllDatas() + ['decks' => $deck_handler->getAllDatas()];
+        return $data_handler->getAllDatas() + $deck_handler->getAllDatas();
     }
 
     /*

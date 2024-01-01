@@ -39,7 +39,7 @@ class CurrentDecksTest extends TestCase{
         // Act
         $data = $this->sut->getAllDatas();
         // Assert
-        $this->assertEquals([], $data);
+        $this->assertEquals([], $data[CurrentDecks::RESULT_KEY_DECKS]);
     }
 
     public function testgetAllDatas_1Decks_1Array() {
@@ -54,7 +54,7 @@ class CurrentDecksTest extends TestCase{
         $data = $this->sut->getAllDatas();
 
         // Assert
-        $this->assertEquals(['item' => [[5 => 3], [8 => 3], [6 => 3]]], $data);
+        $this->assertEquals(['item' => [[5 => 3], [8 => 3], [6 => 3]]], $data[CurrentDecks::RESULT_KEY_DECKS]);
     }
 
     public function testGetSelectable_NoSelectedCard_NothingSelectable() {

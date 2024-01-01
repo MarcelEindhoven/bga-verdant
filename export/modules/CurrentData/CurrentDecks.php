@@ -13,6 +13,9 @@ require_once(__DIR__.'/../BGA/CurrentPlayerRobotProperties.php');
 require_once(__DIR__.'/../Constants.php');
 
 class CurrentDecks {
+    const RESULT_KEY_DECKS = 'decks';
+    const RESULT_KEY_SELECTABLE_FIELDS = 'selectable_fields';
+
     protected array $players = [];
     protected array $decks = [];
 
@@ -40,7 +43,7 @@ class CurrentDecks {
             }
         }
         // TODO In the initial step, when multiple players place their plant card, filter out selected plants of other players
-        return $decks;
+        return [CurrentDecks::RESULT_KEY_DECKS => $decks];
     }
 
     public function getSelectableHomePositions($player_id) : array {
