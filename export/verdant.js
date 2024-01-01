@@ -36,7 +36,7 @@ function (dojo, declare) {
             this.itemheight = 50;
 
             this.stocks = [];
-            this.colour_names = ['Succulent', 'Flowering', 'Foliage', 'Vining', 'Unusual'];
+            this.colour_names = ['', 'Succulent', 'Flowering', 'Foliage', 'Vining', 'Unusual'];
 
         },
         
@@ -67,6 +67,7 @@ function (dojo, declare) {
             }
             
             // TODO: Set up your game interface here, according to "gamedatas"
+            this.selected_card = null;
             this.setupStocks(gamedatas.players);
             this.setupDecks(gamedatas.decks);
             this.setSelectableHomePositions(gamedatas.selectable_home_positions);
@@ -82,7 +83,7 @@ function (dojo, declare) {
             for (var i in selectableFields) {
                 element_name = '' + this.player_id + '_' + selectableFields[i]
                 console.log(element_name);
-                this.stocks[element_name].addToStock(0);
+                this.stocks[element_name].addToStock(this.getTypeID(this.selected_card));
                 dojo.addClass(element_name, 'selectable');
                 dojo.connect(this.stocks[element_name], 'onChangeSelection', this, 'onSelectField');
             }
@@ -189,7 +190,8 @@ function (dojo, declare) {
             console.log(card);
             if (99 == +card['location_arg']) {
                 if (this.player_id == +card['location']) {
-                    this.stocks['selected_' + element_name].addToStock(this.getTypeID(card));
+                    // this.stocks['selected_' + element_name].addToStock(this.getTypeID(card));
+                    this.selected_card = card;
                 }
             } else {
                 this.stocks[card['location'] + '_' + card['location_arg']].addToStock(this.getTypeID(card));
