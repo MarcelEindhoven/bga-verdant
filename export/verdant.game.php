@@ -202,7 +202,9 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         Each time a player is doing some game action, one of the methods below is called.
         (note: each method below must match an input method in verdant.action.php)
     */
-
+    function selectCard($selected_id) {
+        self::trace(__FUNCTION__);
+    }
     /*
     
     Example:

@@ -91,6 +91,19 @@ function (dojo, declare) {
         },
         onSelectField: function( evt ) {
             console.log(evt);
+            this.stocks[evt].unselectAll();
+            if (this.checkAction('selectCard')) {
+                console.log("on selectCard "+ evt);
+
+                this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'selectCard' + ".html", {
+                    selected_id : evt,
+                    lock : true
+                }, this, function(result) {
+                }, function(is_error) {
+                });
+            } else {
+                console.log("not allowed selectCard "+ evt);
+            }
         },
         setupStocks: function(players) {
             this.setupMarketStocks();

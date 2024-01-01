@@ -40,6 +40,14 @@
   	} 
   	
   	// TODO: defines your action entry points there
+    function selectCard() {
+      self::setAjaxMode();
+
+      $selected_id = self::getArg( "selected_id", AT_posint, true );
+
+      // $this->game->selectCard($selected_id);
+      self::ajaxResponse( );
+    }
 
 
     /*
