@@ -14,18 +14,20 @@ require_once(__DIR__.'/../Constants.php');
 
 class CurrentDecks {
     const RESULT_KEY_DECKS = 'decks';
-    const RESULT_KEY_SELECTABLE_FIELDS = 'selectable_fields';
+    const RESULT_KEY_SELECTABLE_HOME_POSITIONS = 'selectable_home_positions';
 
     protected array $players = [];
     protected array $decks = [];
+    protected int $player_id = 0;
 
-    public static function create($decks, $players) : CurrentDecks {
+    public static function create($decks, $players, $player_id) : CurrentDecks {
         $object = new CurrentDecks();
-        return $object->setDecks($decks)->setPlayers($players);
+        return $object->setDecks($decks)->setPlayers($players, $player_id);
     }
 
-    public function setPlayers($players) : CurrentDecks {
+    public function setPlayers($players, $player_id) : CurrentDecks {
         $this->players = $players;
+        $this->player_id = $player_id;
         return $this;
     }
 
@@ -35,6 +37,11 @@ class CurrentDecks {
     }
 
     public function getAllDatas() : array {
+        return [CurrentDecks::RESULT_KEY_DECKS => $this->getCardsInPlay(),
+                CurrentDecks::RESULT_KEY_SELECTABLE_HOME_POSITIONS => $this->getSelectableHomePositions($this->player_id)];
+    }
+
+    protected function getCardsInPlay(): array {
         $decks = [];
         foreach ($this->decks as $name => $deck) {
             $decks[$name] = $deck->getCardsInLocation($name);
@@ -42,8 +49,7 @@ class CurrentDecks {
                 $decks[$name] = array_merge($decks[$name], $deck->getCardsInLocation($player_id));
             }
         }
-        // TODO In the initial step, when multiple players place their plant card, filter out selected plants of other players
-        return [CurrentDecks::RESULT_KEY_DECKS => $decks];
+        return $decks;
     }
 
     public function getSelectableHomePositions($player_id) : array {

@@ -161,7 +161,7 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
 
         $data_handler = NieuwenhovenGames\Verdant\CurrentData::create($this);
-        $deck_handler = NieuwenhovenGames\Verdant\CurrentDecks::create($this->decks, $this->loadPlayersBasicInfos());
+        $deck_handler = NieuwenhovenGames\Verdant\CurrentDecks::create($this->decks, $this->loadPlayersBasicInfos(), $current_player_id);
   
         return $data_handler->getAllDatas() + $deck_handler->getAllDatas();
     }
