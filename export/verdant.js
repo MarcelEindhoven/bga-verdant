@@ -69,11 +69,27 @@ function (dojo, declare) {
             // TODO: Set up your game interface here, according to "gamedatas"
             this.setupStocks(gamedatas.players);
             this.setupDecks(gamedatas.decks);
+            this.setSelectableHomePositions(gamedatas.selectable_home_positions);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
 
             console.log( "Ending game setup" );
+        },
+        setSelectableHomePositions: function(selectableFields) {
+            console.log('selectableFields ' + dojo.query('.selectable'));
+            dojo.query('.selectable').removeClass('selectable');
+            for (var i in selectableFields) {
+                element_name = '' + this.player_id + '_' + selectableFields[i]
+                console.log(element_name);
+                this.stocks[element_name].addToStock(0);
+                dojo.addClass(element_name, 'selectable');
+                dojo.connect(this.stocks[element_name], 'onChangeSelection', this, 'onSelectField');
+            }
+            dojo.query('.selectable').connect('onclick', this, 'onSelectField');
+        },
+        onSelectField: function( evt ) {
+            console.log(evt);
         },
         setupStocks: function(players) {
             this.setupMarketStocks();
