@@ -28,6 +28,7 @@ class Actions {
 
     protected array $decks = [];
     protected array $update_decks = [];
+    protected int $current_player_id = 0;
 
     public static function create($sql_database) : Actions {
         $object = new Actions();
@@ -55,6 +56,11 @@ class Actions {
         return $this;
     }
 
+    public function setCurrentPlayerID($current_player_id) : Actions {
+        $this->current_player_id = $current_player_id;
+        return $this;
+    }
+
     public function initialize() : Actions {
         $this->stock_handler = \NieuwenhovenGames\BGA\StockHandler::create($this->notifications);
 
@@ -63,7 +69,7 @@ class Actions {
 
         $players = $this->current_data->getAllDatas()[CurrentData::RESULT_KEY_PLAYERS];
 
-        $this->current_decks = CurrentDecks::create($this->decks, $players);
+        $this->current_decks = CurrentDecks::create($this->decks, $players, $this->current_player_id);
 
         $this->ais = AIs::create($players);
         $this->ais->setCurrentDecks($this->current_decks);
@@ -71,6 +77,8 @@ class Actions {
 
         return $this;
     }
+
+    public function playerSelectsCard($player_id, $card_id) {}
 
     public function stAIsPlaceCard() {
         AIsPlaceCard::create($this->gamestate)->setAIs($this->ais)->execute()->nextState();

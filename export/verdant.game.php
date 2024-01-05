@@ -143,6 +143,7 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         $this->actions->setGameState($this->gamestate);
         $this->actions->setNotifications($this);
         $this->actions->setDecks($this->decks);
+        $this->actions->setCurrentPlayerID(self::getCurrentPlayerId());
 
         $this->actions->initialize();
     }
@@ -203,7 +204,12 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         (note: each method below must match an input method in verdant.action.php)
     */
     function selectCard($selected_id) {
-        self::trace(__FUNCTION__);
+        self::trace(__FUNCTION__ . '($selected_id)');
+        self::checkAction("selectCard");
+
+        $this->initialize();
+
+        // $this->actions->playerSelectsCard(self::getCurrentPlayerId(), $card_id);
     }
     /*
     
