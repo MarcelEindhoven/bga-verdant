@@ -26,9 +26,5 @@ class AIsPlaceCard extends \NieuwenhovenGames\BGA\Action {
         }
         return $this;
     }
-
-    public function getTransitionName() : string {
-        return 'x';
-    }
 }
 ?>
