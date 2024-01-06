@@ -92,17 +92,17 @@ function (dojo, declare) {
         onSelectField: function( evt ) {
             console.log(evt);
             this.stocks[evt].unselectAll();
-            if (this.checkAction('selectCard')) {
-                console.log("on selectCard "+ evt);
+            if (this.checkAction('placeCard')) {
+                console.log("on placeCard "+ evt);
 
-                this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'selectCard' + ".html", {
+                this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'placeCard' + ".html", {
                     selected_id : evt,
                     lock : true
                 }, this, function(result) {
                 }, function(is_error) {
                 });
             } else {
-                console.log("not allowed selectCard "+ evt);
+                console.log("not allowed placeCard "+ evt);
             }
         },
         setupStocks: function(players) {

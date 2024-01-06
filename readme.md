@@ -49,6 +49,9 @@ Extensions:
 - GitHub Pull Requests and Issues
 - Compare Folders
 
+### JavaScript unit testing
+To install Mocha, first install NPM https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+
 
 
 

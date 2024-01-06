@@ -13,6 +13,7 @@ require_once(__DIR__.'/../BGA/Update/UpdateDeck.php');
 
 include_once(__DIR__.'/AIs.php');
 include_once(__DIR__.'/AIsPlaceCard.php');
+include_once(__DIR__.'/PlayerPlacesPlant.php');
 
 include_once(__DIR__.'/../CurrentData/CurrentData.php');
 include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
@@ -78,7 +79,9 @@ class Actions {
         return $this;
     }
 
-    public function playerSelectsCard($player_id, $card_id) {}
+    public function playerPlacesCard($field_id) {
+        PlayerPlacesPlant::create($this->gamestate)->setFieldID($this->field_id)->execute()->nextState();
+    }
 
     public function stAIsPlaceCard() {
         AIsPlaceCard::create($this->gamestate)->setAIs($this->ais)->execute()->nextState();

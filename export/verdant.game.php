@@ -32,7 +32,10 @@ include_once(__DIR__.'/modules/CurrentData/CurrentDecks.php');
 
 class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces\Database, NieuwenhovenGames\BGA\FrameworkInterfaces\Debugging
 {
-	function __construct( )
+    protected ?NieuwenhovenGames\Verdant\Actions $actions = null;
+    protected array $decks = [];
+
+    function __construct( )
 	{
         // Your global variables labels:
         //  Here, you can assign labels to global variables you are using for this game.
@@ -203,13 +206,13 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         Each time a player is doing some game action, one of the methods below is called.
         (note: each method below must match an input method in verdant.action.php)
     */
-    function selectCard($selected_id) {
-        self::trace(__FUNCTION__ . '($selected_id)');
-        self::checkAction("selectCard");
+    function placeCard($selected_id) {
+        self::trace(__FUNCTION__ . "({$selected_id})");
+        self::checkAction("placeCard");
 
         $this->initialize();
 
-        // $this->actions->playerSelectsCard(self::getCurrentPlayerId(), $card_id);
+        $this->actions->playerPlacesCard($selected_id);
     }
     /*
     
