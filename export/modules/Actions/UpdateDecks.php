@@ -26,8 +26,16 @@ class UpdateDecks extends \ArrayObject {
         return $this;
     }
 
-    public function setUpdateDeck($name, $deck) {
+    public function setUpdateDeck($name, $deck) : UpdateDecks {
         $this[$name] = $deck;
+        return $this;
+    }
+
+    public function setStockHandler($stock_handler) : UpdateDeckS {
+        foreach ($this as $name => $update_deck) {
+            $update_deck->setStockHandler($stock_handler);
+        }
+        return $this;
     }
 }
 
