@@ -30,7 +30,7 @@ class PlayerPlacesPlant extends \NieuwenhovenGames\BGA\Action {
     }
 
     public function getTransitionName() : string {
-        return 'x';
+        return 'stillPlacingCard';
     }
 }
 ?>

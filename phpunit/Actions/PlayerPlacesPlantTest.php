@@ -35,7 +35,7 @@ class PlayerPlacesPlantTest extends TestCase{
 
     public function testNextState_Always_NoStateName() {
         // Arrange
-        $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with();
+        $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('stillPlacingCard');
         // Act
         $this->sut->nextState();
         // Assert

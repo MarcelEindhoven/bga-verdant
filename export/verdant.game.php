@@ -135,7 +135,6 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
        
 
         // Activate first player (which is in general a good idea :) )
-        $this->initialize();
 
         /************ End of the game initialization *****/
     }
@@ -146,6 +145,7 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         $this->actions->setGameState($this->gamestate);
         $this->actions->setNotifications($this);
         $this->actions->setDecks($this->decks);
+        // Note: the following statement crashes in setup stage
         $this->actions->setCurrentPlayerID(self::getCurrentPlayerId());
 
         $this->actions->initialize();
@@ -208,7 +208,7 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
     */
     function placeCard($selected_id) {
         self::trace(__FUNCTION__ . "({$selected_id})");
-        self::checkAction("placeCard");
+        // self::checkAction("placeCard");
 
         $this->initialize();
 
