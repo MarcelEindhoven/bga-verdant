@@ -61,6 +61,10 @@ class Actions {
 
     public function setCurrentPlayerID($current_player_id) : Actions {
         $this->current_player_id = $current_player_id;
+
+        // Note this method is called after initialize
+        $this->current_decks->setCurrentPlayer($this->current_player_id);
+
         return $this;
     }
 

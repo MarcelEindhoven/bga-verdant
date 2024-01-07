@@ -20,13 +20,17 @@ class CurrentDecks {
     protected array $decks = [];
     protected int $player_id = 0;
 
-    public static function create($decks, $players, $player_id) : CurrentDecks {
+    public static function create($decks, $players) : CurrentDecks {
         $object = new CurrentDecks();
-        return $object->setDecks($decks)->setPlayers($players, $player_id);
+        return $object->setDecks($decks)->setPlayers($players);
     }
 
-    public function setPlayers($players, $player_id) : CurrentDecks {
+    public function setPlayers($players) : CurrentDecks {
         $this->players = $players;
+        return $this;
+    }
+
+    public function setCurrentPlayer($player_id) : CurrentDecks {
         $this->player_id = $player_id;
         return $this;
     }

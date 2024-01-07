@@ -135,18 +135,27 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
        
 
         // Activate first player (which is in general a good idea :) )
+        $this->initializeDuringSetup();
 
         /************ End of the game initialization *****/
     }
 
-    protected function initialize() {
+    protected function initializeDuringSetup() {
+        $this->initializeCommon();
+    }
+
+    protected function initializeFromUserAction() {
+        $this->initializeCommon();
+        // Note: the following statement crashes in setup stage
+        $this->actions->setCurrentPlayerID(self::getCurrentPlayerId());
+    }
+
+    protected function initializeCommon() {
         $this->actions = NieuwenhovenGames\Verdant\Actions::create($this);
 
         $this->actions->setGameState($this->gamestate);
         $this->actions->setNotifications($this);
         $this->actions->setDecks($this->decks);
-        // Note: the following statement crashes in setup stage
-        $this->actions->setCurrentPlayerID(self::getCurrentPlayerId());
 
         $this->actions->initialize();
     }
@@ -165,7 +174,8 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
 
         $data_handler = NieuwenhovenGames\Verdant\CurrentData::create($this);
-        $deck_handler = NieuwenhovenGames\Verdant\CurrentDecks::create($this->decks, $this->loadPlayersBasicInfos(), $current_player_id);
+        $deck_handler = NieuwenhovenGames\Verdant\CurrentDecks::create($this->decks, $this->loadPlayersBasicInfos());
+        $deck_handler->setCurrentPlayer($current_player_id);
   
         return $data_handler->getAllDatas() + $deck_handler->getAllDatas();
     }
@@ -210,7 +220,7 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         self::trace(__FUNCTION__ . "({$selected_id})");
         // self::checkAction("placeCard");
 
-        $this->initialize();
+        $this->initializeFromUserAction();
 
         $this->actions->playerPlacesCard($selected_id);
     }
