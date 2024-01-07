@@ -239,8 +239,8 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
     }
     
     */
-    public function stSelectCardMultipleActivePlayers() {
-        self::trace( "stSelectCardMultipleActivePlayers" );
+    public function stAllPlayersPlaceInitialPlant() {
+        self::trace(__FUNCTION__);
         $this->gamestate->setAllPlayersMultiactive();
     }
 

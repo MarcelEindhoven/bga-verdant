@@ -66,17 +66,25 @@ $machinestates = array(
         "description" => clienttranslate('everyone must place initial plant card'),
         "descriptionmyturn" => clienttranslate('everyone must place initial plant card'),
         "type" => "multipleactiveplayer",
-        "action" => "stSelectCardMultipleActivePlayers",
+        "action" => "stAllPlayersPlaceInitialPlant",
         "possibleactions" => array("stillPlacingCard", "finishedPlacingCard"),
-        "transitions" => array( "stillPlacingCard" => 3, "finishedPlacingCard" => 5),
+        "transitions" => array( "stillPlacingCard" => 3, "finishedPlacingCard" => 2),
     ),
     5 => array(
-        "name" => "allAIsPlaceCard",
+        "name" => "allAIsPlaceInitialPlant",
         "description" => clienttranslate('Robots place initial plant card'),
         "descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
         "type" => "game",
         "action" => "stAIsPlaceCard",
-        "transitions" => array("" => 99)
+        "transitions" => array("" => 2)
+    ),
+    2 => array(
+        "name" => "nextPlayer",
+        "description" => '',
+        "type" => "game",
+        "action" => "stNextPlayer",
+        "updateGameProgression" => true,   
+        "transitions" => array( "endGame" => 99, "nextPlayer" => 3 )
     ),
 
 /*
