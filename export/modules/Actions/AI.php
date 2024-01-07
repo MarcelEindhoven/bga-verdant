@@ -29,15 +29,15 @@ class AI {
         return $this;
     }
 
-    public function setUpdateDecks($stocks) : AI {
-        $this->stocks = $stocks;
+    public function setUpdateDecks($update_decks) : AI {
+        $this->update_decks = $update_decks;
         return $this;
     }
 
     public function placeSelectedPlantCard() : AI {
         $positions = $this->decks->getPlantSelectableHomePositions($this->player_id);
         $position = array_pop($positions);
-        $this->stocks[Constants::PLANT_NAME]->movePrivateToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, Constants::LOCATION_SELECTED, $this->player_id, $position);
+        $this->update_decks[Constants::PLANT_NAME]->movePrivateToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, Constants::LOCATION_SELECTED, $this->player_id, $position);
 
         return $this;
     }

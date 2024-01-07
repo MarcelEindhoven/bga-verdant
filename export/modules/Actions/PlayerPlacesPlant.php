@@ -18,6 +18,16 @@ class PlayerPlacesPlant extends \NieuwenhovenGames\BGA\Action {
         return new PlayerPlacesPlant($gamestate);
     }
 
+    public function setCurrentDecks($decks) : PlayerPlacesPlant {
+        $this->decks = $decks;
+        return $this;
+    }
+
+    public function setUpdateDecks($update_decks) : PlayerPlacesPlant {
+        $this->update_decks = $update_decks;
+        return $this;
+    }
+
     public function setFieldID($field_id) : PlayerPlacesPlant {
         $this->field_id = $field_id;
         return $this;

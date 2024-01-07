@@ -82,7 +82,7 @@ class Actions {
     }
 
     public function playerPlacesCard($field_id) {
-        PlayerPlacesPlant::create($this->gamestate)->setFieldID($field_id)->execute()->nextState();
+        PlayerPlacesPlant::create($this->gamestate)->setCurrentDecks($this->current_decks)->setUpdateDecks($this->update_decks)->setFieldID($field_id)->execute()->nextState();
     }
 
     public function stAIsPlaceCard() {

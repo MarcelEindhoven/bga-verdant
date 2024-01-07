@@ -81,5 +81,16 @@ class CurrentDecksTest extends TestCase{
         // Assert
         $this->assertEquals(null, $selected_card);
     }
+
+    public function testGetAllSelected__CardS__ReturnBoth() {
+        // Arrange
+        $card = [5 => 3];
+        $this->mock_deck_plants->expects($this->exactly(2))->method('getCardsInLocation')->willReturn([$card]);
+
+        // Act
+        $selected_cards = $this->sut->getAllSelected('plant');
+        // Assert
+        $this->assertEquals([$card, $card], $selected_cards);
+    }
 }
 ?>

@@ -13,8 +13,14 @@ include_once(__DIR__.'/../../export/modules/Actions/PlayerPlacesPlant.php');
 
 include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/GameState.php');
 
+include_once(__DIR__.'/../../export/modules/BGA/Update/UpdateDeck.php');
+
+include_once(__DIR__.'/../../export/modules/CurrentData/CurrentDecks.php');
+
 class PlayerPlacesPlantTest extends TestCase{
     protected ?PlayerPlacesPlant $sut = null;
+    protected ?CurrentDecks $mock_decks = null;
+    protected ?\NieuwenhovenGames\BGA\UpdateDeck $mock_update_deck = null;
     protected ?\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState $mock_gamestate = null;
     protected string $field_id = '77_15';
 
@@ -22,6 +28,11 @@ class PlayerPlacesPlantTest extends TestCase{
         $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState::class);
 
         $this->sut = PlayerPlacesPlant::create($this->mock_gamestate);
+
+        $this->mock_decks = $this->createMock(CurrentDecks::class);
+        $this->mock_update_deck = $this->createMock(\NieuwenhovenGames\BGA\UpdateDeck::class);
+        $this->sut->setCurrentDecks($this->mock_decks);
+        $this->sut->setUpdateDecks(['plant' => $this->mock_update_deck]);
 
         $this->sut->setFieldID($this->field_id);
     }

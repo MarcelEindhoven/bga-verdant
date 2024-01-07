@@ -82,5 +82,16 @@ class CurrentDecks {
         $cards = $this->decks[$deck_name]->getCardsInLocation($player_id, Constants::LOCATION_SELECTED);
         return array_pop($cards);
     }
+
+    public function getAllSelected($deck_name) {
+        $cards = [];
+        foreach ($this->players as $player_id => $player) {
+            $card = $this->getSelectedCard($player_id, $deck_name);
+            if ($card) {
+                $cards[] = $card;
+            }
+        }
+        return $cards;
+    }
 }
 ?>
