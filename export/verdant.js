@@ -134,8 +134,8 @@ function (dojo, declare) {
             this.setupItems(decks.item);
         },
         setupCards: function(decks) {
-            this.fillCards('plant', decks.plant);
-            this.fillCards('room', decks.room);
+            this.fillCards(decks.plant);
+            this.fillCards(decks.room);
         },
         setupItems: function(items) {
             console.log(items);
@@ -188,14 +188,14 @@ function (dojo, declare) {
            // Add a special tooltip on the card:
            this.addTooltip(card_div.id, "" + this.colour_names[Math.floor(card_type_id/12)]);
         },
-        fillCards: function(element_name, cards) {
+        fillCards: function(cards) {
             console.log(cards);
             for (var number in cards) {
                 var card = cards[number];
-                this.fillCard(element_name, card);
+                this.fillCard(card);
             }
         },
-        fillCard: function(element_name, card) {
+        fillCard: function(card) {
             console.log(card);
             if (99 == +card['location_arg']) {
                 if (this.player_id == +card['location']) {
@@ -371,7 +371,10 @@ function (dojo, declare) {
         setupNotifications: function()
         {
             console.log( 'notifications subscriptions setup' );
-            
+
+            dojo.subscribe( 'newStockContent', this, "notify_newStockContent" );
+            this.notifqueue.setSynchronous( 'newStockContent', 500 );
+
             // TODO: here, associate your game notifications with local methods
             
             // Example 1: standard notification handling
@@ -383,8 +386,12 @@ function (dojo, declare) {
             // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
             // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
             // 
+            console.log( 'notifications subscriptions finished setup' );
         },  
-        
+        notify_newStockContent: function(notif) {
+            this.fillCards(notif.args.items);
+        },
+
         // TODO: from this point and below, you can write your game notifications handling methods
         
         /*
