@@ -19,7 +19,7 @@ include_once(__DIR__.'/../../export/modules/CurrentData/CurrentDecks.php');
 
 class PlayerPlacesPlantTest extends TestCase{
     protected ?PlayerPlacesPlant $sut = null;
-    protected ?CurrentDecks $mock_decks = null;
+    protected ?CurrentDecks $mock_current_decks = null;
     protected ?\NieuwenhovenGames\BGA\UpdateDeck $mock_update_deck = null;
     protected ?\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState $mock_gamestate = null;
     protected string $field_id = '77_15';
@@ -29,9 +29,9 @@ class PlayerPlacesPlantTest extends TestCase{
 
         $this->sut = PlayerPlacesPlant::create($this->mock_gamestate);
 
-        $this->mock_decks = $this->createMock(CurrentDecks::class);
+        $this->mock_current_decks = $this->createMock(CurrentDecks::class);
         $this->mock_update_deck = $this->createMock(\NieuwenhovenGames\BGA\UpdateDeck::class);
-        $this->sut->setCurrentDecks($this->mock_decks);
+        $this->sut->setCurrentDecks($this->mock_current_decks);
         $this->sut->setUpdateDecks(['plant' => $this->mock_update_deck]);
 
         $this->sut->setFieldID($this->field_id);
@@ -44,9 +44,19 @@ class PlayerPlacesPlantTest extends TestCase{
         // Assert
     }
 
-    public function testNextState_Always_NoStateName() {
+    public function testNextState__StillSelectedPlants__stillPlacingCard() {
         // Arrange
+        $this->mock_current_decks->expects($this->exactly(1))->method('getAllSelected')->with('plant')->willReturn([[5 => 3]]);
         $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('stillPlacingCard');
+        // Act
+        $this->sut->nextState();
+        // Assert
+    }
+
+    public function testNextState__FinishedSelectedPlants__finishedPlacingCard() {
+        // Arrange
+        $this->mock_current_decks->expects($this->exactly(1))->method('getAllSelected')->with('plant')->willReturn([]);
+        $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('finishedPlacingCard');
         // Act
         $this->sut->nextState();
         // Assert

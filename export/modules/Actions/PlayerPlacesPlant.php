@@ -9,17 +9,25 @@ namespace NieuwenhovenGames\Verdant;
  * 
  */
 
- include_once(__DIR__.'/../BGA/Action.php');
+include_once(__DIR__.'/../BGA/Action.php');
+
+include_once(__DIR__.'/UpdateDecks.php');
+
+include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
 
 class PlayerPlacesPlant extends \NieuwenhovenGames\BGA\Action {
+    protected ?CurrentDecks $current_decks = null;
+    // protected ?UpdateDecks $update_decks = null;
+    protected ?\NieuwenhovenGames\BGA\UpdateDeck $mock_update_deck = null;
+
     protected string $field_id = '';
 
     public static function create($gamestate) : PlayerPlacesPlant {
         return new PlayerPlacesPlant($gamestate);
     }
 
-    public function setCurrentDecks($decks) : PlayerPlacesPlant {
-        $this->decks = $decks;
+    public function setCurrentDecks($current_decks) : PlayerPlacesPlant {
+        $this->current_decks = $current_decks;
         return $this;
     }
 
@@ -40,7 +48,7 @@ class PlayerPlacesPlant extends \NieuwenhovenGames\BGA\Action {
     }
 
     public function getTransitionName() : string {
-        return 'stillPlacingCard';
+        return $this->current_decks->getAllSelected('plant') ? 'stillPlacingCard' : 'finishedPlacingCard';
     }
 }
 ?>
