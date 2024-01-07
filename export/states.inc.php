@@ -58,7 +58,7 @@ $machinestates = array(
         "description" => "",
         "type" => "manager",
         "action" => "stGameSetup",
-        "transitions" => array( "" => 3 )
+        "transitions" => array( "" => 5 )
     ),
 
     3 => array(
@@ -76,7 +76,7 @@ $machinestates = array(
         "descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
         "type" => "game",
         "action" => "stAIsPlaceCard",
-        "transitions" => array("" => 2)
+        "transitions" => array("" => 3)
     ),
     2 => array(
         "name" => "nextPlayer",
