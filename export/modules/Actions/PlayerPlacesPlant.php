@@ -16,6 +16,8 @@ include_once(__DIR__.'/UpdateDecks.php');
 include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
 
 class PlayerPlacesPlant extends \NieuwenhovenGames\BGA\Action {
+    const MESSAGE_PLACE_SELECTED_CARD = 'Place plant ';
+
     protected ?CurrentDecks $current_decks = null;
     // protected ?UpdateDecks $update_decks = null;
     protected ?\NieuwenhovenGames\BGA\UpdateDeck $mock_update_deck = null;
@@ -43,12 +45,13 @@ class PlayerPlacesPlant extends \NieuwenhovenGames\BGA\Action {
 
     public function execute() : PlayerPlacesPlant {
         // For now, no verification is needed on the field ID, handled by JavaScript
-        // Place plant card
+        list ($player_id, $position) = explode('_', $this->field_id);
+        $this->update_decks[Constants::PLANT_NAME]->movePrivateToPublic(PlayerPlacesPlant::MESSAGE_PLACE_SELECTED_CARD, $player_id, Constants::LOCATION_SELECTED, $player_id, $position);
         return $this;
     }
 
     public function getTransitionName() : string {
-        return $this->current_decks->getAllSelected('plant') ? 'stillPlacingCard' : 'finishedPlacingCard';
+        return $this->current_decks->getAllSelected(Constants::PLANT_NAME) ? 'stillPlacingCard' : 'finishedPlacingCard';
     }
 }
 ?>

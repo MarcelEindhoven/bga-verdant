@@ -22,6 +22,7 @@ class PlayerPlacesPlantTest extends TestCase{
     protected ?CurrentDecks $mock_current_decks = null;
     protected ?\NieuwenhovenGames\BGA\UpdateDeck $mock_update_deck = null;
     protected ?\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState $mock_gamestate = null;
+    protected string $player_id = '77';
     protected string $field_id = '77_15';
 
     protected function setUp(): void {
@@ -39,6 +40,8 @@ class PlayerPlacesPlantTest extends TestCase{
 
     public function testExecute_SingleAI_placeSelectedPlantCard() {
         // Arrange
+        $this->mock_update_deck->expects($this->exactly(1))->method('movePrivateToPublic')
+        ->with(PlayerPlacesPlant::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, Constants::LOCATION_SELECTED, $this->player_id, 15);
         // Act
         $this->sut->execute();
         // Assert
