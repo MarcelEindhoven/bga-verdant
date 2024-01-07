@@ -21,13 +21,13 @@ class UpdateDecks extends \ArrayObject {
 
     public function createFromDecks($decks) : UpdateDecks {
         foreach ($decks as $name => $deck) {
-            $this->setUpdateDeck($name, $deck);
+            $this->setUpdateDeck($name, \NieuwenhovenGames\BGA\UpdateDeck::create($deck));
         }
         return $this;
     }
 
-    public function setUpdateDeck($name, $deck) : UpdateDecks {
-        $this[$name] = $deck;
+    public function setUpdateDeck($name, $update_deck) : UpdateDecks {
+        $this[$name] = $update_deck;
         return $this;
     }
 
