@@ -73,6 +73,7 @@ class Actions {
 
         $this->update_decks = UpdateDecks::create($this->decks);
         $this->update_decks->setStockHandler($this->stock_handler);
+        $this->update_decks->setNotificationsHandler($this->notifications);
 
         $players = $this->current_data->getAllDatas()[CurrentData::RESULT_KEY_PLAYERS];
 

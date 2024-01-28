@@ -31,6 +31,13 @@ class UpdateDecks extends \ArrayObject {
         return $this;
     }
 
+    public function setNotificationsHandler($notificationsHandler) : UpdateDecks {
+        foreach ($this as $name => $update_deck) {
+            $update_deck->setNotificationsHandler($notificationsHandler);
+        }
+        return $this;
+    }
+
     public function setStockHandler($stock_handler) : UpdateDeckS {
         foreach ($this as $name => $update_deck) {
             $update_deck->setStockHandler($stock_handler);

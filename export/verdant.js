@@ -68,6 +68,7 @@ function (dojo, declare) {
             
             // TODO: Set up your game interface here, according to "gamedatas"
             this.selected_card = null;
+            this.setupSelectionCallbacks();
             this.setupStocks(gamedatas.players);
             this.setupDecks(gamedatas.decks);
             this.setSelectableHomePositions(gamedatas.selectable_home_positions);
@@ -77,6 +78,14 @@ function (dojo, declare) {
 
             console.log( "Ending game setup" );
         },
+        setupSelectionCallbacks: function() {
+            for (var row = 0; row < 5; row ++) {
+                for (var place = 0; place < 9; place ++) {
+                    template_id = ''+ this.player_id + '_' + row + place;
+                    dojo.connect($(template_id), 'onclick', this, 'onSelectField');
+                }
+            }
+        },
         setSelectableHomePositions: function(selectableFields) {
             console.log('selectableFields ' + dojo.query('.selectable'));
             dojo.query('.selectable').removeClass('selectable');
@@ -85,9 +94,7 @@ function (dojo, declare) {
                 console.log(element_name);
                 this.stocks[element_name].addToStock(this.getTypeID(this.selected_card));
                 dojo.addClass(element_name, 'selectable');
-                dojo.connect(this.stocks[element_name], 'onChangeSelection', this, 'onSelectField');
             }
-            dojo.query('.selectable').connect('onclick', this, 'onSelectField');
         },
         onSelectField: function( evt ) {
             console.log(evt);
@@ -203,6 +210,9 @@ function (dojo, declare) {
                     this.selected_card = card;
                 }
             } else {
+                //stock = this.stocks[card['location'] + '_' + card['location_arg']];
+                //this.stocks[card['location'] + '_' + card['location_arg']].removeAll();
+                //stock.addToStock(this.getTypeID(card));
                 this.stocks[card['location'] + '_' + card['location_arg']].addToStock(this.getTypeID(card));
             }
         },
@@ -389,7 +399,7 @@ function (dojo, declare) {
             console.log( 'notifications subscriptions finished setup' );
         },  
         notify_newStockContent: function(notif) {
-            this.fillCards(notif.args.items);
+            this.fillCards(notif.args.cards);
         },
 
         // TODO: from this point and below, you can write your game notifications handling methods
