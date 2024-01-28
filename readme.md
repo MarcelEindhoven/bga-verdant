@@ -52,6 +52,8 @@ Extensions:
 ### JavaScript unit testing
 To install Mocha, first install NPM https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
+npm install mocha
+npm install sinon
 
 
 

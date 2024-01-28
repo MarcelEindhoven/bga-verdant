@@ -1,0 +1,9 @@
+{
+    "scripts": {
+        "test": "node .\\node_modules\\mocha\\bin\\mocha.js"
+    },
+    "dependencies": {
+        "mocha": "^10.2.0",
+        "sinon": "^17.0.1"
+    }
+}
