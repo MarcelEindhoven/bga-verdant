@@ -48,12 +48,13 @@ Extensions:
 - Git Tree Compare
 - GitHub Pull Requests and Issues
 - Compare Folders
+- Mocha sidebar
 
 ### JavaScript unit testing
 To install Mocha, first install NPM https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
-npm install mocha
-npm install sinon
+npm install --save-dev mocha
+npm install --save-dev sinon
 
 
 
