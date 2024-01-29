@@ -51,10 +51,11 @@ Extensions:
 - Mocha sidebar
 
 ### JavaScript unit testing
-To install Mocha, first install NPM https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+To install Mocha, first install npm and node js
 
 npm install --save-dev mocha
 npm install --save-dev sinon
+npm install --save-dev chai
 
 
 

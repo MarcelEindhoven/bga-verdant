@@ -2,7 +2,9 @@
     "scripts": {
         "test": "node .\\node_modules\\mocha\\bin\\mocha.js"
     },
+        "type": "module",
     "devDependencies": {
+        "chai": "^5.0.3",
         "mocha": "^10.2.0",
         "sinon": "^17.0.1"
     }
