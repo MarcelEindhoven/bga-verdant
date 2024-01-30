@@ -81,6 +81,12 @@ function (dojo, declare, OwnHome) {
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
 
+            // Prototyping
+            console.log('Prototyping');
+            element_name = '' + this.player_id + '_' + 14;
+            console.log(element_name);
+            dojo.removeClass(element_name, 'selectable');
+
             console.log( "Ending game setup" );
         },
         setupSelectionCallbacks: function() {

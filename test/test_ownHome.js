@@ -28,10 +28,10 @@ describe('OwnHome', function () {
     it('Set one selectable empty positions', function () {
         // Arrange
         position = '5';
-        element_name = owner_id + '_' + position;
         // Act
         sut.SetSelectableEmptyPositions([position]);
         // Assert
+        element_name = owner_id + '_' + position;
         assert.ok(dojo.addClass.calledOnceWithExactly(element_name, 'selectable'), 'Add selectable class for all selectable empty positions');
     });
     it('Reset zero selectable empty positions', function () {
@@ -40,6 +40,16 @@ describe('OwnHome', function () {
         sut.ResetSelectableEmptyPositions();
         // Assert
         assert.ok(dojo.removeClass.notCalled, 'Do not remove class when there are no selectable empty positions');
+    });
+    it('Set one selectable empty positions and reset', function () {
+        // Arrange
+        position = '5';
+        sut.SetSelectableEmptyPositions([position]);
+        // Act
+        sut.ResetSelectableEmptyPositions();
+        // Assert
+        element_name = owner_id + '_' + position;
+        assert.ok(dojo.removeClass.calledOnceWithExactly(element_name, 'selectable'), 'Remove selectable class for all selectable empty positions');
     });
   });
 });
