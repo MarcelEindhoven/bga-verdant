@@ -55,7 +55,8 @@ To install Mocha, first install npm and node js
 
 npm install --save-dev mocha
 npm install --save-dev sinon
-npm install --save-dev chai
+npm install --save-dev dojo
+npm install --save-dev amd-loader
 
 
 

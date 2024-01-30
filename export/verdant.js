@@ -17,11 +17,12 @@
 
 define([
     "dojo","dojo/_base/declare",
+    g_gamethemeurl + 'modules/js/OwnHome.js',
     "ebg/core/gamegui",
     "ebg/counter",
     "ebg/stock",
 ],
-function (dojo, declare) {
+function (dojo, declare, OwnHome) {
     return declare("bgagame.verdant", ebg.core.gamegui, {
         constructor: function(){
             console.log('verdant constructor');
@@ -38,6 +39,8 @@ function (dojo, declare) {
             this.stocks = [];
             this.colour_names = ['', 'Succulent', 'Flowering', 'Foliage', 'Vining', 'Unusual'];
 
+            this.own_home = new OwnHome();
+            this.own_home.SetWebToolkit(dojo);
         },
         
         /*

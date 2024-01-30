@@ -1,10 +1,11 @@
 {
     "scripts": {
-        "test": "node .\\node_modules\\mocha\\bin\\mocha.js"
+        "test": "node .\\node_modules\\mocha\\bin\\mocha.js --require amd-loader"
     },
-        "type": "module",
     "devDependencies": {
+        "amd-loader": "^0.0.8",
         "chai": "^5.0.3",
+        "dojo": "^1.17.3",
         "mocha": "^10.2.0",
         "sinon": "^17.0.1"
     }
