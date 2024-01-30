@@ -8,7 +8,10 @@ describe('OwnHome', function () {
     beforeEach(function() {
         sut = new sut_module();
 
-        dojo = {addClass: sinon.spy()};
+        dojo = {
+            addClass: sinon.spy(),
+            removeClass: sinon.spy()
+        };
         sut.SetWebToolkit(dojo);
 
         owner_id = '123';
@@ -30,6 +33,13 @@ describe('OwnHome', function () {
         sut.SetSelectableEmptyPositions([position]);
         // Assert
         assert.ok(dojo.addClass.calledOnceWithExactly(element_name, 'selectable'), 'Add selectable class for all selectable empty positions');
+    });
+    it('Reset zero selectable empty positions', function () {
+        // Arrange
+        // Act
+        sut.ResetSelectableEmptyPositions();
+        // Assert
+        assert.ok(dojo.removeClass.notCalled, 'Do not remove class when there are no selectable empty positions');
     });
   });
 });

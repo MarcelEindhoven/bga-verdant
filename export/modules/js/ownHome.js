@@ -14,5 +14,14 @@ define(['dojo/_base/declare'], (declare) => {
                 this.toolkit.addClass(element_name, 'selectable');
             }
         },
+        ResetSelectableEmptyPositions() {
+            positions = [];
+            for(var p in positions) {
+                var position = positions[p];
+                var element_name = this.owner_id + '_' + position;
+                console.log('SetSelectableEmptyPositions ' + element_name);
+                this.toolkit.addClass(element_name, 'selectable');
+            }
+        },
 });
 });
