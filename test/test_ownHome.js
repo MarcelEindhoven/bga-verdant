@@ -7,8 +7,12 @@ describe('OwnHome', function () {
   describe('Set selectable empty positions', function () {
     beforeEach(function() {
         sut = new sut_module();
+
         dojo = {addClass: sinon.spy()};
         sut.SetWebToolkit(dojo);
+
+        owner_id = '123';
+        sut.SetOwnerID(owner_id);
 
     });
     it('Set zero selectable empty positions', function () {
@@ -20,9 +24,10 @@ describe('OwnHome', function () {
     });
     it('Set one selectable empty positions', function () {
         // Arrange
-        element_name = 'test_5';
+        position = '5';
+        element_name = owner_id + '_' + position;
         // Act
-        sut.SetSelectableEmptyPositions([element_name]);
+        sut.SetSelectableEmptyPositions([position]);
         // Assert
         assert.ok(dojo.addClass.calledOnceWithExactly(element_name, 'selectable'), 'Add selectable class for all selectable empty positions');
     });

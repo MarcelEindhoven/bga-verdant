@@ -41,6 +41,7 @@ function (dojo, declare, OwnHome) {
 
             this.own_home = new OwnHome();
             this.own_home.SetWebToolkit(dojo);
+            // this.player_id not available here
         },
         
         /*
@@ -59,6 +60,7 @@ function (dojo, declare, OwnHome) {
         setup: function( gamedatas )
         {
             console.log( "Starting game setup" );
+            this.own_home.SetOwnerID(this.player_id);
             
             // Setting up player boards
             console.log(gamedatas);
@@ -92,11 +94,11 @@ function (dojo, declare, OwnHome) {
         setSelectableHomePositions: function(selectableFields) {
             console.log('selectableFields ' + dojo.query('.selectable'));
             dojo.query('.selectable').removeClass('selectable');
+            this.own_home.SetSelectableEmptyPositions(selectableFields);
             for (var i in selectableFields) {
                 element_name = '' + this.player_id + '_' + selectableFields[i]
                 console.log(element_name);
                 this.stocks[element_name].addToStock(this.getTypeID(this.selected_card));
-                dojo.addClass(element_name, 'selectable');
             }
         },
         onSelectField: function( evt ) {
