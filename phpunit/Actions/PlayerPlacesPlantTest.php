@@ -43,14 +43,6 @@ class PlayerPlacesPlantTest extends TestCase{
         $this->sut->setFieldID($this->field_id);
     }
 
-    public function testExecute__Always__ResetSelectableEmptyPositions() {
-        // Arrange
-        $this->mock_notify->expects($this->exactly(1))->method('notifyPlayer')->with($this->player_id, 'ResetSelectableEmptyPositions', '', []);
-        // Act
-        $this->sut->execute();
-        // Assert
-    }
-
     public function testExecute_SingleAI_placeSelectedPlantCard() {
         // Arrange
         $this->mock_update_deck->expects($this->exactly(1))->method('movePrivateToPublic')

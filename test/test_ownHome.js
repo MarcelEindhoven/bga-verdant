@@ -7,10 +7,12 @@ describe('OwnHome', function () {
     beforeEach(function() {
         sut = new sut_module();
 
+        connection_handler = {'a':'b'};
         dojo = {
             addClass: sinon.spy(),
-            connect: sinon.spy(),
+            connect: sinon.fake.returns(connection_handler),
             removeClass: sinon.spy(),
+            disconnect: sinon.spy(),
         };
         sut.SetWebToolkit(dojo);
 
@@ -62,13 +64,24 @@ describe('OwnHome', function () {
     });
     it('Reset one selectable empty positions', function () {
         // Arrange
-        position = '5';
         sut.SetSelectableEmptyPositions([position]);
         // Act
         sut.ResetSelectableEmptyPositions();
         // Assert
         element_name = owner_id + '_' + position;
         assert.ok(dojo.removeClass.calledOnceWithExactly(element_name, 'selectable'), 'Remove selectable class for all selectable empty positions');
+        assert.ok(dojo.disconnect.calledOnceWithExactly(connection_handler), 'Remove return value of connect for all selectable empty positions');
+    });
+    it('Double reset', function () {
+        // Arrange
+        sut.SetSelectableEmptyPositions([position]);
+        sut.ResetSelectableEmptyPositions();
+        // Act
+        sut.ResetSelectableEmptyPositions();
+        // Assert
+        element_name = owner_id + '_' + position;
+        assert.ok(dojo.removeClass.calledOnceWithExactly(element_name, 'selectable'), 'Remove selectable class for all selectable empty positions');
+        assert.ok(dojo.disconnect.calledOnceWithExactly(connection_handler), 'Remove return value of connect for all selectable empty positions');
     });
   });
 });

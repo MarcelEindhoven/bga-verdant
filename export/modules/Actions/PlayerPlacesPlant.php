@@ -53,7 +53,7 @@ class PlayerPlacesPlant extends \NieuwenhovenGames\BGA\Action {
         // For now, no verification is needed on the field ID, handled by JavaScript
         list ($player_id, $position) = explode('_', $this->field_id);
 
-        $this->notificationsHandler->notifyPlayer($player_id, PlayerPlacesPlant::EVENT_RESET_SELECTABLE_EMPTY_POSITIONS, '', []);
+        // $this->notificationsHandler->notifyPlayer($player_id, PlayerPlacesPlant::EVENT_RESET_SELECTABLE_EMPTY_POSITIONS, '', []);
 
         $this->update_decks[Constants::PLANT_NAME]->movePrivateToPublic(PlayerPlacesPlant::MESSAGE_PLACE_SELECTED_CARD, $player_id, Constants::LOCATION_SELECTED, $player_id, $position);
 
