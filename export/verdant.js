@@ -41,6 +41,7 @@ function (dojo, declare, OwnHome) {
 
             this.own_home = new OwnHome();
             this.own_home.SetWebToolkit(dojo);
+            this.own_home.SetServer(this);
             // this.player_id not available here
         },
         
@@ -70,12 +71,12 @@ function (dojo, declare, OwnHome) {
                          
                 // TODO: Setting up players boards if needed
             }
-            
+
             // TODO: Set up your game interface here, according to "gamedatas"
             this.selected_card = null;
-            this.setupSelectionCallbacks();
             this.setupStocks(gamedatas.players);
             this.setupDecks(gamedatas.decks);
+            this.own_home.SetStocks(this.stocks);
             this.setSelectableHomePositions(gamedatas.selectable_home_positions);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
@@ -85,17 +86,8 @@ function (dojo, declare, OwnHome) {
             console.log('Prototyping');
             element_name = '' + this.player_id + '_' + 14;
             console.log(element_name);
-            dojo.connect($(element_name), 'onclick', this, 'onSelectField');
-
+        
             console.log( "Ending game setup" );
-        },
-        setupSelectionCallbacks: function() {
-            for (var row = 0; row < 5; row ++) {
-                for (var place = 0; place < 9; place ++) {
-                    template_id = ''+ this.player_id + '_' + row + place;
-                    dojo.connect($(template_id), 'onclick', this, 'onSelectField');
-                }
-            }
         },
         setSelectableHomePositions: function(selectableFields) {
             console.log('selectableFields ' + dojo.query('.selectable'));
@@ -107,17 +99,15 @@ function (dojo, declare, OwnHome) {
                 this.stocks[element_name].addToStock(this.getTypeID(this.selected_card));
             }
         },
-        onSelectField: function( evt ) {
-            console.log(evt);
-            this.stocks[evt].unselectAll();
-            console.log("on playerPlacesCard "+ evt);
-
-            this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'playerPlacesCard' + ".html", {
-                selected_id : evt,
-                lock : true
-            }, this, function(result) {
-            }, function(is_error) {
-            });
+        call: function(action, args, handler) {
+            console.log(action);
+            if (!args) {
+                args = {};
+            }
+            args.lock = true;
+            console.log(args.selected_id);
+        
+            this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + action + ".html", args, this, (result) => { }, handler);
         },
         setupStocks: function(players) {
             this.setupMarketStocks();
