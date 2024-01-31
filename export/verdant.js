@@ -85,7 +85,7 @@ function (dojo, declare, OwnHome) {
             console.log('Prototyping');
             element_name = '' + this.player_id + '_' + 14;
             console.log(element_name);
-            dojo.removeClass(element_name, 'selectable');
+            dojo.connect($(element_name), 'onclick', this, 'onSelectField');
 
             console.log( "Ending game setup" );
         },
@@ -110,9 +110,9 @@ function (dojo, declare, OwnHome) {
         onSelectField: function( evt ) {
             console.log(evt);
             this.stocks[evt].unselectAll();
-            console.log("on placeCard "+ evt);
+            console.log("on playerPlacesCard "+ evt);
 
-            this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'placeCard' + ".html", {
+            this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'playerPlacesCard' + ".html", {
                 selected_id : evt,
                 lock : true
             }, this, function(result) {
@@ -393,6 +393,9 @@ function (dojo, declare, OwnHome) {
         {
             console.log( 'notifications subscriptions setup' );
 
+            dojo.subscribe( 'ResetSelectableEmptyPositions', this, "notify_ResetSelectableEmptyPositions" );
+            this.notifqueue.setSynchronous( 'ResetSelectableEmptyPositions', 500 );
+
             dojo.subscribe( 'newStockContent', this, "notify_newStockContent" );
             this.notifqueue.setSynchronous( 'newStockContent', 500 );
 
@@ -409,6 +412,10 @@ function (dojo, declare, OwnHome) {
             // 
             console.log( 'notifications subscriptions finished setup' );
         },  
+        notify_ResetSelectableEmptyPositions: function(notif) {
+            console.log('notify_ResetSelectableEmptyPositions');
+            this.own_home.ResetSelectableEmptyPositions();
+        },
         notify_newStockContent: function(notif) {
             this.fillCards(notif.args.cards);
         },

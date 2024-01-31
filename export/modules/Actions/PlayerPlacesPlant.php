@@ -17,6 +17,7 @@ include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
 
 class PlayerPlacesPlant extends \NieuwenhovenGames\BGA\Action {
     const MESSAGE_PLACE_SELECTED_CARD = 'Place plant ';
+    const EVENT_RESET_SELECTABLE_EMPTY_POSITIONS = 'ResetSelectableEmptyPositions';
 
     protected ?CurrentDecks $current_decks = null;
     // protected ?UpdateDecks $update_decks = null;
@@ -26,6 +27,11 @@ class PlayerPlacesPlant extends \NieuwenhovenGames\BGA\Action {
 
     public static function create($gamestate) : PlayerPlacesPlant {
         return new PlayerPlacesPlant($gamestate);
+    }
+
+    public function setNotificationsHandler($notificationsHandler) : PlayerPlacesPlant {
+        $this->notificationsHandler = $notificationsHandler;
+        return $this;
     }
 
     public function setCurrentDecks($current_decks) : PlayerPlacesPlant {
@@ -46,7 +52,11 @@ class PlayerPlacesPlant extends \NieuwenhovenGames\BGA\Action {
     public function execute() : PlayerPlacesPlant {
         // For now, no verification is needed on the field ID, handled by JavaScript
         list ($player_id, $position) = explode('_', $this->field_id);
+
+        $this->notificationsHandler->notifyPlayer($player_id, PlayerPlacesPlant::EVENT_RESET_SELECTABLE_EMPTY_POSITIONS, '', []);
+
         $this->update_decks[Constants::PLANT_NAME]->movePrivateToPublic(PlayerPlacesPlant::MESSAGE_PLACE_SELECTED_CARD, $player_id, Constants::LOCATION_SELECTED, $player_id, $position);
+
         return $this;
     }
 

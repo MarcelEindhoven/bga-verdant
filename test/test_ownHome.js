@@ -41,7 +41,7 @@ describe('OwnHome', function () {
         // Assert
         assert.ok(dojo.removeClass.notCalled, 'Do not remove class when there are no selectable empty positions');
     });
-    it('Set one selectable empty positions and reset', function () {
+    it('Reset one selectable empty positions', function () {
         // Arrange
         position = '5';
         sut.SetSelectableEmptyPositions([position]);
