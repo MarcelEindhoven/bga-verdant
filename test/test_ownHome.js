@@ -24,11 +24,15 @@ describe('OwnHome', function () {
 
         position = 14;
         field_id = owner_id + '_' + position;
-        stock = {};
+        stock = {
+            addToStockWithId: sinon.spy(),
+            removeFromStockById: sinon.spy(),
+        };
         stocks = [];
         stocks[field_id] = stock;
         sut.SetStocks(stocks);
 
+        selected_card_type_id = 15;
     });
     describe('Callbacks', function () {
         it('Call server', function () {
@@ -43,17 +47,18 @@ describe('OwnHome', function () {
     it('Set zero selectable empty positions', function () {
         // Arrange
         // Act
-        sut.SetSelectableEmptyPositions([]);
+        sut.SetSelectableEmptyPositions([], selected_card_type_id);
         // Assert
         assert.ok(dojo.addClass.notCalled, 'Do not add class when there are no selectable empty positions');
     });
     it('Set one selectable empty positions', function () {
         // Arrange
         // Act
-        sut.SetSelectableEmptyPositions([position]);
+        sut.SetSelectableEmptyPositions([position], selected_card_type_id);
         // Assert
         assert.ok(dojo.addClass.calledOnceWithExactly(field_id, 'selectable'), 'Add selectable class for all selectable empty positions');
         assert.ok(dojo.connect.calledOnceWithExactly(stock, 'onChangeSelection', sut, 'onSelectEmptyPosition'), 'Add callback for all selectable empty positions');
+        assert.ok(stock.addToStockWithId.calledOnceWithExactly(selected_card_type_id, field_id), 'Add selected card for all selectable empty positions');
     });
     it('Reset zero selectable empty positions', function () {
         // Arrange
@@ -64,17 +69,17 @@ describe('OwnHome', function () {
     });
     it('Reset one selectable empty positions', function () {
         // Arrange
-        sut.SetSelectableEmptyPositions([position]);
+        sut.SetSelectableEmptyPositions([position], selected_card_type_id);
         // Act
         sut.ResetSelectableEmptyPositions();
         // Assert
-        element_name = owner_id + '_' + position;
-        assert.ok(dojo.removeClass.calledOnceWithExactly(element_name, 'selectable'), 'Remove selectable class for all selectable empty positions');
+        assert.ok(dojo.removeClass.calledOnceWithExactly(field_id, 'selectable'), 'Remove selectable class for all selectable empty positions');
         assert.ok(dojo.disconnect.calledOnceWithExactly(connection_handler), 'Remove return value of connect for all selectable empty positions');
+        assert.ok(stock.removeFromStockById.calledOnceWithExactly(field_id), 'Remove selected card for all selectable empty positions');
     });
     it('Double reset', function () {
         // Arrange
-        sut.SetSelectableEmptyPositions([position]);
+        sut.SetSelectableEmptyPositions([position], selected_card_type_id);
         sut.ResetSelectableEmptyPositions();
         // Act
         sut.ResetSelectableEmptyPositions();

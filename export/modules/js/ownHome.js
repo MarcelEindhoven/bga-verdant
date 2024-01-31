@@ -13,26 +13,29 @@ define(['dojo/_base/declare'], (declare) => {
         SetServer(server){this.server = server},
         SetStocks(stocks){this.stocks = stocks},
 
-        SetSelectableEmptyPositions(positions) {
+        SetSelectableEmptyPositions(positions, selected_card_type_id) {
             for(var p in positions) {
                 var position = positions[p];
                 var element_name = this._GetElementName(position);
                 this.toolkit.addClass(element_name, 'selectable');
                 this.connection_handlers.push(this.toolkit.connect(this.stocks[element_name], 'onChangeSelection', this, 'onSelectEmptyPosition'));
+                this.stocks[element_name].addToStockWithId(selected_card_type_id, element_name);
             }
             this.selectable_empty_positions = positions;
         },
         ResetSelectableEmptyPositions() {
-            for(var p in this.selectable_empty_positions) {
-                var position = this.selectable_empty_positions[p];
-                var element_name = this._GetElementName(position);
-                this.toolkit.removeClass(element_name, 'selectable');
-            }
-            this.selectable_empty_positions = [];
             for(var c in this.connection_handlers) {
                 this.toolkit.disconnect(this.connection_handlers[c]);
             }
             this.connection_handlers = [];
+
+            for(var p in this.selectable_empty_positions) {
+                var position = this.selectable_empty_positions[p];
+                var element_name = this._GetElementName(position);
+                this.toolkit.removeClass(element_name, 'selectable');
+                this.stocks[element_name].removeFromStockById(element_name);
+            }
+            this.selectable_empty_positions = [];
         },
         onSelectEmptyPosition(field_id){
             this.ResetSelectableEmptyPositions();

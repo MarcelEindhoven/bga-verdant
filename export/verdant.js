@@ -77,7 +77,9 @@ function (dojo, declare, OwnHome) {
             this.setupStocks(gamedatas.players);
             this.setupDecks(gamedatas.decks);
             this.own_home.SetStocks(this.stocks);
-            this.setSelectableHomePositions(gamedatas.selectable_home_positions);
+            if (this.selected_card) {
+                this.own_home.SetSelectableEmptyPositions(gamedatas.selectable_home_positions, this.getTypeID(this.selected_card));
+            }
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
@@ -92,7 +94,6 @@ function (dojo, declare, OwnHome) {
         setSelectableHomePositions: function(selectableFields) {
             console.log('selectableFields ' + dojo.query('.selectable'));
             dojo.query('.selectable').removeClass('selectable');
-            this.own_home.SetSelectableEmptyPositions(selectableFields);
             for (var i in selectableFields) {
                 element_name = '' + this.player_id + '_' + selectableFields[i]
                 console.log(element_name);
