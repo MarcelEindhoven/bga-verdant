@@ -14,6 +14,7 @@ define(['dojo/_base/declare'], (declare) => {
         SetStocks(stocks){this.stocks = stocks},
 
         SetSelectableEmptyPositions(positions, selected_card_type_id) {
+            this.ResetSelectableEmptyPositions();
             for(var p in positions) {
                 var position = positions[p];
                 var element_name = this._GetElementName(position);
