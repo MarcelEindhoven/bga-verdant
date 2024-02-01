@@ -18,11 +18,12 @@
 define([
     "dojo","dojo/_base/declare",
     g_gamethemeurl + 'modules/js/OwnHome.js',
+    g_gamethemeurl + 'modules/js/Market.js',
     "ebg/core/gamegui",
     "ebg/counter",
     "ebg/stock",
 ],
-function (dojo, declare, OwnHome) {
+function (dojo, declare, OwnHome, Market) {
     return declare("bgagame.verdant", ebg.core.gamegui, {
         constructor: function(){
             console.log('verdant constructor');
@@ -38,6 +39,8 @@ function (dojo, declare, OwnHome) {
 
             this.stocks = [];
             this.colour_names = ['', 'Succulent', 'Flowering', 'Foliage', 'Vining', 'Unusual'];
+
+            this.market = new Market();
 
             this.own_home = new OwnHome();
             this.own_home.SetWebToolkit(dojo);
@@ -76,6 +79,8 @@ function (dojo, declare, OwnHome) {
             this.selected_card = null;
             this.setupStocks(gamedatas.players);
             this.setupDecks(gamedatas.decks);
+
+            this.market.SetStocks(this.stocks);
             this.own_home.SetStocks(this.stocks);
             if (this.selected_card) {
                 this.own_home.SetSelectableEmptyPositions(gamedatas.selectable_home_positions, this.getTypeID(this.selected_card));
@@ -90,15 +95,6 @@ function (dojo, declare, OwnHome) {
             console.log(element_name);
         
             console.log( "Ending game setup" );
-        },
-        setSelectableHomePositions: function(selectableFields) {
-            console.log('selectableFields ' + dojo.query('.selectable'));
-            dojo.query('.selectable').removeClass('selectable');
-            for (var i in selectableFields) {
-                element_name = '' + this.player_id + '_' + selectableFields[i]
-                console.log(element_name);
-                this.stocks[element_name].addToStock(this.getTypeID(this.selected_card));
-            }
         },
         call: function(action, args, handler) {
             console.log(action);
@@ -208,14 +204,11 @@ function (dojo, declare, OwnHome) {
             console.log(card);
             if (99 == +card['location_arg']) {
                 if (this.player_id == +card['location']) {
-                    // this.stocks['selected_' + element_name].addToStock(this.getTypeID(card));
                     this.selected_card = card;
                 }
             } else {
-                //stock = this.stocks[card['location'] + '_' + card['location_arg']];
-                //this.stocks[card['location'] + '_' + card['location_arg']].removeAll();
-                //stock.addToStock(this.getTypeID(card));
-                this.stocks[card['location'] + '_' + card['location_arg']].addToStock(this.getTypeID(card));
+                element_name = card['location'] + '_' + card['location_arg'];
+                this.stocks[element_name].addToStockWithId(this.getTypeID(card), element_name);
             }
         },
         getTypeID: function(card) {
