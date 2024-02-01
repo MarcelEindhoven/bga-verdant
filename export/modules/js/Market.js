@@ -2,46 +2,47 @@ define(['dojo/_base/declare'], (declare) => {
     return declare('verdant.Market', null, {
         constructor() {
             this.toolkit = null;
-            this.owner_id = null;
             this.server = null;
             this.stocks = null;
             this.selectable_empty_positions = [];
             this.connection_handlers = [];
+
+            this.element_names = [];
+            for (let i = 0; i < 4; i++) {
+                this.element_names.push('plant_'+ i);
+                this.element_names.push('room_'+ i);
+            }
         },
         SetWebToolkit(toolkit){this.toolkit = toolkit},
-        SetOwnerID(owner_id){this.owner_id = owner_id},
         SetServer(server){this.server = server},
         SetStocks(stocks){this.stocks = stocks},
 
-        SetSelectableEmptyPositions(positions, selected_card_type_id) {
-            this.ResetSelectableEmptyPositions();
-            for(var p in positions) {
-                var position = positions[p];
-                var element_name = this._GetElementName(position);
+        MakeAllCardsSelectable() {
+            this.ResetSelectableCards();
+            for(var p in this.element_names) {
+                var element_name = this.element_names[p];
+                console.log(element_name);
                 this.toolkit.addClass(element_name, 'selectable');
-                this.connection_handlers.push(this.toolkit.connect(this.stocks[element_name], 'onChangeSelection', this, 'onSelectEmptyPosition'));
-                this.stocks[element_name].addToStockWithId(selected_card_type_id, element_name);
+                this.connection_handlers.push(this.toolkit.connect(this.stocks[element_name], 'onChangeSelection', this, 'onSelectCard'));
             }
-            this.selectable_empty_positions = positions;
+            this.selectable_empty_positions = this.element_names;
         },
-        ResetSelectableEmptyPositions() {
+        ResetSelectableCards() {
             for(var c in this.connection_handlers) {
                 this.toolkit.disconnect(this.connection_handlers[c]);
             }
             this.connection_handlers = [];
 
             for(var p in this.selectable_empty_positions) {
-                var position = this.selectable_empty_positions[p];
-                var element_name = this._GetElementName(position);
+                var element_name = this.selectable_empty_positions[p];
                 this.toolkit.removeClass(element_name, 'selectable');
-                this.stocks[element_name].removeFromStockById(element_name);
             }
             this.selectable_empty_positions = [];
         },
-        onSelectEmptyPosition(field_id){
-            this.ResetSelectableEmptyPositions();
+        onSelectCard(field_id){
+            this.ResetSelectableCards();
             this.server.call('playerPlacesCard', {selected_id: field_id});
         },
-        _GetElementName(position) {return this.owner_id + '_' + position;},
+        _GetElementName(category, position) {return category + '_' + position;},
 });
 });

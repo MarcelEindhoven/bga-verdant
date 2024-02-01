@@ -41,6 +41,7 @@ function (dojo, declare, OwnHome, Market) {
             this.colour_names = ['', 'Succulent', 'Flowering', 'Foliage', 'Vining', 'Unusual'];
 
             this.market = new Market();
+            this.market.SetWebToolkit(dojo);
 
             this.own_home = new OwnHome();
             this.own_home.SetWebToolkit(dojo);
@@ -93,6 +94,7 @@ function (dojo, declare, OwnHome, Market) {
             console.log('Prototyping');
             element_name = '' + this.player_id + '_' + 14;
             console.log(element_name);
+            this.market.MakeAllCardsSelectable();
         
             console.log( "Ending game setup" );
         },
