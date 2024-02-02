@@ -15,6 +15,8 @@ require_once(__DIR__.'/../Constants.php');
 class CurrentDecks {
     const RESULT_KEY_DECKS = 'decks';
     const RESULT_KEY_SELECTABLE_HOME_POSITIONS = 'selectable_home_positions';
+    const RESULT_KEY_SELECTABLE_PLANT_POSITIONS = 'selectable_plant_positions';
+    const RESULT_KEY_SELECTABLE_ROOM_POSITIONS = 'selectable_room_positions';
 
     protected array $players = [];
     protected array $decks = [];
@@ -42,7 +44,9 @@ class CurrentDecks {
 
     public function getAllDatas() : array {
         return [CurrentDecks::RESULT_KEY_DECKS => $this->getCardsInPlay(),
-                CurrentDecks::RESULT_KEY_SELECTABLE_HOME_POSITIONS => $this->getSelectableHomePositions($this->player_id)];
+                CurrentDecks::RESULT_KEY_SELECTABLE_HOME_POSITIONS => $this->getSelectableHomePositions($this->player_id),
+                CurrentDecks::RESULT_KEY_SELECTABLE_PLANT_POSITIONS => $this->getPlantSelectableHomePositions($this->player_id),
+                CurrentDecks::RESULT_KEY_SELECTABLE_ROOM_POSITIONS => $this->getRoomSelectableHomePositions($this->player_id)];
     }
 
     protected function getCardsInPlay(): array {
@@ -65,7 +69,7 @@ class CurrentDecks {
             $positions = [];
             $cards_plants = $this->decks[Constants::PLANT_NAME]->getCardsInLocation($player_id);    
             $cards_rooms = $this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id); 
-            foreach ($cards_rooms as $card_room) {   
+            foreach ($cards_rooms as $card_room) {
                 $location = +$card_room['location_arg'];
                 $positions[] = $location - 1;
                 $positions[] = $location - 10;
@@ -75,6 +79,53 @@ class CurrentDecks {
             return $positions;
         }
         return [];
+    }
+    public function getSelectableFromCards($cards_seeds, $cards_occupied) {
+        return $this->getSelectableFromPositions($this->getPositionsFromCards($cards_seeds), $this->getPositionsFromCards($cards_occupied));
+    }
+    public function getSelectableFromPositions($positions_seeds, $positions_occupied) {
+        $positions = [];
+        $selectable_boundary = $this->getSelectableBoundary(array_merge($positions_seeds, $positions_occupied));
+        for ($y = $selectable_boundary['up']; $y <= $selectable_boundary['down']; $y ++) {
+            for ($x = $selectable_boundary['left']; $x <= $selectable_boundary['right']; $x ++) {
+                $position = $y*10+ $x;
+                if ($this->isPositionSelectable($position, $positions_seeds, $positions_occupied)) {
+                    $positions[] = $position;
+                }
+            }
+        }
+        return $positions;
+    }
+    public function isPositionSelectable($position, $positions_seeds, $positions_occupied) {
+        if (in_array($position, $positions_occupied)) {return False;}
+        if (in_array($position-10, $positions_seeds)) {return True;}
+        if (in_array($position-1, $positions_seeds)) {return True;}
+        if (in_array($position+1, $positions_seeds)) {return True;}
+        if (in_array($position+10, $positions_seeds)) {return True;}
+        return False;
+    }
+    public function getBoundary($positions) {
+        $x = [];
+        $y = [];
+        foreach ($positions as $position) {
+            $x[] = $position % 10;
+            $y[] = intdiv($position, 10);
+        }
+        return ['left' => min($x), 'right' => max($x), 'up' => min($y), 'down' => max($y)];
+    }
+    public function getPositionsFromCards($cards) {
+        $positions = [];
+        foreach ($cards as $card) {
+            $position = +$card['location_arg'];
+            if ($position != 99) {
+                $positions[] = $position;
+            }
+        }
+        return $positions;
+    }
+    public function getSelectableBoundary($positions) {
+        $boundary = $this->getBoundary($positions);
+        return ['left' => $boundary['right']-4, 'right' => $boundary['left']+4, 'up' => $boundary['down']-2, 'down' => $boundary['up']+2];
     }
 
     public function getRoomSelectableHomePositions($player_id) : array {

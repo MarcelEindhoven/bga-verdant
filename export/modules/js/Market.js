@@ -3,6 +3,7 @@ define(['dojo/_base/declare'], (declare) => {
         constructor() {
             this.toolkit = null;
             this.server = null;
+            this.callback_method = '';
             this.stocks = null;
             this.selectable_empty_positions = [];
             this.connection_handlers = [];
@@ -17,8 +18,11 @@ define(['dojo/_base/declare'], (declare) => {
         SetServer(server){this.server = server},
         SetStocks(stocks){this.stocks = stocks},
 
-        MakeAllCardsSelectable() {
+        MakeAllCardsSelectable(callback_method) {
             this.ResetSelectableCards();
+
+            this.callback_method = callback_method;
+
             for(var p in this.element_names) {
                 var element_name = this.element_names[p];
                 console.log(element_name);
@@ -41,7 +45,10 @@ define(['dojo/_base/declare'], (declare) => {
         },
         onSelectCard(field_id){
             this.ResetSelectableCards();
-            this.server.call('playerPlacesCard', {selected_id: field_id});
+            console.log(this.server);
+            console.log(this.callback_method);
+            console.log(this.server[this.callback_method]);
+            this.server[this.callback_method](field_id);
         },
         _GetElementName(category, position) {return category + '_' + position;},
 });

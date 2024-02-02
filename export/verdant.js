@@ -42,6 +42,7 @@ function (dojo, declare, OwnHome, Market) {
 
             this.market = new Market();
             this.market.SetWebToolkit(dojo);
+            this.market.SetServer(this);
 
             this.own_home = new OwnHome();
             this.own_home.SetWebToolkit(dojo);
@@ -94,7 +95,7 @@ function (dojo, declare, OwnHome, Market) {
             console.log('Prototyping');
             element_name = '' + this.player_id + '_' + 14;
             console.log(element_name);
-            this.market.MakeAllCardsSelectable();
+            this.market.MakeAllCardsSelectable('marketCardSelected');
         
             console.log( "Ending game setup" );
         },
@@ -107,6 +108,11 @@ function (dojo, declare, OwnHome, Market) {
             console.log(args.selected_id);
         
             this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + action + ".html", args, this, (result) => { }, handler);
+        },
+        marketCardSelected: function(element_name) {
+            console.log('marketCardSelected ' + element_name);
+
+            this.market.ResetSelectableCards();
         },
         setupStocks: function(players) {
             this.setupMarketStocks();
