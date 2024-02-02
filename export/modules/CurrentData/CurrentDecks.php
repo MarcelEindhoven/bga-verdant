@@ -65,24 +65,33 @@ class CurrentDecks {
     }
 
     public function getPlantSelectableHomePositions($player_id) : array {
-        if ($this->getSelectedCard($player_id, Constants::PLANT_NAME)) {
-            $positions = [];
-            $cards_plants = $this->decks[Constants::PLANT_NAME]->getCardsInLocation($player_id);    
-            $cards_rooms = $this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id); 
-            foreach ($cards_rooms as $card_room) {
-                $location = +$card_room['location_arg'];
-                $positions[] = $location - 1;
-                $positions[] = $location - 10;
-                $positions[] = $location + 1;
-                $positions[] = $location + 10;
-            }
-            return $positions;
-        }
-        return [];
+        return $this->getSelectableFromCards(
+            $this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id),
+            $this->decks[Constants::PLANT_NAME]->getCardsInLocation($player_id)
+        );
     }
+
+    public function getRoomSelectableHomePositions($player_id) : array {
+        return $this->getSelectableFromCards(
+            $this->decks[Constants::PLANT_NAME]->getCardsInLocation($player_id),
+            $this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id)
+        );
+    }
+
     public function getSelectableFromCards($cards_seeds, $cards_occupied) {
         return $this->getSelectableFromPositions($this->getPositionsFromCards($cards_seeds), $this->getPositionsFromCards($cards_occupied));
     }
+    public function getPositionsFromCards($cards) {
+        $positions = [];
+        foreach ($cards as $card) {
+            $position = +$card['location_arg'];
+            if ($position != 99) {
+                $positions[] = $position;
+            }
+        }
+        return $positions;
+    }
+
     public function getSelectableFromPositions($positions_seeds, $positions_occupied) {
         $positions = [];
         $selectable_boundary = $this->getSelectableBoundary(array_merge($positions_seeds, $positions_occupied));
@@ -104,6 +113,11 @@ class CurrentDecks {
         if (in_array($position+10, $positions_seeds)) {return True;}
         return False;
     }
+
+    public function getSelectableBoundary($positions) {
+        $boundary = $this->getBoundary($positions);
+        return ['left' => $boundary['right']-4, 'right' => $boundary['left']+4, 'up' => $boundary['down']-2, 'down' => $boundary['up']+2];
+    }
     public function getBoundary($positions) {
         $x = [];
         $y = [];
@@ -112,25 +126,6 @@ class CurrentDecks {
             $y[] = intdiv($position, 10);
         }
         return ['left' => min($x), 'right' => max($x), 'up' => min($y), 'down' => max($y)];
-    }
-    public function getPositionsFromCards($cards) {
-        $positions = [];
-        foreach ($cards as $card) {
-            $position = +$card['location_arg'];
-            if ($position != 99) {
-                $positions[] = $position;
-            }
-        }
-        return $positions;
-    }
-    public function getSelectableBoundary($positions) {
-        $boundary = $this->getBoundary($positions);
-        return ['left' => $boundary['right']-4, 'right' => $boundary['left']+4, 'up' => $boundary['down']-2, 'down' => $boundary['up']+2];
-    }
-
-    public function getRoomSelectableHomePositions($player_id) : array {
-        $this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id, Constants::LOCATION_SELECTED);
-        return [];
     }
 
     public function getSelectedCard($player_id, $deck_name) {
