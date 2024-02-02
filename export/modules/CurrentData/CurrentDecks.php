@@ -14,7 +14,6 @@ require_once(__DIR__.'/../Constants.php');
 
 class CurrentDecks {
     const RESULT_KEY_DECKS = 'decks';
-    const RESULT_KEY_SELECTABLE_HOME_POSITIONS = 'selectable_home_positions';
     const RESULT_KEY_SELECTABLE_PLANT_POSITIONS = 'selectable_plant_positions';
     const RESULT_KEY_SELECTABLE_ROOM_POSITIONS = 'selectable_room_positions';
 
@@ -44,7 +43,6 @@ class CurrentDecks {
 
     public function getAllDatas() : array {
         return [CurrentDecks::RESULT_KEY_DECKS => $this->getCardsInPlay(),
-                CurrentDecks::RESULT_KEY_SELECTABLE_HOME_POSITIONS => $this->getSelectableHomePositions($this->player_id),
                 CurrentDecks::RESULT_KEY_SELECTABLE_PLANT_POSITIONS => $this->getPlantSelectableHomePositions($this->player_id),
                 CurrentDecks::RESULT_KEY_SELECTABLE_ROOM_POSITIONS => $this->getRoomSelectableHomePositions($this->player_id)];
     }
@@ -60,17 +58,12 @@ class CurrentDecks {
         return $decks;
     }
 
-    public function getSelectableHomePositions($player_id) : array {
-        return $this->getPlantSelectableHomePositions($player_id) + $this->getRoomSelectableHomePositions($player_id);
-    }
-
     public function getPlantSelectableHomePositions($player_id) : array {
         return $this->getSelectableFromCards(
             $this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id),
             $this->decks[Constants::PLANT_NAME]->getCardsInLocation($player_id)
         );
     }
-
     public function getRoomSelectableHomePositions($player_id) : array {
         return $this->getSelectableFromCards(
             $this->decks[Constants::PLANT_NAME]->getCardsInLocation($player_id),

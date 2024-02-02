@@ -85,7 +85,7 @@ function (dojo, declare, OwnHome, Market) {
             this.market.SetStocks(this.stocks);
             this.own_home.SetStocks(this.stocks);
             if (this.selected_card) {
-                this.own_home.SetSelectableEmptyPositions(gamedatas.selectable_home_positions, this.getTypeID(this.selected_card), 'placeInitialPlant');
+                this.own_home.SetSelectableEmptyPositions(gamedatas.selectable_plant_positions, this.getTypeID(this.selected_card), 'placeInitialPlant');
             }
 
             // Setup game notifications to handle (see "setupNotifications" method below)
