@@ -99,6 +99,9 @@ function (dojo, declare, OwnHome, Market) {
         
             console.log( "Ending game setup" );
         },
+        placeInitialPlant: function(element_name) {
+            this.call('playerPlacesCard', {selected_id: element_name});
+        },
         call: function(action, args, handler) {
             console.log(action);
             if (!args) {
@@ -108,9 +111,6 @@ function (dojo, declare, OwnHome, Market) {
             console.log(args.selected_id);
         
             this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + action + ".html", args, this, (result) => { }, handler);
-        },
-        placeInitialPlant: function(element_name) {
-            this.call('playerPlacesCard', {selected_id: element_name});
         },
         marketCardSelected: function(element_name) {
             console.log('marketCardSelected ' + element_name);
@@ -394,6 +394,9 @@ function (dojo, declare, OwnHome, Market) {
             dojo.subscribe( 'newStockContent', this, "notify_newStockContent" );
             this.notifqueue.setSynchronous( 'newStockContent', 500 );
 
+            dojo.subscribe( 'NewSelectablePositions', this, "notify_NewSelectablePositions" );
+            this.notifqueue.setSynchronous( 'NewSelectablePositions', 1 );
+
             // TODO: here, associate your game notifications with local methods
             
             // Example 1: standard notification handling
@@ -413,6 +416,13 @@ function (dojo, declare, OwnHome, Market) {
         },
         notify_newStockContent: function(notif) {
             this.fillCards(notif.args.cards);
+        },
+        notify_NewSelectablePositions: function(notif) {
+            console.log('notify_NewSelectablePositions');
+            console.log(notif.args);
+            console.log(this.gamedatas);
+            this.gamedatas.selectable_plant_positions = notif.args.selectable_plant_positions;
+            this.gamedatas.selectable_room_positions = notif.args.selectable_room_positions;
         },
 
         // TODO: from this point and below, you can write your game notifications handling methods
