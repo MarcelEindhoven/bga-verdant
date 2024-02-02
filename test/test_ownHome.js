@@ -19,7 +19,7 @@ describe('OwnHome', function () {
         owner_id = '123';
         sut.SetOwnerID(owner_id);
 
-        ajaxcallwrapper = {call: sinon.spy(),};
+        ajaxcallwrapper = {playerPlacesCard: sinon.spy(),};
         sut.SetServer(ajaxcallwrapper);
 
         position = 14;
@@ -35,15 +35,16 @@ describe('OwnHome', function () {
         selected_card_type_id = 15;
     });
     function act_default_set(positions) {
-        sut.SetSelectableEmptyPositions(positions, selected_card_type_id);
+        sut.SetSelectableEmptyPositions(positions, selected_card_type_id, 'playerPlacesCard');
     };
     describe('Callbacks', function () {
         it('Call server', function () {
             // Arrange
+            act_default_set([]);
             // Act
             sut.onSelectEmptyPosition(field_id);
             // Assert
-            assert.ok(ajaxcallwrapper.call.calledOnceWithExactly('playerPlacesCard', {selected_id: field_id}), 'Call server that player places card on empty position');
+            assert.ok(ajaxcallwrapper.playerPlacesCard.calledOnceWithExactly(field_id), 'Call server that player places card on empty position');
         });
         });
     describe('Set selectable empty positions', function () {

@@ -85,7 +85,7 @@ function (dojo, declare, OwnHome, Market) {
             this.market.SetStocks(this.stocks);
             this.own_home.SetStocks(this.stocks);
             if (this.selected_card) {
-                this.own_home.SetSelectableEmptyPositions(gamedatas.selectable_home_positions, this.getTypeID(this.selected_card));
+                this.own_home.SetSelectableEmptyPositions(gamedatas.selectable_home_positions, this.getTypeID(this.selected_card), 'placeInitialPlant');
             }
 
             // Setup game notifications to handle (see "setupNotifications" method below)
@@ -95,7 +95,7 @@ function (dojo, declare, OwnHome, Market) {
             console.log('Prototyping');
             element_name = '' + this.player_id + '_' + 14;
             console.log(element_name);
-            this.market.MakeAllCardsSelectable('marketCardSelected');
+            //this.market.MakeAllCardsSelectable('marketCardSelected');
         
             console.log( "Ending game setup" );
         },
@@ -108,6 +108,9 @@ function (dojo, declare, OwnHome, Market) {
             console.log(args.selected_id);
         
             this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + action + ".html", args, this, (result) => { }, handler);
+        },
+        placeInitialPlant: function(element_name) {
+            this.call('playerPlacesCard', {selected_id: element_name});
         },
         marketCardSelected: function(element_name) {
             console.log('marketCardSelected ' + element_name);

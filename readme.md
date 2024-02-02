@@ -48,7 +48,6 @@ Extensions:
 - Git Tree Compare
 - GitHub Pull Requests and Issues
 - Compare Folders
-- Mocha sidebar
 
 ### JavaScript unit testing
 To install Mocha, first install npm and node js

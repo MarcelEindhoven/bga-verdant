@@ -254,6 +254,12 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         $this->gamestate->setAllPlayersMultiactive();
     }
 
+    public function stNextPlayer() {
+        self::trace(__FUNCTION__);
+        $this->activeNextPlayer();
+        $this->gamestate->nextState('stillPlaying');
+    }
+
     
 //////////////////////////////////////////////////////////////////////////////
 //////////// Game state arguments

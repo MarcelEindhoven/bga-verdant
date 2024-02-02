@@ -4,6 +4,7 @@ define(['dojo/_base/declare'], (declare) => {
             this.toolkit = null;
             this.owner_id = null;
             this.server = null;
+            this.callback_method = '';
             this.stocks = null;
             this.selectable_empty_positions = [];
             this.connection_handlers = [];
@@ -13,8 +14,11 @@ define(['dojo/_base/declare'], (declare) => {
         SetServer(server){this.server = server},
         SetStocks(stocks){this.stocks = stocks},
 
-        SetSelectableEmptyPositions(positions, selected_card_type_id) {
+        SetSelectableEmptyPositions(positions, selected_card_type_id, callback_method) {
             this.ResetSelectableEmptyPositions();
+
+            this.callback_method = callback_method;
+
             for(var p in positions) {
                 var position = positions[p];
                 var element_name = this._GetElementName(position);
@@ -40,7 +44,7 @@ define(['dojo/_base/declare'], (declare) => {
         },
         onSelectEmptyPosition(field_id){
             this.ResetSelectableEmptyPositions();
-            this.server.call('playerPlacesCard', {selected_id: field_id});
+            this.server[this.callback_method](field_id);
         },
         _GetElementName(position) {return this.owner_id + '_' + position;},
 });
