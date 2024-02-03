@@ -84,9 +84,6 @@ function (dojo, declare, OwnHome, Market) {
 
             this.market.SetStocks(this.stocks);
             this.own_home.SetStocks(this.stocks);
-            if (this.selected_card) {
-                this.own_home.SetSelectableEmptyPositions(gamedatas.selectable_plant_positions, this.getTypeID(this.selected_card), 'placeInitialPlant');
-            }
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
@@ -95,27 +92,8 @@ function (dojo, declare, OwnHome, Market) {
             console.log('Prototyping');
             element_name = '' + this.player_id + '_' + 14;
             console.log(element_name);
-            //this.market.MakeAllCardsSelectable('marketCardSelected');
         
             console.log( "Ending game setup" );
-        },
-        placeInitialPlant: function(element_name) {
-            this.call('playerPlacesCard', {selected_id: element_name});
-        },
-        call: function(action, args, handler) {
-            console.log(action);
-            if (!args) {
-                args = {};
-            }
-            args.lock = true;
-            console.log(args.selected_id);
-        
-            this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + action + ".html", args, this, (result) => { }, handler);
-        },
-        marketCardSelected: function(element_name) {
-            console.log('marketCardSelected ' + element_name);
-
-            this.market.ResetSelectableCards();
         },
         setupStocks: function(players) {
             this.setupMarketStocks();
@@ -292,11 +270,17 @@ function (dojo, declare, OwnHome, Market) {
         {
             console.log( 'onUpdateActionButtons: '+stateName );
                       
-            if( this.isCurrentPlayerActive() )
+            if ('allPlayersPlaceInitialPlant' == stateName) {
+                if (this.selected_card) {
+                    this.own_home.SetSelectableEmptyPositions(gamedatas.selectable_plant_positions, this.getTypeID(this.selected_card), 'placeInitialPlant');
+                }
+            } else if( this.isCurrentPlayerActive() )
             {            
                 switch( stateName )
                 {
-/*               
+                    case 'playerTurn':
+                        this.market.MakeAllCardsSelectable('marketCardSelected');
+                        /*               
                  Example:
  
                  case 'myGameState':
@@ -309,8 +293,47 @@ function (dojo, declare, OwnHome, Market) {
                     break;
 */
                 }
+            } else {
+                this.market.ResetSelectableCards();
             }
         },        
+        marketCardSelected: function(element_name) {
+            console.log('marketCardSelected ' + element_name);
+
+            this.market.ResetSelectableCards();
+            card_type = this.stocks[element_name].getItemById(element_name);
+            this.selected_market_card = element_name;
+            console.log(this.stocks[element_name]);
+            console.log(card_type);
+            if (element_name.startsWith('plant')) {
+                this.own_home.SetSelectableEmptyPositions(this.gamedatas.selectable_plant_positions, card_type.type, 'playerPlacesPlant');
+            } else {
+                this.own_home.SetSelectableEmptyPositions(this.gamedatas.selectable_room_positions, card_type.type, 'playerPlacesRoom');
+            }
+            
+        },
+        placeInitialPlant: function(element_name) {
+            this.call('playerPlacesCard', {selected_id: element_name});
+            this.selected_card = null;
+        },
+        placePlant: function(element_name) {
+            this.call('playerPlacesPlant', {selected_market:this.selected_market_card, selected_home_position: element_name});
+            this.selected_market_card = null;
+        },
+        placeRoom: function(element_name) {
+            this.call('playerPlacesRoom', {selected_market:this.selected_market_card, selected_home_position: element_name});
+            this.selected_market_card = null;
+        },
+        call: function(action, args, handler) {
+            console.log(action);
+            if (!args) {
+                args = {};
+            }
+            args.lock = true;
+            console.log(args.selected_id);
+        
+            this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + action + ".html", args, this, (result) => { }, handler);
+        },
 
         ///////////////////////////////////////////////////
         //// Utility methods

@@ -5,7 +5,7 @@ define(['dojo/_base/declare'], (declare) => {
             this.server = null;
             this.callback_method = '';
             this.stocks = null;
-            this.selectable_empty_positions = [];
+            this.selectable_cards = [];
             this.connection_handlers = [];
 
             this.element_names = [];
@@ -29,7 +29,7 @@ define(['dojo/_base/declare'], (declare) => {
                 this.toolkit.addClass(element_name, 'selectable');
                 this.connection_handlers.push(this.toolkit.connect(this.stocks[element_name], 'onChangeSelection', this, 'onSelectCard'));
             }
-            this.selectable_empty_positions = this.element_names;
+            this.selectable_cards = this.element_names;
         },
         ResetSelectableCards() {
             for(var c in this.connection_handlers) {
@@ -37,11 +37,11 @@ define(['dojo/_base/declare'], (declare) => {
             }
             this.connection_handlers = [];
 
-            for(var p in this.selectable_empty_positions) {
-                var element_name = this.selectable_empty_positions[p];
+            for(var p in this.selectable_cards) {
+                var element_name = this.selectable_cards[p];
                 this.toolkit.removeClass(element_name, 'selectable');
             }
-            this.selectable_empty_positions = [];
+            this.selectable_cards = [];
         },
         onSelectCard(field_id){
             this.ResetSelectableCards();
