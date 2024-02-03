@@ -9,7 +9,7 @@ namespace NieuwenhovenGames\Verdant;
 include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../../export/modules/Actions/PlayerPlacesPlant.php');
+include_once(__DIR__.'/../../export/modules/Actions/PlayerPlacesInitialPlant.php');
 
 include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/GameState.php');
 
@@ -18,8 +18,8 @@ include_once(__DIR__.'/../../export/modules/BGA/PlayerRobotNotifications.php');
 
 include_once(__DIR__.'/../../export/modules/CurrentData/CurrentDecks.php');
 
-class PlayerPlacesPlantTest extends TestCase{
-    protected ?PlayerPlacesPlant $sut = null;
+class PlayerPlacesInitialPlantTest extends TestCase{
+    protected ?PlayerPlacesInitialPlant $sut = null;
     protected ?CurrentDecks $mock_current_decks = null;
     protected ?\NieuwenhovenGames\BGA\PlayerRobotNotifications $mock_notify = null;
     protected ?\NieuwenhovenGames\BGA\UpdateDeck $mock_update_deck = null;
@@ -30,7 +30,7 @@ class PlayerPlacesPlantTest extends TestCase{
     protected function setUp(): void {
         $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState::class);
 
-        $this->sut = PlayerPlacesPlant::create($this->mock_gamestate);
+        $this->sut = PlayerPlacesInitialPlant::create($this->mock_gamestate);
 
         $this->mock_notify = $this->createMock(\NieuwenhovenGames\BGA\PlayerRobotNotifications::class);
         $this->sut->setNotificationsHandler($this->mock_notify);
@@ -46,7 +46,7 @@ class PlayerPlacesPlantTest extends TestCase{
     public function testExecute_SingleAI_placeSelectedPlantCard() {
         // Arrange
         $this->mock_update_deck->expects($this->exactly(1))->method('movePrivateToPublic')
-        ->with(PlayerPlacesPlant::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, Constants::LOCATION_SELECTED, $this->player_id, 15);
+        ->with(PlayerPlacesInitialPlant::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, Constants::LOCATION_SELECTED, $this->player_id, 15);
         // Act
         $this->sut->execute();
         // Assert
