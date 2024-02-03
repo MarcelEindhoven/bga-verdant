@@ -15,10 +15,11 @@ include_once(__DIR__.'/../FrameworkInterfaces/Notifications.php');
 
 class UpdateDeck {
     const EVENT_NEW_STOCK_CONTENT = 'newStockContent';
+    const EVENT_MOVE = 'MoveFromStockToStock';
     const ARGUMENT_KEY_PLAYER_ID = 'player_id';
     const ARGUMENT_KEY_CARD = 'card';
-    const ARGUMENT_KEY_ELEMENT_FROM = 'element_from';
-    const ARGUMENT_KEY_ELEMENT_TO = 'element_to';
+    const ARGUMENT_KEY_ELEMENT_FROM = 'from';
+    const ARGUMENT_KEY_ELEMENT_TO = 'to';
 
     static public function create($deck) : UpdateDeck {
         $deck_handler = new UpdateDeck();
@@ -50,10 +51,9 @@ class UpdateDeck {
     }
 
     public function movePublicToPublic($from, $to) {
-        foreach ($this->deck->getCardsInLocation($from) as $card) {
-            $this->stock_handler->moveCardPublic($from, $to, $card);
-        }
-
         $this->deck->moveAllCardsInLocation($from, $to);
+
+        $arguments = [UpdateDeck::ARGUMENT_KEY_ELEMENT_FROM => $from, UpdateDeck::ARGUMENT_KEY_ELEMENT_TO => $to];
+        $this->notificationsHandler->notifyAllPlayers(UpdateDeck::EVENT_MOVE, $message, $arguments);
     }
 }

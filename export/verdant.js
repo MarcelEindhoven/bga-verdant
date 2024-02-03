@@ -301,14 +301,14 @@ function (dojo, declare, OwnHome, Market) {
             console.log('marketCardSelected ' + element_name);
 
             this.market.ResetSelectableCards();
-            card_type = this.stocks[element_name].getItemById(element_name);
+            card_type = this.stocks[element_name].getItemById(element_name).type;
             this.selected_market_card = element_name;
             console.log(this.stocks[element_name]);
             console.log(card_type);
             if (element_name.startsWith('plant')) {
-                this.own_home.SetSelectableEmptyPositions(this.gamedatas.selectable_plant_positions, card_type.type, 'playerPlacesPlant');
+                this.own_home.SetSelectableEmptyPositions(this.gamedatas.selectable_plant_positions, card_type, 'playerPlacesPlant');
             } else {
-                this.own_home.SetSelectableEmptyPositions(this.gamedatas.selectable_room_positions, card_type.type, 'playerPlacesRoom');
+                this.own_home.SetSelectableEmptyPositions(this.gamedatas.selectable_room_positions, card_type, 'playerPlacesRoom');
             }
             
         },
@@ -414,7 +414,10 @@ function (dojo, declare, OwnHome, Market) {
             this.notifqueue.setSynchronous( 'ResetSelectableEmptyPositions', 500 );
 
             dojo.subscribe( 'newStockContent', this, "notify_newStockContent" );
-            this.notifqueue.setSynchronous( 'newStockContent', 500 );
+            this.notifqueue.setSynchronous( 'newStockContent', 5 );
+
+            dojo.subscribe( 'MoveFromStockToStock', this, "notify_MoveFromStockToStock" );
+            this.notifqueue.setSynchronous( 'MoveFromStockToStock', 500 );
 
             dojo.subscribe( 'NewSelectablePositions', this, "notify_NewSelectablePositions" );
             this.notifqueue.setSynchronous( 'NewSelectablePositions', 1 );
@@ -438,6 +441,11 @@ function (dojo, declare, OwnHome, Market) {
         },
         notify_newStockContent: function(notif) {
             this.fillCard(notif.args.card);
+        },
+        notify_MoveFromStockToStock: function(notif) {
+            card_type = this.stocks[notif.args.from].getItemById(notif.args.from).type;
+            this.fillCard(notif.args.card);
+            this.stocks[notif.args.to].addToStockWithId(card_type, notif.args.from);
         },
         notify_NewSelectablePositions: function(notif) {
             console.log('notify_NewSelectablePositions');
