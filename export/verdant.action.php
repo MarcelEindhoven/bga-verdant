@@ -50,6 +50,27 @@
       self::ajaxResponse( );
     }
 
+    function playerPlacesPlant() {
+      self::setAjaxMode();
+
+      $selected_market_card = self::getArg( "selected_market_card", AT_alphanum, true );
+      $selected_home_position = self::getArg( "selected_home_position", AT_alphanum, true );
+
+      $this->game->playerPlacesPlant($selected_market_card, $selected_home_position);
+
+      self::ajaxResponse( );
+    }
+
+    function playerPlacesRoom() {
+      self::setAjaxMode();
+
+      $selected_market_card = self::getArg( "selected_market_card", AT_alphanum, true );
+      $selected_home_position = self::getArg( "selected_home_position", AT_alphanum, true );
+
+      $this->game->playerPlacesRoom($selected_market_card, $selected_home_position);
+
+      self::ajaxResponse( );
+    }
 
     /*
     

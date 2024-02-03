@@ -224,6 +224,25 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
 
         $this->actions->playerPlacesCard($selected_id);
     }
+
+    function playerPlacesPlant($selected_market_card, $selected_home_position) {
+        self::trace(__FUNCTION__);
+        self::checkAction("placeCard");
+
+        $this->initializeFromUserAction();
+
+        $this->actions->playerPlacesPlant($selected_market_card, $selected_home_position);
+    }
+
+    function playerPlacesRoom($selected_market_card, $selected_home_position) {
+        self::trace(__FUNCTION__);
+        self::checkAction("placeCard");
+
+        $this->initializeFromUserAction();
+
+        $this->actions->playerPlacesRoom($selected_market_card, $selected_home_position);
+    }
+
     /*
     
     Example:

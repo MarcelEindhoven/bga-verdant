@@ -316,12 +316,12 @@ function (dojo, declare, OwnHome, Market) {
             this.call('playerPlacesCard', {selected_id: element_name});
             this.selected_card = null;
         },
-        placePlant: function(element_name) {
-            this.call('playerPlacesPlant', {selected_market:this.selected_market_card, selected_home_position: element_name});
+        playerPlacesPlant: function(element_name) {
+            this.call('playerPlacesPlant', {selected_market_card:this.selected_market_card, selected_home_position: element_name});
             this.selected_market_card = null;
         },
-        placeRoom: function(element_name) {
-            this.call('playerPlacesRoom', {selected_market:this.selected_market_card, selected_home_position: element_name});
+        playerPlacesRoom: function(element_name) {
+            this.call('playerPlacesRoom', {selected_market_card:this.selected_market_card, selected_home_position: element_name});
             this.selected_market_card = null;
         },
         call: function(action, args, handler) {
@@ -330,7 +330,6 @@ function (dojo, declare, OwnHome, Market) {
                 args = {};
             }
             args.lock = true;
-            console.log(args.selected_id);
         
             this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + action + ".html", args, this, (result) => { }, handler);
         },

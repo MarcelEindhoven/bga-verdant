@@ -90,6 +90,12 @@ class Actions {
         PlayerPlacesPlant::create($this->gamestate)->setNotificationsHandler($this->notifications)->setCurrentDecks($this->current_decks)->setUpdateDecks($this->update_decks)->setFieldID($field_id)->execute()->nextState();
     }
 
+    public function playerPlacesPlant($selected_market_card, $selected_home_position) {
+    }
+
+    public function playerPlacesRoom($selected_market_card, $selected_home_position) {
+    }
+
     public function stAIsPlaceCard() {
         AIsPlaceCard::create($this->gamestate)->setAIs($this->ais)->execute()->nextState();
     }
