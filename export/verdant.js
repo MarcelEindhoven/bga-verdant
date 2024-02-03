@@ -272,7 +272,7 @@ function (dojo, declare, OwnHome, Market) {
                       
             if ('allPlayersPlaceInitialPlant' == stateName) {
                 if (this.selected_card) {
-                    this.own_home.SetSelectableEmptyPositions(gamedatas.selectable_plant_positions, this.getTypeID(this.selected_card), 'placeInitialPlant');
+                    this.own_home.SetSelectableEmptyPositions(this.gamedatas.selectable_plant_positions, this.getTypeID(this.selected_card), 'placeInitialPlant');
                 }
             } else if( this.isCurrentPlayerActive() )
             {            
@@ -437,7 +437,7 @@ function (dojo, declare, OwnHome, Market) {
             this.own_home.ResetSelectableEmptyPositions();
         },
         notify_newStockContent: function(notif) {
-            this.fillCards(notif.args.cards);
+            this.fillCard(notif.args.card);
         },
         notify_NewSelectablePositions: function(notif) {
             console.log('notify_NewSelectablePositions');

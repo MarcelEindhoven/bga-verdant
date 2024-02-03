@@ -15,8 +15,10 @@ include_once(__DIR__.'/../FrameworkInterfaces/Notifications.php');
 
 class UpdateDeck {
     const EVENT_NEW_STOCK_CONTENT = 'newStockContent';
-    const ARGUMENT_KEY_CARDS = 'cards';
     const ARGUMENT_KEY_PLAYER_ID = 'player_id';
+    const ARGUMENT_KEY_CARD = 'card';
+    const ARGUMENT_KEY_ELEMENT_FROM = 'element_from';
+    const ARGUMENT_KEY_ELEMENT_TO = 'element_to';
 
     static public function create($deck) : UpdateDeck {
         $deck_handler = new UpdateDeck();
@@ -39,17 +41,12 @@ class UpdateDeck {
     }
 
     public function movePrivateToPublic($message, $player_id, $from_argument, $to, $to_argument) {
-        /*
-        foreach ($this->deck->getCardsInLocation($player_id, $from) as $card) {
-            $card_name = 'card_name';
-            $this->stock_handler->moveCardPrivatePublic($player_id, $from, $to, $card, 'You ' . $message . ' ' . $card_name, '${player_name} ' . $message . ' ' . $card_name);
-        }
-        */
-
         $this->deck->moveAllCardsInLocation($player_id, $to, $from_argument, $to_argument);
-        $arguments = [UpdateDeck::ARGUMENT_KEY_CARDS => $this->deck->getCardsInLocation($player_id)];
-        $this->notificationsHandler->notifyAllPlayers(UpdateDeck::EVENT_NEW_STOCK_CONTENT, $message, $arguments);
 
+        foreach ($this->deck->getCardsInLocation($to, $to_argument) as $card) {
+            $arguments = [UpdateDeck::ARGUMENT_KEY_CARD => $card,];
+            $this->notificationsHandler->notifyAllPlayers(UpdateDeck::EVENT_NEW_STOCK_CONTENT, $message, $arguments);
+            }
     }
 
     public function movePublicToPublic($from, $to) {
