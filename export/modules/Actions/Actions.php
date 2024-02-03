@@ -86,7 +86,7 @@ class Actions {
         return $this;
     }
 
-    public function playerPlacesCard($field_id) {
+    public function playerPlacesInitialPlant($field_id) {
         PlayerPlacesPlant::create($this->gamestate)->setNotificationsHandler($this->notifications)->setCurrentDecks($this->current_decks)->setUpdateDecks($this->update_decks)->setFieldID($field_id)->execute()->nextState();
     }
 

@@ -313,7 +313,7 @@ function (dojo, declare, OwnHome, Market) {
             
         },
         placeInitialPlant: function(element_name) {
-            this.call('playerPlacesCard', {selected_id: element_name});
+            this.call('playerPlacesInitialPlant', {selected_id: element_name});
             this.selected_card = null;
         },
         playerPlacesPlant: function(element_name) {
