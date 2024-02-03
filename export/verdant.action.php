@@ -54,9 +54,9 @@
       self::setAjaxMode();
 
       $selected_market_card = self::getArg( "selected_market_card", AT_alphanum, true );
-      $selected_home_position = self::getArg( "selected_home_position", AT_alphanum, true );
+      $selected_home_id = self::getArg( "selected_home_id", AT_alphanum, true );
 
-      $this->game->playerPlacesPlant($selected_market_card, $selected_home_position);
+      $this->game->playerPlacesPlant($selected_market_card, $selected_home_id);
 
       self::ajaxResponse( );
     }
@@ -65,9 +65,9 @@
       self::setAjaxMode();
 
       $selected_market_card = self::getArg( "selected_market_card", AT_alphanum, true );
-      $selected_home_position = self::getArg( "selected_home_position", AT_alphanum, true );
+      $selected_home_id = self::getArg( "selected_home_id", AT_alphanum, true );
 
-      $this->game->playerPlacesRoom($selected_market_card, $selected_home_position);
+      $this->game->playerPlacesRoom($selected_market_card, $selected_home_id);
 
       self::ajaxResponse( );
     }

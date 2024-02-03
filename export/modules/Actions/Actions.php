@@ -16,6 +16,7 @@ include_once(__DIR__.'/UpdateDecks.php');
 
 include_once(__DIR__.'/AIsPlaceCard.php');
 include_once(__DIR__.'/PlayerPlacesInitialPlant.php');
+include_once(__DIR__.'/PlayerPlacesPlant.php');
 
 include_once(__DIR__.'/../CurrentData/CurrentData.php');
 include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
@@ -90,10 +91,11 @@ class Actions {
         PlayerPlacesInitialPlant::create($this->gamestate)->setNotificationsHandler($this->notifications)->setCurrentDecks($this->current_decks)->setUpdateDecks($this->update_decks)->setFieldID($field_id)->execute()->nextState();
     }
 
-    public function playerPlacesPlant($selected_market_card, $selected_home_position) {
+    public function playerPlacesPlant($selected_market_card, $selected_home_id) {
+        PlayerPlacesPlant::create($this->gamestate)->setCurrentDecks($this->current_decks)->setUpdateDecks($this->update_decks)->setSelectedMarketCard($selected_market_card)->setSelectedHomeID($selected_home_id)->execute()->nextState();
     }
 
-    public function playerPlacesRoom($selected_market_card, $selected_home_position) {
+    public function playerPlacesRoom($selected_market_card, $selected_home_id) {
     }
 
     public function stAIsPlaceCard() {

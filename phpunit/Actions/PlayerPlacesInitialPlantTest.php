@@ -32,9 +32,6 @@ class PlayerPlacesInitialPlantTest extends TestCase{
 
         $this->sut = PlayerPlacesInitialPlant::create($this->mock_gamestate);
 
-        $this->mock_notify = $this->createMock(\NieuwenhovenGames\BGA\PlayerRobotNotifications::class);
-        $this->sut->setNotificationsHandler($this->mock_notify);
-
         $this->mock_current_decks = $this->createMock(CurrentDecks::class);
         $this->mock_update_deck = $this->createMock(\NieuwenhovenGames\BGA\UpdateDeck::class);
         $this->sut->setCurrentDecks($this->mock_current_decks);

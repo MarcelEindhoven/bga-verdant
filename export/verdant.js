@@ -317,11 +317,11 @@ function (dojo, declare, OwnHome, Market) {
             this.selected_card = null;
         },
         playerPlacesPlant: function(element_name) {
-            this.call('playerPlacesPlant', {selected_market_card:this.selected_market_card, selected_home_position: element_name});
+            this.call('playerPlacesPlant', {selected_market_card:this.selected_market_card, selected_home_id: element_name});
             this.selected_market_card = null;
         },
         playerPlacesRoom: function(element_name) {
-            this.call('playerPlacesRoom', {selected_market_card:this.selected_market_card, selected_home_position: element_name});
+            this.call('playerPlacesRoom', {selected_market_card:this.selected_market_card, selected_home_id: element_name});
             this.selected_market_card = null;
         },
         call: function(action, args, handler) {
@@ -443,8 +443,9 @@ function (dojo, declare, OwnHome, Market) {
             this.fillCard(notif.args.card);
         },
         notify_MoveFromStockToStock: function(notif) {
+            console.log('notify_MoveFromStockToStock');
+            console.log(notif.args);
             card_type = this.stocks[notif.args.from].getItemById(notif.args.from).type;
-            this.fillCard(notif.args.card);
             this.stocks[notif.args.to].addToStockWithId(card_type, notif.args.from);
         },
         notify_NewSelectablePositions: function(notif) {

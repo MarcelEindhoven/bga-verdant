@@ -50,10 +50,10 @@ class UpdateDeck {
             }
     }
 
-    public function movePublicToPublic($from, $to) {
-        $this->deck->moveAllCardsInLocation($from, $to);
+    public function movePublicToPublic($message, $from, $from_argument, $to, $to_argument) {
+        $this->deck->moveAllCardsInLocation($from, $to, $from_argument, $to_argument);
 
-        $arguments = [UpdateDeck::ARGUMENT_KEY_ELEMENT_FROM => $from, UpdateDeck::ARGUMENT_KEY_ELEMENT_TO => $to];
+        $arguments = [UpdateDeck::ARGUMENT_KEY_ELEMENT_FROM => $from . '_' . $from_argument, UpdateDeck::ARGUMENT_KEY_ELEMENT_TO => $to . '_' . $to_argument];
         $this->notificationsHandler->notifyAllPlayers(UpdateDeck::EVENT_MOVE, $message, $arguments);
     }
 }

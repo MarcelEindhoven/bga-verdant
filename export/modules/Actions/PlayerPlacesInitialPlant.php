@@ -55,8 +55,6 @@ class PlayerPlacesInitialPlant extends \NieuwenhovenGames\BGA\Action {
 
         $this->update_decks[Constants::PLANT_NAME]->movePrivateToPublic(PlayerPlacesInitialPlant::MESSAGE_PLACE_SELECTED_CARD, $player_id, Constants::LOCATION_SELECTED, $player_id, $position);
 
-        $this->notificationsHandler->notifyPlayer($player_id, PlayerPlacesInitialPlant::EVENT_NEW_SELECTABLE_EMPTY_POSITIONS, '', $this->current_decks->getAllDatas());
-
         return $this;
     }
 
