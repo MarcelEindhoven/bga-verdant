@@ -17,6 +17,7 @@ include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
 
 class PlayerPlacesPlant extends \NieuwenhovenGames\BGA\Action {
     const MESSAGE_PLACE_SELECTED_CARD = 'Place initial plant ';
+    const MESSAGE_PLACE_MARKET_CARD = 'Place plant ';
     const EVENT_NEW_SELECTABLE_EMPTY_POSITIONS = 'NewSelectablePositions';
 
     protected ?CurrentDecks $current_decks = null;
@@ -54,9 +55,9 @@ class PlayerPlacesPlant extends \NieuwenhovenGames\BGA\Action {
         list ($category, $entry) = explode('_', $this->selected_market_card);
         list ($player_id, $position) = explode('_', $this->selected_home_id);
 
-        $this->update_decks[Constants::PLANT_NAME]->movePublicToPublic(PlayerPlacesPlant::MESSAGE_PLACE_SELECTED_CARD, $category, $entry, $player_id, $position);
+        $this->update_decks[$category]->movePublicToPublic(PlayerPlacesPlant::MESSAGE_PLACE_SELECTED_CARD, $category, $entry, $player_id, $position);
 
-        // $this->notificationsHandler->notifyPlayer($player_id, PlayerPlacesPlant::EVENT_NEW_SELECTABLE_EMPTY_POSITIONS, '', $this->current_decks->getAllDatas());
+        $this->update_decks[$category]->pickCardForLocation(PlayerPlacesPlant::MESSAGE_PLACE_MARKET_CARD, $category, $entry);
 
         return $this;
     }

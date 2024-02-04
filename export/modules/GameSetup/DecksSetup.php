@@ -18,7 +18,6 @@ class DecksSetup {
     const NUMBER_COLOURS = 5;
     const FIRST_COLOUR = 1;
     const MARKET_WIDTH = 4;
-    const MARKET_LOCATION = 'Market';
 
     public array $setup = [];
     public array $players = [];

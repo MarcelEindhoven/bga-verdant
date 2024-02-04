@@ -41,13 +41,23 @@ class UpdateDeck {
         return $this;
     }
 
+    public function pickCardForLocation($message, $to, $to_argument=0) {
+        $from_location = \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK;
+        $this->deck->pickCardForLocation($from_location, $to, $to_argument);
+
+        foreach ($this->deck->getCardsInLocation($to, $to_argument) as $card) {
+            $arguments = [UpdateDeck::ARGUMENT_KEY_CARD => $card,];
+            $this->notificationsHandler->notifyAllPlayers(UpdateDeck::EVENT_NEW_STOCK_CONTENT, $message, $arguments);
+        }
+    }
+
     public function movePrivateToPublic($message, $player_id, $from_argument, $to, $to_argument) {
         $this->deck->moveAllCardsInLocation($player_id, $to, $from_argument, $to_argument);
 
         foreach ($this->deck->getCardsInLocation($to, $to_argument) as $card) {
             $arguments = [UpdateDeck::ARGUMENT_KEY_CARD => $card,];
             $this->notificationsHandler->notifyAllPlayers(UpdateDeck::EVENT_NEW_STOCK_CONTENT, $message, $arguments);
-            }
+        }
     }
 
     public function movePublicToPublic($message, $from, $from_argument, $to, $to_argument) {
