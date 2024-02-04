@@ -11,37 +11,18 @@ namespace NieuwenhovenGames\Verdant;
 
 include_once(__DIR__.'/../BGA/Action.php');
 
-include_once(__DIR__.'/UpdateDecks.php');
+include_once(__DIR__.'/PlayerPlacesCard.php');
 
 include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
 
-class PlayerPlacesInitialPlant extends \NieuwenhovenGames\BGA\Action {
+class PlayerPlacesInitialPlant extends PlayerPlacesCard {
     const MESSAGE_PLACE_SELECTED_CARD = 'Place initial plant ';
     const EVENT_NEW_SELECTABLE_EMPTY_POSITIONS = 'NewSelectablePositions';
-
-    protected ?CurrentDecks $current_decks = null;
-    // protected ?UpdateDecks $update_decks = null;
-    protected ?\NieuwenhovenGames\BGA\UpdateDeck $mock_update_deck = null;
 
     protected string $field_id = '';
 
     public static function create($gamestate) : PlayerPlacesInitialPlant {
         return new PlayerPlacesInitialPlant($gamestate);
-    }
-
-    public function setNotificationsHandler($notificationsHandler) : PlayerPlacesInitialPlant {
-        $this->notificationsHandler = $notificationsHandler;
-        return $this;
-    }
-
-    public function setCurrentDecks($current_decks) : PlayerPlacesInitialPlant {
-        $this->current_decks = $current_decks;
-        return $this;
-    }
-
-    public function setUpdateDecks($update_decks) : PlayerPlacesInitialPlant {
-        $this->update_decks = $update_decks;
-        return $this;
     }
 
     public function setFieldID($field_id) : PlayerPlacesInitialPlant {

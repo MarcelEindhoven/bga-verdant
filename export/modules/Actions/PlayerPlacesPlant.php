@@ -11,34 +11,20 @@ namespace NieuwenhovenGames\Verdant;
 
 include_once(__DIR__.'/../BGA/Action.php');
 
-include_once(__DIR__.'/UpdateDecks.php');
+include_once(__DIR__.'/PlayerPlacesCard.php');
 
 include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
 
-class PlayerPlacesPlant extends \NieuwenhovenGames\BGA\Action {
+class PlayerPlacesPlant extends PlayerPlacesCard {
     const MESSAGE_PLACE_SELECTED_CARD = 'Place initial plant ';
     const MESSAGE_PLACE_MARKET_CARD = 'Place plant ';
     const EVENT_NEW_SELECTABLE_EMPTY_POSITIONS = 'NewSelectablePositions';
-
-    protected ?CurrentDecks $current_decks = null;
-    // protected ?UpdateDecks $update_decks = null;
-    protected ?\NieuwenhovenGames\BGA\UpdateDeck $mock_update_deck = null;
 
     protected string $selected_home_id = '';
     protected string $selected_market_card = '';
 
     public static function create($gamestate) : PlayerPlacesPlant {
         return new PlayerPlacesPlant($gamestate);
-    }
-
-    public function setCurrentDecks($current_decks) : PlayerPlacesPlant {
-        $this->current_decks = $current_decks;
-        return $this;
-    }
-
-    public function setUpdateDecks($update_decks) : PlayerPlacesPlant {
-        $this->update_decks = $update_decks;
-        return $this;
     }
 
     public function setSelectedHomeID($selected_home_id) : PlayerPlacesPlant {
