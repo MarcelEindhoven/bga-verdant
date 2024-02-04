@@ -22,14 +22,13 @@ class PlayerPlacesCard extends \NieuwenhovenGames\BGA\Action {
 
     protected ?CurrentDecks $current_decks = null;
 
-    protected string $selected_home_id = '';
-    protected string $selected_market_card = '';
+    protected string $player_id = '';
 
     public static function create($gamestate) : PlayerPlacesCard {
         return new PlayerPlacesCard($gamestate);
     }
 
-    public function setNotificationsHandler($notificationsHandler) : PlayerPlacesInitialPlant {
+    public function setNotificationsHandler($notificationsHandler) : PlayerPlacesCard {
         $this->notificationsHandler = $notificationsHandler;
         return $this;
     }
@@ -45,6 +44,8 @@ class PlayerPlacesCard extends \NieuwenhovenGames\BGA\Action {
     }
 
     public function execute() : PlayerPlacesCard {
+        $arguments = $this->current_decks->getAllDatas();
+        $this->notificationsHandler->notifyPlayer($this->player_id, PlayerPlacesCard::EVENT_NEW_SELECTABLE_EMPTY_POSITIONS, '', $arguments);
 
         return $this;
     }

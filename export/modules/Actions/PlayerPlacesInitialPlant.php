@@ -32,11 +32,11 @@ class PlayerPlacesInitialPlant extends PlayerPlacesCard {
 
     public function execute() : PlayerPlacesInitialPlant {
         // For now, no verification is needed on the field ID, handled by JavaScript
-        list ($player_id, $position) = explode('_', $this->field_id);
+        list ($this->player_id, $position) = explode('_', $this->field_id);
 
-        $this->update_decks[Constants::PLANT_NAME]->movePrivateToPublic(PlayerPlacesInitialPlant::MESSAGE_PLACE_SELECTED_CARD, $player_id, Constants::LOCATION_SELECTED, $player_id, $position);
+        $this->update_decks[Constants::PLANT_NAME]->movePrivateToPublic(PlayerPlacesInitialPlant::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, Constants::LOCATION_SELECTED, $this->player_id, $position);
 
-        return $this;
+        return PlayerPlacesCard::execute();
     }
 
     public function getTransitionName() : string {

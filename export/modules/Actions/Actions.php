@@ -92,10 +92,11 @@ class Actions {
     }
 
     public function playerPlacesPlant($selected_market_card, $selected_home_id) {
-        PlayerPlacesPlant::create($this->gamestate)->setCurrentDecks($this->current_decks)->setUpdateDecks($this->update_decks)->setSelectedMarketCard($selected_market_card)->setSelectedHomeID($selected_home_id)->execute()->nextState();
+        PlayerPlacesPlant::create($this->gamestate)->setNotificationsHandler($this->notifications)->setCurrentDecks($this->current_decks)->setUpdateDecks($this->update_decks)->setSelectedMarketCard($selected_market_card)->setSelectedHomeID($selected_home_id)->execute()->nextState();
     }
 
     public function playerPlacesRoom($selected_market_card, $selected_home_id) {
+        $this->playerPlacesPlant($selected_market_card, $selected_home_id);
     }
 
     public function stAIsPlaceCard() {

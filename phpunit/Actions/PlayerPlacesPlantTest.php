@@ -32,6 +32,9 @@ class PlayerPlacesPlantTest extends TestCase{
 
         $this->sut = PlayerPlacesPlant::create($this->mock_gamestate);
 
+        $this->mock_notify = $this->createMock(\NieuwenhovenGames\BGA\PlayerRobotNotifications::class);
+        $this->sut->setNotificationsHandler($this->mock_notify);
+
         $this->mock_current_decks = $this->createMock(CurrentDecks::class);
         $this->mock_update_deck = $this->createMock(\NieuwenhovenGames\BGA\UpdateDeck::class);
         $this->sut->setCurrentDecks($this->mock_current_decks);
@@ -45,6 +48,17 @@ class PlayerPlacesPlantTest extends TestCase{
         // Arrange
         $this->mock_update_deck->expects($this->exactly(1))->method('movePublicToPublic')
         ->with(PlayerPlacesPlant::MESSAGE_PLACE_SELECTED_CARD, 'plant', '1', '77', '15');
+        // Act
+        $this->sut->execute();
+        // Assert
+    }
+
+    public function testExecute__Always__NewSelectablePositions() {
+        // Arrange
+        $arguments = [5 => 3];
+        $this->mock_current_decks->expects($this->exactly(1))->method('getAllDatas')->willReturn($arguments);
+        $this->mock_notify->expects($this->exactly(1))->method('notifyPlayer')
+        ->with(77, PlayerPlacesCard::EVENT_NEW_SELECTABLE_EMPTY_POSITIONS, '', $arguments);
         // Act
         $this->sut->execute();
         // Assert

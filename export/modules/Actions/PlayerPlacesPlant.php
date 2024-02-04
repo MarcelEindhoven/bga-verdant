@@ -39,13 +39,13 @@ class PlayerPlacesPlant extends PlayerPlacesCard {
 
     public function execute() : PlayerPlacesPlant {
         list ($category, $entry) = explode('_', $this->selected_market_card);
-        list ($player_id, $position) = explode('_', $this->selected_home_id);
+        list ($this->player_id, $position) = explode('_', $this->selected_home_id);
 
-        $this->update_decks[$category]->movePublicToPublic(PlayerPlacesPlant::MESSAGE_PLACE_SELECTED_CARD, $category, $entry, $player_id, $position);
+        $this->update_decks[$category]->movePublicToPublic(PlayerPlacesPlant::MESSAGE_PLACE_SELECTED_CARD, $category, $entry, $this->player_id, $position);
 
         $this->update_decks[$category]->pickCardForLocation(PlayerPlacesPlant::MESSAGE_PLACE_MARKET_CARD, $category, $entry);
 
-        return $this;
+        return PlayerPlacesCard::execute();
     }
 
     public function getTransitionName() : string {
