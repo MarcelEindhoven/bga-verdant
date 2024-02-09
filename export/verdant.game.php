@@ -276,12 +276,11 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
     public function stNextPlayer() {
         self::trace(__FUNCTION__);
         $this->activeNextPlayer();
-        $this->actions->stNextPlayer();
+        $this->actions->stNextPlayer($this->getActivePlayerId());
     }
 
     public function stAiPlayer() {
         self::trace(__FUNCTION__);
-        $this->activeNextPlayer();
         $this->actions->stAiPlayer();
     }
 

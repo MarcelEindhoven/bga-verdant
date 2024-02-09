@@ -103,8 +103,8 @@ class Actions {
         AIsPlaceCard::create($this->gamestate)->setAIs($this->ais)->execute()->nextState();
     }
 
-    public function stNextPlayer() {
-        $this->gamestate->nextState('playerPlaying');
+    public function stNextPlayer($player_id) {
+        $this->gamestate->nextState(array_key_exists($player_id, $this->ais) ? 'aiPlaying' : 'playerPlaying');
     }
 
     public function stAiPlayer() {
