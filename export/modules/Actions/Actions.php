@@ -105,11 +105,12 @@ class Actions {
     }
 
     public function stNextPlayer($player_id) {
+        $this->setCurrentPlayerID($player_id);
         $this->gamestate->nextState(array_key_exists($player_id, $this->ais) ? 'aiPlaying' : 'playerPlaying');
     }
 
     public function stAiPlayer() {
-        AISelectsAndPlacesCard::create($this->gamestate)->execute()->nextState();
+        AISelectsAndPlacesCard::create($this->gamestate)->setAI($this->ais[$this->current_player_id])->execute()->nextState();
     }
 }
 ?>

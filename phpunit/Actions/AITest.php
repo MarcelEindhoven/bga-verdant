@@ -45,5 +45,21 @@ class AITest extends TestCase{
         $this->sut->placeSelectedPlantCard();
         // Assert
     }
+
+    public function testselectAndPlaceCard__NoSelectablePositions__QueryOnly() {
+        // Arrange
+        $this->mock_decks->expects($this->exactly(1))->method('getPlantSelectableHomePositions')
+        ->with($this->player_id)
+        ->willReturn([]);
+        $this->mock_decks->expects($this->exactly(1))->method('getRoomSelectableHomePositions')
+        ->with($this->player_id)
+        ->willReturn([]);
+        $this->mock_deck->expects($this->exactly(0))->method('movePublicToPublic');
+        $this->mock_deck->expects($this->exactly(0))->method('pickCardForLocation');
+
+        // Act
+        $this->sut->selectAndPlaceCard();
+        // Assert
+    }
 }
 ?>

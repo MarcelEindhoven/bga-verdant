@@ -34,6 +34,13 @@ class AI {
         return $this;
     }
 
+    public function selectAndPlaceCard() : AI {
+        $positions = [];
+        $positions[Constants::PLANT_NAME] = $this->decks->getPlantSelectableHomePositions($this->player_id);
+        $positions[Constants::ROOM_NAME] = $this->decks->getRoomSelectableHomePositions($this->player_id);
+        return $this;
+    }
+
     public function placeSelectedPlantCard() : AI {
         $positions = $this->decks->getPlantSelectableHomePositions($this->player_id);
         $position = $positions[array_rand($positions)];

@@ -19,17 +19,13 @@ class AISelectsAndPlacesCard extends \NieuwenhovenGames\BGA\Action {
         return new AISelectsAndPlacesCard($gamestate);
     }
 
-    public function setSelectedHomeID($selected_home_id) : AISelectsAndPlacesCard {
-        $this->selected_home_id = $selected_home_id;
-        return $this;
-    }
-
-    public function setSelectedMarketCard($selected_market_card) : AISelectsAndPlacesCard {
-        $this->selected_market_card = $selected_market_card;
+    public function setAI($ai) : AISelectsAndPlacesCard {
+        $this->ai = $ai;
         return $this;
     }
 
     public function execute() : AISelectsAndPlacesCard {
+        $this->ai->selectAndPlaceCard();
         return $this;
     }
 }
