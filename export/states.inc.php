@@ -92,8 +92,16 @@ $machinestates = array(
         "descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
         "type" => "game",
         "action" => "stNextPlayer",
-        "possibleactions" => array("stillPlaying", "finishedPlaying"),
-        "transitions" => array("stillPlaying" => 10, "finishedPlaying" => 99)
+        "possibleactions" => array("playerPlaying", "aiPlaying", "finishedPlaying"),
+        "transitions" => array("playerPlaying" => 10, "aiPlaying" => 16, "finishedPlaying" => 99)
+    ),
+    16 => array(
+        "name" => "aiPlayer",
+        "description" => clienttranslate('Robot turn'),
+        "descriptionmyturn" => clienttranslate('${you} must play'),
+        "type" => "game",
+        "action" => "stAiPlayer",
+        "transitions" => array("" => 15)
     ),
 
 /*
