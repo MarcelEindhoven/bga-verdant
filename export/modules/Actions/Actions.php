@@ -102,5 +102,13 @@ class Actions {
     public function stAIsPlaceCard() {
         AIsPlaceCard::create($this->gamestate)->setAIs($this->ais)->execute()->nextState();
     }
+
+    public function stNextPlayer() {
+        $this->gamestate->nextState('playerPlaying');
+    }
+
+    public function stAiPlayer() {
+        $this->gamestate->nextState();
+    }
 }
 ?>
