@@ -46,6 +46,6 @@ define(['dojo/_base/declare'], (declare) => {
             this.ResetSelectableEmptyPositions();
             this.server[this.callback_method](field_id);
         },
-        _GetElementName(position) {return this.owner_id + '_' + position;},
+        _GetElementName(position) {return this.owner_id + '_' + Math.floor(position/10) + '' + position % 10;},
 });
 });
