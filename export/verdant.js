@@ -196,9 +196,19 @@ function (dojo, declare, OwnHome, Market) {
                     this.selected_card = card;
                 }
             } else {
-                element_name = card['location'] + '_' + card['location_arg'];
+                element_name = this.getElementName(card);
+                console.log(element_name);
+                
                 this.stocks[element_name].addToStockWithId(this.getTypeID(card), element_name);
             }
+        },
+        getElementName: function(card) {
+            if (+card['location'] > 0) {
+                return card['location'] + '_' + Math.floor(+card['location_arg'] / 10) + '' + +card['location_arg'] % 10;
+            } else {
+                return card['location'] + '_' + card['location_arg'];
+            }
+
         },
         getTypeID: function(card) {
             return this.getCardTypeID(+card['type'], +card['type_arg']);
