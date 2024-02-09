@@ -15,6 +15,7 @@ include_once(__DIR__.'/AIs.php');
 include_once(__DIR__.'/UpdateDecks.php');
 
 include_once(__DIR__.'/AIsPlaceCard.php');
+include_once(__DIR__.'/AISelectsAndPlacesCard.php');
 include_once(__DIR__.'/PlayerPlacesInitialPlant.php');
 include_once(__DIR__.'/PlayerPlacesPlant.php');
 
@@ -108,7 +109,7 @@ class Actions {
     }
 
     public function stAiPlayer() {
-        $this->gamestate->nextState();
+        AISelectsAndPlacesCard::create($this->gamestate)->execute()->nextState();
     }
 }
 ?>
