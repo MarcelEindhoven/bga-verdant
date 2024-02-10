@@ -16,6 +16,8 @@ class CurrentDecks {
     const RESULT_KEY_DECKS = 'decks';
     const RESULT_KEY_SELECTABLE_PLANT_POSITIONS = 'selectable_plant_positions';
     const RESULT_KEY_SELECTABLE_ROOM_POSITIONS = 'selectable_room_positions';
+    const RESULT_KEY_SELECTABLE_PLANTS = 'selectable_plants';
+    const RESULT_KEY_SELECTABLE_ROOMS = 'selectable_rooms';
 
     protected array $players = [];
     protected array $decks = [];
@@ -44,7 +46,9 @@ class CurrentDecks {
     public function getAllDatas() : array {
         $data = [CurrentDecks::RESULT_KEY_DECKS => $this->getCardsInPlay(),
         CurrentDecks::RESULT_KEY_SELECTABLE_PLANT_POSITIONS => $this->getPlantSelectableHomePositions($this->player_id),
-        CurrentDecks::RESULT_KEY_SELECTABLE_ROOM_POSITIONS => $this->getRoomSelectableHomePositions($this->player_id)];
+        CurrentDecks::RESULT_KEY_SELECTABLE_ROOM_POSITIONS => $this->getRoomSelectableHomePositions($this->player_id),
+        CurrentDecks::RESULT_KEY_SELECTABLE_PLANTS => $this->getSelectablePlants($this->player_id),
+        CurrentDecks::RESULT_KEY_SELECTABLE_ROOMS => $this->getSelectableRooms($this->player_id)];
 
         foreach ($this->decks as $name => $deck) {
             $data[$name] = $deck->getCardsInLocation($name);
@@ -68,6 +72,13 @@ class CurrentDecks {
             }
         }
         return $decks;
+    }
+
+    public function getSelectablePlants($player_id) : array {
+        return $this->getPositionsFromCards($this->decks[Constants::PLANT_NAME]->getCardsInLocation($player_id));
+    }
+    public function getSelectableRooms($player_id) : array {
+        return $this->getPositionsFromCards($this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id));
     }
 
     public function getPlantSelectableHomePositions($player_id) : array {
