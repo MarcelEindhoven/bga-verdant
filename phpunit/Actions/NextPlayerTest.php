@@ -69,6 +69,7 @@ class NextPlayerTest extends TestCase{
 
     public function testTransitionName__NoAI__playerPlaying() {
         // Arrange
+        $this->mock_current_decks->expects($this->exactly(1))->method('getPlantSelectableHomePositions')->willReturn([5]);
         $this->sut->setAIs([]);
         // Act
         $name = $this->sut->getTransitionName();
@@ -78,10 +79,21 @@ class NextPlayerTest extends TestCase{
 
     public function testTransitionName__AI__AIPlaying() {
         // Arrange
+        $this->mock_current_decks->expects($this->exactly(1))->method('getPlantSelectableHomePositions')->willReturn([5]);
         // Act
         $name = $this->sut->getTransitionName();
         // Assert
         $this->assertEquals('aiPlaying', $name);
+    }
+
+    public function testTransitionName__NoMoreSelectablePositions__finishedPlaying() {
+        // Arrange
+        $this->mock_current_decks->expects($this->exactly(1))->method('getPlantSelectableHomePositions')->willReturn([]);
+        $this->mock_current_decks->expects($this->exactly(1))->method('getRoomSelectableHomePositions')->willReturn([]);
+        // Act
+        $name = $this->sut->getTransitionName();
+        // Assert
+        $this->assertEquals('finishedPlaying', $name);
     }
 }
 ?>

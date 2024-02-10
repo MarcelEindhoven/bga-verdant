@@ -77,7 +77,11 @@ class NextPlayer extends \NieuwenhovenGames\BGA\Action {
     }
 
     public function getTransitionName() : string {
-        return array_key_exists($this->player_id, $this->ais) ? 'aiPlaying' : 'playerPlaying';
+        if ($this->current_decks->getPlantSelectableHomePositions($this->player_id)
+         or $this->current_decks->getRoomSelectableHomePositions($this->player_id)) {
+            return array_key_exists($this->player_id, $this->ais) ? 'aiPlaying' : 'playerPlaying';
+        }
+        return 'finishedPlaying';
     }
 }
 ?>

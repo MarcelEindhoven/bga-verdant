@@ -48,7 +48,7 @@ class Actions {
     public function setDatabase($sql_database) : Actions {
         $this->current_data = CurrentData::create($sql_database);
 
-        $this->update_storage = \NieuwenhovenGames\BGA\UpdateStorage::create($sqlDatabase);
+        $this->update_storage = \NieuwenhovenGames\BGA\UpdateStorage::create($sql_database);
 
         return $this;
     }
@@ -96,7 +96,7 @@ class Actions {
         
         $this->update_storage->setEventEmitter($this->event_emitter);
 
-        $this->player_properties = new \NieuwenhovenGames\BGA\UpdatePlayerRobotProperties($this->current_data->getPlayerDataIncludingRobots());
+        $this->player_properties = new \NieuwenhovenGames\BGA\UpdatePlayerRobotProperties($this->current_data->getAllDatas()[CurrentData::RESULT_KEY_PLAYERS]);
         $this->player_properties->setEventEmitter($this->event_emitter);
 
         $this->reward_handler = \NieuwenhovenGames\BGA\RewardHandler::createFromPlayerProperties($this->player_properties);;
