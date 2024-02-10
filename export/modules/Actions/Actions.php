@@ -107,7 +107,7 @@ class Actions {
 
     public function stNextPlayer($player_id) {
         $this->setCurrentPlayerID($player_id);
-        NextPlayer::create($this->gamestate)->setAIs($this->ais)->setCurrentPlayerID($player_id)->nextState();
+        NextPlayer::create($this->gamestate)->setAIs($this->ais)->setCurrentPlayerID($player_id)->setCurrentDecks($this->current_decks)->setUpdateDecks($this->update_decks)->execute()->nextState();
     }
 
     public function stAiPlayer() {

@@ -35,47 +35,33 @@ class NextPlayerTest extends TestCase{
 
         $this->sut = NextPlayer::create($this->mock_gamestate);
 
-        $this->mock_notify = $this->createMock(\NieuwenhovenGames\BGA\PlayerRobotNotifications::class);
-        $this->sut->setNotificationsHandler($this->mock_notify);
-
         $this->mock_current_decks = $this->createMock(CurrentDecks::class);
         $this->mock_update_deck = $this->createMock(\NieuwenhovenGames\BGA\UpdateDeck::class);
         $this->sut->setCurrentDecks($this->mock_current_decks);
-        $this->sut->setUpdateDecks(['plant' => $this->mock_update_deck]);
-
-        $this->sut->setSelectedMarketCard($this->selected_market_card);
-        $this->sut->setSelectedHomeID($this->selected_home_id);
+        $this->sut->setUpdateDecks([Constants::PLANT_NAME => $this->mock_update_deck, Constants::ITEM_NAME => $this->mock_update_deck, Constants::ROOM_NAME => $this->mock_update_deck]);
 
         $this->mock_ai = $this->createMock(AI::class);
         $this->sut->setAIs([$this->player_id => $this->mock_ai]);
         $this->sut->setCurrentPlayerID($this->player_id);
-
     }
 
-    public function testExecute__Always__movePublicToPublic() {
+    public function testExecute__MarketFull__NoReplenishMarket() {
         // Arrange
-        $this->mock_update_deck->expects($this->exactly(1))->method('movePublicToPublic')
-        ->with(NextPlayer::MESSAGE_PLACE_SELECTED_CARD, 'plant', '1', '77', '15');
-        // Act
-        $this->sut->execute();
-        // Assert
-    }
-
-    public function testExecute__Always__NewSelectablePositions() {
-        // Arrange
-        $arguments = [5 => 3];
+        $row = [['location_arg' => 0], ['location_arg' => 1], ['location_arg' => 2], ['location_arg' => 3]];
+        $arguments = [Constants::PLANT_NAME => $row, Constants::ITEM_NAME => $row, Constants::ROOM_NAME => $row];
         $this->mock_current_decks->expects($this->exactly(1))->method('getAllDatas')->willReturn($arguments);
-        $this->mock_notify->expects($this->exactly(1))->method('notifyPlayer')
-        ->with(77, PlayerPlacesCard::EVENT_NEW_SELECTABLE_EMPTY_POSITIONS, '', $arguments);
+        $this->mock_update_deck->expects($this->exactly(0))->method('pickCardForLocation');
         // Act
         $this->sut->execute();
         // Assert
     }
 
-    public function testExecute__Always__ReplenishMarket() {
+    public function testExecute__MarketEmpty__8ReplenishMarket() {
         // Arrange
-        $this->mock_update_deck->expects($this->exactly(1))->method('pickCardForLocation')
-        ->with(NextPlayer::MESSAGE_PLACE_MARKET_CARD, 'plant', '1');
+        $row = [];
+        $arguments = [Constants::PLANT_NAME => $row, Constants::ITEM_NAME => $row, Constants::ROOM_NAME => $row];
+        $this->mock_current_decks->expects($this->exactly(1))->method('getAllDatas')->willReturn($arguments);
+        $this->mock_update_deck->expects($this->exactly(12))->method('pickCardForLocation');
         // Act
         $this->sut->execute();
         // Assert

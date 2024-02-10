@@ -42,9 +42,15 @@ class CurrentDecks {
     }
 
     public function getAllDatas() : array {
-        return [CurrentDecks::RESULT_KEY_DECKS => $this->getCardsInPlay(),
-                CurrentDecks::RESULT_KEY_SELECTABLE_PLANT_POSITIONS => $this->getPlantSelectableHomePositions($this->player_id),
-                CurrentDecks::RESULT_KEY_SELECTABLE_ROOM_POSITIONS => $this->getRoomSelectableHomePositions($this->player_id)];
+        $data = [CurrentDecks::RESULT_KEY_DECKS => $this->getCardsInPlay(),
+        CurrentDecks::RESULT_KEY_SELECTABLE_PLANT_POSITIONS => $this->getPlantSelectableHomePositions($this->player_id),
+        CurrentDecks::RESULT_KEY_SELECTABLE_ROOM_POSITIONS => $this->getRoomSelectableHomePositions($this->player_id)];
+
+        foreach ($this->decks as $name => $deck) {
+            $data[$name] = $deck->getCardsInLocation($name);
+        }
+
+        return $data;
     }
 
     protected function getCardsInPlay(): array {

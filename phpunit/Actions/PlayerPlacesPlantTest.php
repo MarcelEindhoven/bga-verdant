@@ -63,14 +63,5 @@ class PlayerPlacesPlantTest extends TestCase{
         $this->sut->execute();
         // Assert
     }
-
-    public function testExecute__Always__ReplenishMarket() {
-        // Arrange
-        $this->mock_update_deck->expects($this->exactly(1))->method('pickCardForLocation')
-        ->with(PlayerPlacesPlant::MESSAGE_PLACE_MARKET_CARD, 'plant', '1');
-        // Act
-        $this->sut->execute();
-        // Assert
-    }
 }
 ?>

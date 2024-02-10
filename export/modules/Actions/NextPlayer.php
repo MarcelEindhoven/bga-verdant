@@ -13,9 +13,11 @@ include_once(__DIR__.'/../BGA/Action.php');
 
 include_once(__DIR__.'/PlayerPlacesCard.php');
 
+require_once(__DIR__.'/../Constants.php');
+
 include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
 
-class NextPlayer extends PlayerPlacesCard {
+class NextPlayer extends \NieuwenhovenGames\BGA\Action {
     const MESSAGE_PLACE_SELECTED_CARD = 'Place initial plant ';
     const MESSAGE_PLACE_MARKET_CARD = 'Place plant ';
     const EVENT_NEW_SELECTABLE_EMPTY_POSITIONS = 'NewSelectablePositions';
@@ -38,25 +40,40 @@ class NextPlayer extends PlayerPlacesCard {
         return $this;
     }
 
-    public function setSelectedHomeID($selected_home_id) : NextPlayer {
-        $this->selected_home_id = $selected_home_id;
+    public function setCurrentDecks($current_decks) : NextPlayer {
+        $this->current_decks = $current_decks;
         return $this;
     }
 
-    public function setSelectedMarketCard($selected_market_card) : NextPlayer {
-        $this->selected_market_card = $selected_market_card;
+    public function setUpdateDecks($update_decks) : NextPlayer {
+        $this->update_decks = $update_decks;
         return $this;
     }
 
     public function execute() : NextPlayer {
-        list ($category, $entry) = explode('_', $this->selected_market_card);
-        list ($this->player_id, $position) = explode('_', $this->selected_home_id);
+        $this->replenishMarket();
+        return $this;
+    }
+    protected function replenishMarket() : NextPlayer {
+        $market = $this->current_decks->getAllDatas();
+        foreach (Constants::getNames() as $name) {
+            $this->replenish($name, $this->getLocationsFromMarketRow($market[$name]));
+        }
 
-        $this->update_decks[$category]->movePublicToPublic(NextPlayer::MESSAGE_PLACE_SELECTED_CARD, $category, $entry, $this->player_id, $position);
-
-        $this->update_decks[$category]->pickCardForLocation(NextPlayer::MESSAGE_PLACE_MARKET_CARD, $category, $entry);
-
-        return PlayerPlacesCard::execute();
+        return $this;
+    }
+    protected function getLocationsFromMarketRow($market_row) {
+        $locations = [];
+        foreach ($market_row as $card) {
+            $locations[] = $card['location_arg'];
+        }
+        return $locations;
+    }
+    protected function replenish($name, $market_locations) {
+        $missing_locations = array_diff([0, 1, 2, 3], $market_locations);
+        foreach ($missing_locations as $missing_location) {
+            $this->update_decks[$name]->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, $name, $missing_location);
+        }
     }
 
     public function getTransitionName() : string {

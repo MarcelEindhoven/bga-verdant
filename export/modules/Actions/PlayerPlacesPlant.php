@@ -43,8 +43,6 @@ class PlayerPlacesPlant extends PlayerPlacesCard {
 
         $this->update_decks[$category]->movePublicToPublic(PlayerPlacesPlant::MESSAGE_PLACE_SELECTED_CARD, $category, $entry, $this->player_id, $position);
 
-        $this->update_decks[$category]->pickCardForLocation(PlayerPlacesPlant::MESSAGE_PLACE_MARKET_CARD, $category, $entry);
-
         return PlayerPlacesCard::execute();
     }
 
