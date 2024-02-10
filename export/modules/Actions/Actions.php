@@ -11,10 +11,10 @@ namespace NieuwenhovenGames\Verdant;
 require_once(__DIR__.'/../BGA/Update/StockHandler.php');
 require_once(__DIR__.'/../BGA/Update/UpdateDeck.php');
 
-include_once(__DIR__.'/BGA/EventEmitter.php');
-include_once(__DIR__.'/BGA/RewardHandler.php');
-include_once(__DIR__.'/BGA/UpdatePlayerRobotProperties.php');
-include_once(__DIR__.'/BGA/UpdateStorage.php');
+include_once(__DIR__.'/../BGA/EventEmitter.php');
+include_once(__DIR__.'/../BGA/RewardHandler.php');
+include_once(__DIR__.'/../BGA/UpdatePlayerRobotProperties.php');
+include_once(__DIR__.'/../BGA/UpdateStorage.php');
 
 include_once(__DIR__.'/AIs.php');
 include_once(__DIR__.'/UpdateDecks.php');
