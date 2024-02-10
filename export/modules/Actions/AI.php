@@ -35,14 +35,31 @@ class AI {
     }
 
     public function selectAndPlaceCard() : AI {
+        $positions = $this->getSelectablePositionsPerCategory();
+
+        $category = $this->selectCategory($positions);
+
+        return $this->selectAndPlaceCardForCategory($category, $positions[$category]);
+    }
+    protected function getSelectablePositionsPerCategory() {
         $positions = [];
         $positions[Constants::PLANT_NAME] = $this->decks->getPlantSelectableHomePositions($this->player_id);
         $positions[Constants::ROOM_NAME] = $this->decks->getRoomSelectableHomePositions($this->player_id);
-        $category = Constants::ROOM_NAME;
-        if ($positions[Constants::PLANT_NAME]) {
-            $category = Constants::PLANT_NAME;
+
+        return $positions;
+    }
+    protected function selectCategory($positions_per_category) {
+        $categories = [];
+        foreach ($positions_per_category as $category => $positions) {
+            if ($positions) {
+                $categories[] = $category;
+            }
         }
-        $this->update_decks[$category]->movePublicToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, $category, 0, $this->player_id, $positions[$category][0]);
+        return $categories[array_rand($categories)];
+    }
+    protected function selectAndPlaceCardForCategory($category, $positions) : AI {
+        $position = $positions[array_rand($positions)];
+        $this->update_decks[$category]->movePublicToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, $category, 0, $this->player_id, $position);
         $this->update_decks[$category]->pickCardForLocation(AI::MESSAGE_PLACE_SELECTED_CARD, $category, 0);
         return $this;
     }
