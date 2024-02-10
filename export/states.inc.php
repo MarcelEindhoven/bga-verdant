@@ -93,7 +93,7 @@ $machinestates = array(
         "type" => "game",
         "action" => "stNextPlayer",
         "possibleactions" => array("playerPlaying", "aiPlaying", "finishedPlaying"),
-        "transitions" => array("playerPlaying" => 10, "aiPlaying" => 16, "finishedPlaying" => 99)
+        "transitions" => array("playerPlaying" => 10, "aiPlaying" => 16, "finishedPlaying" => 20)
     ),
     16 => array(
         "name" => "aiPlayer",
@@ -102,6 +102,14 @@ $machinestates = array(
         "type" => "game",
         "action" => "stAiPlayer",
         "transitions" => array("" => 15)
+    ),
+    20 => array(
+        "name" => "allPlayersInspectScore",
+        "description" => clienttranslate('everyone can inspect the score'),
+        "descriptionmyturn" => clienttranslate('everyone can inspect the score'),
+        "type" => "multipleactiveplayer",
+        "action" => "stAllPlayersInspectScore",
+        "transitions" => array( "" => 99),
     ),
 
 /*

@@ -276,6 +276,7 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
     public function stNextPlayer() {
         self::trace(__FUNCTION__);
         $this->activeNextPlayer();
+
         $this->actions->stNextPlayer($this->getActivePlayerId());
     }
 
@@ -284,6 +285,12 @@ class Verdant extends Table implements NieuwenhovenGames\BGA\FrameworkInterfaces
         $this->actions->stAiPlayer();
     }
 
+    public function stAllPlayersInspectScore() {
+        self::trace(__FUNCTION__);
+        $this->gamestate->setAllPlayersMultiactive();
+
+        $this->actions->stAllPlayersInspectScore();
+    }
     
 //////////////////////////////////////////////////////////////////////////////
 //////////// Game state arguments

@@ -113,5 +113,8 @@ class Actions {
     public function stAiPlayer() {
         AISelectsAndPlacesCard::create($this->gamestate)->setAI($this->ais[$this->current_player_id])->execute()->nextState();
     }
+
+    public function stAllPlayersInspectScore() {
+    }
 }
 ?>
