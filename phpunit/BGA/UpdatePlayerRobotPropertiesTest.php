@@ -64,7 +64,7 @@ class UpdatePlayerRobotPropertiesTest extends TestCase{
     public function testSet_NewRobotValue_EmitRobotBucketUpdated() {
         // Arrange
         $new_value = 9;
-        $this->arrangeSet(UpdatePlayerRobotProperties::ROBOT_BUCKET_NAME, UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID, $new_value);
+        $this->arrangeSet(UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID, $new_value);
         // Act
         $this->sut[UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID][UpdatePlayerRobotPropertiesTest::DEFAULT_KEY] = $new_value;
         // Assert
@@ -73,18 +73,18 @@ class UpdatePlayerRobotPropertiesTest extends TestCase{
     public function testSet_NewPlayerValue_EmitPlayerBucketUpdated() {
         // Arrange
         $new_value = 9;
-        $this->arrangeSet(UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME, UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID, $new_value);
+        $this->arrangeSet(UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID, $new_value);
         // Act
         $this->sut[UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID][UpdatePlayerRobotPropertiesTest::DEFAULT_KEY] = $new_value;
         // Assert
     }
 
-    private function arrangeSet($bucket_name, $player_id, $new_value, $public_message = null)
+    private function arrangeSet($player_id, $new_value, $public_message = null)
     {
         // see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
         $this->event = [
             // Event info for updating the database
-            UpdateStorage::EVENT_KEY_BUCKET => $bucket_name,
+            UpdateStorage::EVENT_KEY_BUCKET => UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME,
             UpdateStorage::EVENT_KEY_NAME_UPDATED_FIELD => UpdatePlayerRobotProperties::PLAYER_KEY_PREFIX . UpdatePlayerRobotPropertiesTest::DEFAULT_KEY,
             UpdateStorage::EVENT_KEY_UPDATED_VALUE => $new_value,
             UpdateStorage::EVENT_KEY_NAME_SELECTOR => UpdatePlayerRobotProperties::PLAYER_KEY_PREFIX . UpdatePlayerRobotProperties::KEY_ID,

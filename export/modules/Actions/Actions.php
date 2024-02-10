@@ -11,9 +11,13 @@ namespace NieuwenhovenGames\Verdant;
 require_once(__DIR__.'/../BGA/Update/StockHandler.php');
 require_once(__DIR__.'/../BGA/Update/UpdateDeck.php');
 
+include_once(__DIR__.'/BGA/EventEmitter.php');
+include_once(__DIR__.'/BGA/RewardHandler.php');
+include_once(__DIR__.'/BGA/UpdatePlayerRobotProperties.php');
+include_once(__DIR__.'/BGA/UpdateStorage.php');
+
 include_once(__DIR__.'/AIs.php');
 include_once(__DIR__.'/UpdateDecks.php');
-
 include_once(__DIR__.'/AIsPlaceCard.php');
 include_once(__DIR__.'/AISelectsAndPlacesCard.php');
 include_once(__DIR__.'/NextPlayer.php');
@@ -43,6 +47,8 @@ class Actions {
 
     public function setDatabase($sql_database) : Actions {
         $this->current_data = CurrentData::create($sql_database);
+
+        $this->update_storage = \NieuwenhovenGames\BGA\UpdateStorage::create($sqlDatabase);
 
         return $this;
     }
@@ -85,6 +91,15 @@ class Actions {
         $this->ais = AIs::create($players);
         $this->ais->setCurrentDecks($this->current_decks);
         $this->ais->setUpdateDecks($this->update_decks);
+
+        $this->event_emitter = new \NieuwenhovenGames\BGA\EventEmitter();
+        
+        $this->update_storage->setEventEmitter($this->event_emitter);
+
+        $this->player_properties = new \NieuwenhovenGames\BGA\UpdatePlayerRobotProperties($this->current_data->getPlayerDataIncludingRobots());
+        $this->player_properties->setEventEmitter($this->event_emitter);
+
+        $this->reward_handler = \NieuwenhovenGames\BGA\RewardHandler::createFromPlayerProperties($this->player_properties);;
 
         return $this;
     }

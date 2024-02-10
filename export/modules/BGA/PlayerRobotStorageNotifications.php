@@ -36,15 +36,10 @@ class PlayerRobotStorageNotifications {
     public function setEventEmitter($event_handler) : PlayerRobotStorageNotifications {
         $this->event_handler = $event_handler;
         $this->event_handler->on(UpdateStorage::getBucketSpecificEventName(UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME), [$this, 'playerPropertyUpdated']);
-        $this->event_handler->on(UpdateStorage::getBucketSpecificEventName(UpdatePlayerRobotProperties::ROBOT_BUCKET_NAME), [$this, 'robotPropertyUpdated']);
         return $this;
     }
 
     public function playerPropertyUpdated($event) {
-        $this->propertyUpdated($event);
-    }
-
-    public function robotPropertyUpdated($event) {
         $this->propertyUpdated($event);
     }
 

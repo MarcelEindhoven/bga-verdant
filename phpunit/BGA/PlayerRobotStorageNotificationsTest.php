@@ -26,7 +26,7 @@ class PlayerRobotStorageNotificationsTest extends TestCase{
         $this->sut->setNotificationsHandler($this->mock_notifications);
 
         $this->mock_emitter = $this->createMock(EventEmitter::class);
-        $this->mock_emitter->expects($this->exactly(2))->method('on');
+        $this->mock_emitter->expects($this->exactly(1))->method('on');
         /*
         $this->mock_emitter->expects($this->exactly(2))->method('on')->withConsecutive(
             [UpdateStorage::getBucketSpecificEventName(UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME), [$this->mock_emitter, 'playerPropertyUpdated']],

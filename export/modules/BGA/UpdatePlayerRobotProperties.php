@@ -24,16 +24,12 @@ class PropertiesSinglePlayer extends \ArrayObject {
         return $this;
     }
 
-    public function isPlayer() : bool {
-        return $this->offsetGet(UpdatePlayerRobotProperties::KEY_IS_PLAYER);
-    }
-
     public function offsetSet($property_name, $property_value): void {
         parent::offsetSet($property_name, $property_value);
 
         $event = [
             // Event info for updating the database, if database is subscribed
-            UpdateStorage::EVENT_KEY_BUCKET => $this->isPlayer() ? UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME : UpdatePlayerRobotProperties::ROBOT_BUCKET_NAME,
+            UpdateStorage::EVENT_KEY_BUCKET => UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME,
             UpdateStorage::EVENT_KEY_NAME_UPDATED_FIELD => UpdatePlayerRobotProperties::PLAYER_KEY_PREFIX . $property_name,
             UpdateStorage::EVENT_KEY_UPDATED_VALUE => $property_value,
             UpdateStorage::EVENT_KEY_NAME_SELECTOR => UpdatePlayerRobotProperties::PLAYER_KEY_PREFIX . UpdatePlayerRobotProperties::KEY_ID,
@@ -51,7 +47,6 @@ class UpdatePlayerRobotProperties extends \ArrayObject {
 
     const PLAYER_BUCKET_NAME = 'player';
     const PLAYER_KEY_PREFIX = 'player_';
-    const ROBOT_BUCKET_NAME = 'robot';
 
     const KEY_SCORE = 'score';
     const KEY_ID = 'id';

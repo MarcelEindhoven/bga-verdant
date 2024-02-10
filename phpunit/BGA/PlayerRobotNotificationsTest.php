@@ -66,13 +66,5 @@ class PlayerRobotNotificationsTest extends TestCase{
         $this->sut->notifyPlayer($this->player_id, $this->notification_type, $this->notification_log, $this->notification_args);
         // Assert
     }
-
-    public function testnotifyPlayer_Robot_NothingHappens() {
-        // Arrange
-        $this->mock_notifications->expects($this->exactly(0))->method('notifyPlayer');
-        // Act
-        $this->sut->notifyPlayer($this->robot_id, $this->notification_type, $this->notification_log, $this->notification_args);
-        // Assert
-    }
 }
 ?>

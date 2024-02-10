@@ -38,9 +38,7 @@ class PlayerRobotNotifications {
     }
 
     public function notifyPlayer($player_id, string $notification_type, string $notification_log, array $notification_args) : void {
-        if ($this->data[$player_id]['is_player']) {
-            $this->notificationsHandler->notifyPlayer($player_id, $notification_type, $notification_log, $notification_args+ $this->additionalArguments($player_id));    
-        }
+        $this->notificationsHandler->notifyPlayer($player_id, $notification_type, $notification_log, $notification_args+ $this->additionalArguments($player_id));    
     }
 
     public function notifyAllPlayers(string $notification_type, string $notification_log, array $notification_args, $player_id = null) : void {

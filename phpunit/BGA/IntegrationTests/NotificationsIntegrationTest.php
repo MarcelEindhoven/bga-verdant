@@ -55,11 +55,10 @@ class NotificationsIntegrationTest extends TestCase{
 
     public function testpropertyUpdated_Always_notifyAllPlayers() {
         // Arrange
-        $bucket_name = 'robot';
         $field_name_value = 'score';
         $value = 3;
         $event = [
-            UpdateStorage::EVENT_KEY_BUCKET => $bucket_name,
+            UpdateStorage::EVENT_KEY_BUCKET => UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME,
             UpdateStorage::EVENT_KEY_NAME_UPDATED_FIELD => $field_name_value,
             UpdateStorage::EVENT_KEY_UPDATED_VALUE => $value,
             UpdateStorage::EVENT_KEY_NAME_SELECTOR => 'player_id',
