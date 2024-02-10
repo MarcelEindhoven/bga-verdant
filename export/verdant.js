@@ -289,7 +289,10 @@ function (dojo, declare, OwnHome, Market) {
                 switch( stateName )
                 {
                     case 'playerTurn':
-                        this.market.MakeAllCardsSelectable('marketCardSelected');
+                        categories = [];
+                        if (this.gamedatas.selectable_plant_positions.length > 0) {categories.push('plant');}
+                        if (this.gamedatas.selectable_room_positions.length > 0) {categories.push('room');}
+                        this.market.MakeRowsSelectable(categories, 'marketCardSelected');
                         /*               
                  Example:
  
