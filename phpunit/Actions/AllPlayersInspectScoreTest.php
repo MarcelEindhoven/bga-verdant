@@ -47,13 +47,11 @@ class AllPlayersInspectScoreTest extends TestCase{
     public function testExecute__SingleType__NoDecoratorBonus() {
         // Arrange
         $cards = [['type' => DecksSetup::FIRST_COLOUR]];
-        $arguments = [Constants::PLANT_NAME => $cards, Constants::ITEM_NAME => $cards, Constants::ROOM_NAME => $cards];
-        $this->mock_current_decks->expects($this->exactly(1))->method('getCardsForPlayer')->willReturn($arguments);
 
-        $this->mock_reward_handler->expects($this->exactly(2))->method('gainedPoints')->withConsecutive([$this->player_id, 0]);
+        $this->mock_reward_handler->expects($this->exactly(0))->method('gainedPoints');
 
         // Act
-        $this->sut->execute();
+        $this->sut->calculateDecoratorBonus(77, $cards);
         // Assert
     }
 
@@ -63,13 +61,35 @@ class AllPlayersInspectScoreTest extends TestCase{
         for ($c = DecksSetup::FIRST_COLOUR;  $c < DecksSetup::FIRST_COLOUR + DecksSetup::NUMBER_COLOURS; $c++ ) {
             $cards[] = ['type' => $c];
         }
-        $arguments = [Constants::PLANT_NAME => $cards, Constants::ITEM_NAME => $cards, Constants::ROOM_NAME => $cards];
-        $this->mock_current_decks->expects($this->exactly(1))->method('getCardsForPlayer')->willReturn($arguments);
 
-        $this->mock_reward_handler->expects($this->exactly(2))->method('gainedPoints')->withConsecutive([$this->player_id, 3]);
+        $this->mock_reward_handler->expects($this->exactly(1))->method('gainedPoints')->withConsecutive([$this->player_id, 3]);
 
         // Act
-        $this->sut->execute();
+        $this->sut->calculateDecoratorBonus(77, $cards);
+        // Assert
+    }
+
+    public function testRoomBonus__NoMatch__NoReward() {
+        // Arrange
+        $cards_rooms = [['type' => 1, 'location_arg' => 24]];
+        $cards_plants = [['type' => 1, 'location_arg' => 22]];
+
+        $this->mock_reward_handler->expects($this->exactly(0))->method('gainedPoints');
+
+        // Act
+        $this->sut->calculateRoomBonus(77, $cards_rooms, $cards_plants);
+        // Assert
+    }
+
+    public function testRoomBonus__SingleMatch__NoReward() {
+        // Arrange
+        $cards_rooms = [['type' => 1, 'location_arg' => 24]];
+        $cards_plants = [['type' => 1, 'location_arg' => 23]];
+
+        $this->mock_reward_handler->expects($this->exactly(1))->method('gainedPoints')->withConsecutive([$this->player_id, 1]);
+
+        // Act
+        $this->sut->calculateRoomBonus(77, $cards_rooms, $cards_plants);
         // Assert
     }
 }

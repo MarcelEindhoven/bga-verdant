@@ -55,16 +55,52 @@ class AllPlayersInspectScore extends \NieuwenhovenGames\BGA\Action {
         $this->calculateDecoratorBonus($player_id, $decks[Constants::PLANT_NAME]);
         $this->calculateDecoratorBonus($player_id, $decks[Constants::ROOM_NAME]);
     }
-    protected function calculateDecoratorBonus($player_id, $rooms) {
+    public function calculateDecoratorBonus($player_id, $rooms) {
         $types = [];
         foreach ($rooms as $card) {
             $types[] = $card['type'];
         }
         array_unique($types);
         
-        $this->reward_handler->gainedPoints($player_id, array_diff([1, 2, 3, 4, 5], $types) ? 0 : 3);
+        if (! array_diff([1, 2, 3, 4, 5], $types)) {
+            $this->reward_handler->gainedPoints($player_id, 3);
+        }
+        
     }
+    public function calculateRoomBonus($player_id, $rooms, $plants) {
+        $map = $this->getMapLocationToCard($plants);
+        $score = 0;
+        foreach ($rooms as $card) {
+            $score += $this->getSingleRoomBonus($card, $map);
+        }
+        if ($score > 0) {
+            $this->reward_handler->gainedPoints($player_id, $score);
+        }
+    }
+    public function getSingleRoomBonus($card, $map) {
+        $position = +$card['location_arg'];
+        $type = +$card['type'];
+        return $this->getSingleLocationBonus($type, $position - 10, $map)
+        + $this->getSingleLocationBonus($type, $position - 1, $map)
+        + $this->getSingleLocationBonus($type, $position + 1, $map)
+        + $this->getSingleLocationBonus($type, $position + 10, $map)
+        ;
+    }
+    public function getSingleLocationBonus($type, $position, $map) {
+        if (array_key_exists($position, $map)) {
+            if ($map[$position]['type'] == $type) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+    protected function getMapLocationToCard($cards) {
+        $map = [];
+        foreach ($cards as $card) {
+            $map[+$card['location_arg']] = $card;
+        }
+        return $map;
 
-
+    }
 }
 ?>
