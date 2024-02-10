@@ -29,14 +29,41 @@ class AllPlayersInspectScore extends \NieuwenhovenGames\BGA\Action {
         return new AllPlayersInspectScore($gamestate);
     }
 
+    public function setPlayers($players) : AllPlayersInspectScore {
+        $this->players = $players;
+        return $this;
+    }
+
+    public function setRewardHandler($reward_handler) : AllPlayersInspectScore {
+        $this->reward_handler = $reward_handler;
+        return $this;
+    }
+
     public function setCurrentDecks($current_decks) : AllPlayersInspectScore {
         $this->current_decks = $current_decks;
         return $this;
     }
 
     public function execute() : AllPlayersInspectScore {
+        foreach ($this->players as $player_id => $player) {
+            $this->calculateScore($player_id);
+        }
         return $this;
     }
+    protected function calculateScore($player_id) {
+        $decks = $this->current_decks->getCardsForPlayer($player_id);
+        $this->calculateDecoratorBonus($player_id, $decks[Constants::ROOM_NAME]);
+    }
+    protected function calculateDecoratorBonus($player_id, $rooms) {
+        $types = [];
+        foreach ($rooms as $card) {
+            $types[] = $card['type'];
+        }
+        array_unique($types);
+        
+        $this->reward_handler->gainedPoints($player_id, array_diff([1, 2, 3, 4, 5], $types) ? 0 : 3);
+    }
+
 
 }
 ?>

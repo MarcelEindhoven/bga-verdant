@@ -52,6 +52,12 @@ class CurrentDecks {
 
         return $data;
     }
+    public function getCardsForPlayer($player_id) {
+        $decks = [];
+        foreach ($this->decks as $name => $deck) {
+            $decks[$name] = $deck->getCardsInLocation($player_id);
+        }
+    }
 
     protected function getCardsInPlay(): array {
         $decks = [];
