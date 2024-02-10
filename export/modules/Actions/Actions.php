@@ -16,6 +16,7 @@ include_once(__DIR__.'/UpdateDecks.php');
 
 include_once(__DIR__.'/AIsPlaceCard.php');
 include_once(__DIR__.'/AISelectsAndPlacesCard.php');
+include_once(__DIR__.'/NextPlayer.php');
 include_once(__DIR__.'/PlayerPlacesInitialPlant.php');
 include_once(__DIR__.'/PlayerPlacesPlant.php');
 
@@ -106,7 +107,7 @@ class Actions {
 
     public function stNextPlayer($player_id) {
         $this->setCurrentPlayerID($player_id);
-        $this->gamestate->nextState(array_key_exists($player_id, $this->ais) ? 'aiPlaying' : 'playerPlaying');
+        NextPlayer::create($this->gamestate)->setAIs($this->ais)->setCurrentPlayerID($player_id)->nextState();
     }
 
     public function stAiPlayer() {
