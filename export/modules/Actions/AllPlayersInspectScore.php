@@ -52,6 +52,7 @@ class AllPlayersInspectScore extends \NieuwenhovenGames\BGA\Action {
     }
     protected function calculateScore($player_id) {
         $decks = $this->current_decks->getCardsForPlayer($player_id);
+        $this->calculateDecoratorBonus($player_id, $decks[Constants::PLANT_NAME]);
         $this->calculateDecoratorBonus($player_id, $decks[Constants::ROOM_NAME]);
     }
     protected function calculateDecoratorBonus($player_id, $rooms) {

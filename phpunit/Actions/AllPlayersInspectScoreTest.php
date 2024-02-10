@@ -50,7 +50,7 @@ class AllPlayersInspectScoreTest extends TestCase{
         $arguments = [Constants::PLANT_NAME => $cards, Constants::ITEM_NAME => $cards, Constants::ROOM_NAME => $cards];
         $this->mock_current_decks->expects($this->exactly(1))->method('getCardsForPlayer')->willReturn($arguments);
 
-        $this->mock_reward_handler->expects($this->exactly(1))->method('gainedPoints')->withConsecutive([$this->player_id, 0]);
+        $this->mock_reward_handler->expects($this->exactly(2))->method('gainedPoints')->withConsecutive([$this->player_id, 0]);
 
         // Act
         $this->sut->execute();
@@ -66,7 +66,7 @@ class AllPlayersInspectScoreTest extends TestCase{
         $arguments = [Constants::PLANT_NAME => $cards, Constants::ITEM_NAME => $cards, Constants::ROOM_NAME => $cards];
         $this->mock_current_decks->expects($this->exactly(1))->method('getCardsForPlayer')->willReturn($arguments);
 
-        $this->mock_reward_handler->expects($this->exactly(1))->method('gainedPoints')->withConsecutive([$this->player_id, 3]);
+        $this->mock_reward_handler->expects($this->exactly(2))->method('gainedPoints')->withConsecutive([$this->player_id, 3]);
 
         // Act
         $this->sut->execute();
