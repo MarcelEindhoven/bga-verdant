@@ -293,7 +293,9 @@ function (dojo, declare, OwnHome, Market) {
                         if (this.gamedatas.selectable_plant_positions.length > 0) {categories.push('plant');}
                         if (this.gamedatas.selectable_room_positions.length > 0) {categories.push('room');}
                         this.market.MakeRowsSelectable(categories, 'marketCardSelected');
-                        /*               
+                    case 'placeItem':
+                        // Which item will be placed?
+                            /*               
                  Example:
  
                  case 'myGameState':
@@ -460,6 +462,7 @@ function (dojo, declare, OwnHome, Market) {
             console.log(notif.args);
             card_type = this.stocks[notif.args.from].getItemById(notif.args.from).type;
             this.stocks[notif.args.to].addToStockWithId(card_type, notif.args.from);
+            this.stocks[notif.args.from].removeFromStockById(notif.args.from);
         },
         notify_NewSelectablePositions: function(notif) {
             console.log('notify_NewSelectablePositions');
