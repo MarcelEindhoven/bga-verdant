@@ -38,10 +38,12 @@ class AI {
         $positions = [];
         $positions[Constants::PLANT_NAME] = $this->decks->getPlantSelectableHomePositions($this->player_id);
         $positions[Constants::ROOM_NAME] = $this->decks->getRoomSelectableHomePositions($this->player_id);
+        $category = Constants::ROOM_NAME;
         if ($positions[Constants::PLANT_NAME]) {
-            $this->update_decks[Constants::PLANT_NAME]->movePublicToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, Constants::PLANT_NAME, 0, $this->player_id, $positions[Constants::PLANT_NAME][0]);
-            $this->update_decks[Constants::PLANT_NAME]->pickCardForLocation(AI::MESSAGE_PLACE_SELECTED_CARD, Constants::PLANT_NAME, 0);
+            $category = Constants::PLANT_NAME;
         }
+        $this->update_decks[$category]->movePublicToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, $category, 0, $this->player_id, $positions[$category][0]);
+        $this->update_decks[$category]->pickCardForLocation(AI::MESSAGE_PLACE_SELECTED_CARD, $category, 0);
         return $this;
     }
 

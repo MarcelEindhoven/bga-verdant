@@ -30,7 +30,7 @@ class AITest extends TestCase{
         
         $this->sut = AI::create($this->player_id);
         $this->sut->setCurrentDecks($this->mock_decks);
-        $this->sut->setUpdateDecks(['plant' => $this->mock_deck]);
+        $this->sut->setUpdateDecks([Constants::PLANT_NAME => $this->mock_deck, Constants::ROOM_NAME => $this->mock_deck]);
     }
 
     public function testExecute_SingleAI_placeSelectedPlantCard() {
@@ -46,23 +46,7 @@ class AITest extends TestCase{
         // Assert
     }
 
-    public function testselectAndPlaceCard__NoSelectablePositions__QueryOnly() {
-        // Arrange
-        $this->mock_decks->expects($this->exactly(1))->method('getPlantSelectableHomePositions')
-        ->with($this->player_id)
-        ->willReturn([]);
-        $this->mock_decks->expects($this->exactly(1))->method('getRoomSelectableHomePositions')
-        ->with($this->player_id)
-        ->willReturn([]);
-        $this->mock_deck->expects($this->exactly(0))->method('movePublicToPublic');
-        $this->mock_deck->expects($this->exactly(0))->method('pickCardForLocation');
-
-        // Act
-        $this->sut->selectAndPlaceCard();
-        // Assert
-    }
-
-    public function testselectAndPlaceCard__PlantSelectablePosition__() {
+    public function testselectAndPlaceCard__OnlyPlantSelectablePosition__movePublicToPublic() {
         // Arrange
         $this->mock_decks->expects($this->exactly(1))->method('getPlantSelectableHomePositions')
         ->with($this->player_id)
@@ -70,7 +54,25 @@ class AITest extends TestCase{
         $this->mock_decks->expects($this->exactly(1))->method('getRoomSelectableHomePositions')
         ->with($this->player_id)
         ->willReturn([]);
-        $this->mock_deck->expects($this->exactly(1))->method('movePublicToPublic');
+        $this->mock_deck->expects($this->exactly(1))->method('movePublicToPublic')
+        ->with(AI::MESSAGE_PLACE_SELECTED_CARD, Constants::PLANT_NAME, 0, $this->player_id, 10);
+        $this->mock_deck->expects($this->exactly(1))->method('pickCardForLocation');
+
+        // Act
+        $this->sut->selectAndPlaceCard();
+        // Assert
+    }
+
+    public function testselectAndPlaceCard__OnlyRoomSelectablePosition__movePublicToPublic() {
+        // Arrange
+        $this->mock_decks->expects($this->exactly(1))->method('getPlantSelectableHomePositions')
+        ->with($this->player_id)
+        ->willReturn([]);
+        $this->mock_decks->expects($this->exactly(1))->method('getRoomSelectableHomePositions')
+        ->with($this->player_id)
+        ->willReturn([10]);
+        $this->mock_deck->expects($this->exactly(1))->method('movePublicToPublic')
+        ->with(AI::MESSAGE_PLACE_SELECTED_CARD, Constants::ROOM_NAME, 0, $this->player_id, 10);
         $this->mock_deck->expects($this->exactly(1))->method('pickCardForLocation');
 
         // Act
