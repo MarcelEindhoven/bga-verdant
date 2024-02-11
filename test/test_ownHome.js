@@ -101,4 +101,23 @@ describe('OwnHome', function () {
         assert.ok(dojo.disconnect.calledOnceWithExactly(connection_handler), 'Reset cleans up');
     });
   });
+  describe('Set selectable cards', function () {
+    function act_default_set(positions) {
+        sut.SetSelectableCards(positions, 'playerSelectsCard');
+    };
+    it('Set zero selectable cards', function () {
+        // Arrange
+        // Act
+        act_default_set([]);
+        // Assert
+        assert.ok(dojo.addClass.notCalled, 'Do not add class when there are no selectable empty positions');
+    });
+    it('Set one selectable card', function () {
+        // Arrange
+        // Act
+        act_default_set([position]);
+        // Assert
+        sinon.assert.calledOnceWithExactly(dojo.addClass, field_id, 'selectable');
+    });
+  });
 });

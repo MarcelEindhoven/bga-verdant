@@ -294,6 +294,8 @@ function (dojo, declare, OwnHome, Market) {
                         if (this.gamedatas.selectable_room_positions.length > 0) {categories.push('room');}
                         this.market.MakeRowsSelectable(categories, 'marketCardSelected');
                     case 'placeItem':
+                        console.log('placeItem'+ this.gamedatas.selectable_plants);
+                        this.own_home.SetSelectableCards(this.gamedatas.selectable_plants, 'placeInitialPlant');
                         // Which item will be placed?
                             /*               
                  Example:
