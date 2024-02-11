@@ -32,8 +32,10 @@ define(['dojo/_base/declare'], (declare) => {
 
         GetItemFromSelectedColumn() {
             for (var id in this.stocks) {
-                if (this.IsStockIDCardInMarket(id) && !this.stocks[id].getAllItems()) {
-                    return this.GetItemLocationFromSameColumn(id);
+                if (this.IsStockIDCardInMarket(id)){
+                    if (this.stocks[id].getAllItems().length == 0) {
+                        return this.items[this.GetItemLocationFromSameColumn(id)];
+                    }
                 }
             }
         },

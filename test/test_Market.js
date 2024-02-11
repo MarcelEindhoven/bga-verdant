@@ -13,6 +13,7 @@ describe('Market', function () {
             connect: sinon.fake.returns(connection_handler),
             removeClass: sinon.spy(),
             disconnect: sinon.spy(),
+            place: sinon.spy(),
         };
         sut.SetWebToolkit(dojo);
 
@@ -79,16 +80,22 @@ describe('Market', function () {
         });
         it('Not occupied', function () {
             // Arrange
+            stock.getAllItems.returns([]);
             stocks = [];
             stocks['plant_3'] = stock;
             sut.SetStocks(stocks);
+
+            market_item = [];
+            market_item['location_arg'] = '3';
+            sut.SetItem(market_item, []);
             // Act
             item = act_default_get_item();
             // Assert
-            assert.equal('item_3', item);
+            assert.equal(market_item, item);
         });
         it('Not occupied', function () {
             // Arrange
+            stock.getAllItems.returns([]);
             stocks = [];
             stocks['xxx_3'] = stock;
             sut.SetStocks(stocks);
