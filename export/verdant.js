@@ -80,10 +80,11 @@ function (dojo, declare, OwnHome, Market) {
             // TODO: Set up your game interface here, according to "gamedatas"
             this.selected_card = null;
             this.setupStocks(gamedatas.players);
-            this.setupDecks(gamedatas.decks);
 
             this.market.SetStocks(this.stocks);
             this.own_home.SetStocks(this.stocks);
+
+            this.setupDecks(gamedatas.decks);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
@@ -136,28 +137,20 @@ function (dojo, declare, OwnHome, Market) {
             for (var number in items) {
                 item = items[number];
                 if (item['location'] == 'item') {
-                    this.setupItem(item);
+                    this.market.SetItem(item, this.getBlockItem(item));
                 }
             }
         },
-        setupItem: function(item) {
-            console.log("setupItem");
-            console.log(item);
-
-            var location = 'item_' + item.location_arg;
+        getBlockItem(item) {
             nr = item['id'];
             type = this.itemwidth * Number(item['type']);
             color = this.itemheight * Number(item['type_arg']);
-            console.log(location);
-            console.log(nr);
-            console.log(type);
-            console.log(color);
-            
-            dojo.place( this.format_block( 'jstpl_item', {
+
+            return this.format_block( 'jstpl_item', {
                 nr: nr,
                 background_horizontal: color,
                 background_vertical: type
-            } ) ,  location);
+            } );
         },
         setupCardStock: function(element, category) {
             hand = new ebg.stock();

@@ -24,16 +24,16 @@ describe('Market', function () {
             removeFromStockById: sinon.spy(),
         };
         stocks = [];
-        stocks[0] = stock;
+        stocks['plant_3'] = stock;
         sut.SetStocks(stocks);
 
         selected_card_type_id = 15;
     });
-    function act_default_set(categories) {
-        sut.MakeRowsSelectable(categories);
-    };
     describe('MakeRowsSelectable', function () {
-        it('Nothing selectable', function () {
+        function act_default_set(categories) {
+            sut.MakeRowsSelectable(categories);
+        };
+            it('Nothing selectable', function () {
             // Arrange
             // Act
             act_default_set([]);
@@ -54,6 +54,48 @@ describe('Market', function () {
             sut.ResetSelectableCards();
             // Assert
             sinon.assert.callCount(dojo.removeClass, 4);
+        });
+    });
+    describe('Get item from column with missing element', function () {
+        function act_default_get_item() {
+            return sut.GetItemFromSelectedColumn();
+        };
+        beforeEach(function() {
+            stock = {
+            getAllItems: sinon.stub(),
+            };
+        });
+        it('All occupied', function () {
+            // Arrange
+            stock.getAllItems.returns([3]);
+            stocks = [];
+            stocks['plant_3'] = stock;
+            sut.SetStocks(stocks);
+            // Act
+            item = act_default_get_item();
+            // Assert
+            assert.equal(null, item);
+            sinon.assert.calledOnce(stock.getAllItems);
+        });
+        it('Not occupied', function () {
+            // Arrange
+            stocks = [];
+            stocks['plant_3'] = stock;
+            sut.SetStocks(stocks);
+            // Act
+            item = act_default_get_item();
+            // Assert
+            assert.equal('item_3', item);
+        });
+        it('Not occupied', function () {
+            // Arrange
+            stocks = [];
+            stocks['xxx_3'] = stock;
+            sut.SetStocks(stocks);
+            // Act
+            item = act_default_get_item();
+            // Assert
+            assert.equal(null, item);
         });
     });
 });

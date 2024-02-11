@@ -18,10 +18,31 @@ define(['dojo/_base/declare'], (declare) => {
                 }
                 this.element_names[category] = row;
             }
+            this.items = [];
         },
         SetWebToolkit(toolkit){this.toolkit = toolkit},
         SetServer(server){this.server = server},
         SetStocks(stocks){this.stocks = stocks},
+
+        SetItem(item, block) {
+            var location = 'item_' + item.location_arg;
+            this.items[location] = item;
+            dojo.place(block, location);
+        },
+
+        GetItemFromSelectedColumn() {
+            for (var id in this.stocks) {
+                if (this.IsStockIDCardInMarket(id) && !this.stocks[id].getAllItems()) {
+                    return this.GetItemLocationFromSameColumn(id);
+                }
+            }
+        },
+        IsStockIDCardInMarket(id) {
+            return id.slice(0, 5) == 'plant' || id.slice(0, 4) == 'room'
+        },
+        GetItemLocationFromSameColumn(id) {
+            return 'item_' + id.slice(-1);
+        },
 
         MakeRowsSelectable(categories_to_select, callback_method) {
             this.ResetSelectableCards();
