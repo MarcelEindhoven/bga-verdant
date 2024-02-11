@@ -138,7 +138,10 @@ function (dojo, declare, OwnHome, Market) {
                 item = items[number];
                 if (item['location'] == 'item') {
                     this.market.SetItem(item, this.getBlockItem(item));
-                }
+                    if (item['location_arg'] == '3') {
+                        //this.placeOnObjectPos(this.getBlockItem(item), this.player_id + "_24", 50, 75);
+                    }
+                    }
             }
         },
         getBlockItem(item) {
@@ -290,12 +293,10 @@ function (dojo, declare, OwnHome, Market) {
                         item = this.market.GetItemFromSelectedColumn();
                         console.log(item);
                         if (item['type'] == 0) {
-                            selectable_positions = this.gamedatas.selectable_plants;
+                            this.own_home.SetSelectableCards(this.gamedatas.selectable_plants, 'playerPlacesItemOnPlant');
                         } else {
-                            selectable_positions = this.gamedatas.selectable_rooms;
+                            this.own_home.SetSelectableCards(this.gamedatas.selectable_rooms, 'playerPlacesItemOnRoom');
                         }
-                        console.log('placeItem'+ selectable_positions);
-                        this.own_home.SetSelectableCards(selectable_positions, 'placeInitialPlant');
                         // Which item will be placed?
                             /*               
                  Example:
@@ -314,6 +315,15 @@ function (dojo, declare, OwnHome, Market) {
                 this.market.ResetSelectableCards();
             }
         },        
+        playerPlacesItemOnPlant: function(element_name) {
+            this.call('playerPlacesItemOnPlant', {selected_id: element_name});
+        },
+        playerPlacesItemOnRoom: function(element_name) {
+            this.call('playerPlacesItemOnRoom', {selected_id: element_name});
+        },
+        playerPlacesItemOnStorage: function(element_name) {
+            this.call('playerPlacesItemOnStorage', {selected_id: element_name});
+        },
         marketCardSelected: function(element_name) {
             console.log('marketCardSelected ' + element_name);
 

@@ -72,6 +72,35 @@
       self::ajaxResponse( );
     }
 
+    function playerPlacesItemOnPlant() {
+      self::setAjaxMode();
+
+      $selected_id = self::getArg( "selected_id", AT_alphanum, true );
+
+      $this->game->playerPlacesItemOnPlant($selected_id);
+
+      self::ajaxResponse( );
+    }
+
+    function playerPlacesItemOnRoom() {
+      self::setAjaxMode();
+
+      $selected_id = self::getArg( "selected_id", AT_alphanum, true );
+
+      $this->game->playerPlacesItemOnRoom($selected_id);
+
+      self::ajaxResponse( );
+    }
+
+    function playerPlacesItemOnStorage() {
+      self::setAjaxMode();
+
+      $selected_id = self::getArg( "selected_id", AT_alphanum, true );
+
+      $this->game->playerPlacesItemOnStorage($selected_id);
+
+      self::ajaxResponse( );
+    }
     /*
     
     Example:

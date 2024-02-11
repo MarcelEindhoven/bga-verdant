@@ -116,6 +116,15 @@ class Actions {
         $this->playerPlacesPlant($selected_market_card, $selected_home_id);
     }
 
+    public function playerPlacesItemOnPlant($field_id) {
+    }
+
+    public function playerPlacesItemOnRoom($field_id) {
+    }
+
+    public function playerPlacesItemOnStorage($field_id) {
+    }
+
     public function stAIsPlaceCard() {
         AIsPlaceCard::create($this->gamestate)->setAIs($this->ais)->execute()->nextState();
     }
