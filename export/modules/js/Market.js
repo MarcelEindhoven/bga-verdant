@@ -9,7 +9,7 @@ define(['dojo/_base/declare'], (declare) => {
             this.connection_handlers = [];
 
             this.element_names = [];
-            categories = ['plant', 'room'];
+            var categories = ['plant', 'item', 'room'];
             for (var c in categories) {
                 category = categories[c];
                 row = [];
@@ -23,13 +23,13 @@ define(['dojo/_base/declare'], (declare) => {
         SetServer(server){this.server = server},
         SetStocks(stocks){this.stocks = stocks},
 
-        MakeRowsSelectable(categories, callback_method) {
+        MakeRowsSelectable(categories_to_select, callback_method) {
             this.ResetSelectableCards();
 
             this.callback_method = callback_method;
 
-            for (var c in categories) {
-                category = categories[c];
+            for (var c in categories_to_select) {
+                category = categories_to_select[c];
                 row = this.element_names[category];
                 for(var p in row) {
                     var element_name = row[p];
