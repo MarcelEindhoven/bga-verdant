@@ -14,6 +14,11 @@ define(['dojo/_base/declare'], (declare) => {
         SetServer(server){this.server = server},
         SetStocks(stocks){this.stocks = stocks},
 
+        SetItem(item, location) {
+            var id = 'item_id_' + item.id;
+            dojo.placeOnObjectPos(id, location, 50, 75);
+        },
+
         SetSelectableEmptyPositions(positions, selected_card_type_id, callback_method) {
             this.RemoveCardFromPositions();
 

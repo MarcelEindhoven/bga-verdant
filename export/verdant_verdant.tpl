@@ -118,7 +118,7 @@
 <script type="text/javascript">
 // <div id="tokens"/>
 // Javascript HTML templates
-var jstpl_item='<div class="item" id="item_${nr}" style="background-position: -${background_horizontal}px ${background_vertical}px;"></div>';
+var jstpl_item='<div class="item" id="item_id_${nr}" style="background-position: -${background_horizontal}px ${background_vertical}px;"></div>';
 // var jstpl_item='<div class="item" id="item_${nr}" ></div>';
 
 /*

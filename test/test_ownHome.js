@@ -13,6 +13,7 @@ describe('OwnHome', function () {
             connect: sinon.fake.returns(connection_handler),
             removeClass: sinon.spy(),
             disconnect: sinon.spy(),
+            placeOnObjectPos: sinon.spy(),
         };
         sut.SetWebToolkit(dojo);
 
@@ -118,6 +119,19 @@ describe('OwnHome', function () {
         act_default_set([position]);
         // Assert
         sinon.assert.calledOnceWithExactly(dojo.addClass, field_id, 'selectable');
+    });
+  });
+  describe('Set item', function () {
+    it('Set item', function () {
+        // Arrange
+        item = [];
+        item['id'] = '5';
+        id = 'item_id_5'
+        location = '123456_24';
+        // Act
+        sut.SetItem(item, location);
+        // Assert
+        sinon.assert.calledOnceWithExactly(dojo.placeOnObjectPos, id, location, 50, 75);
     });
   });
 });
