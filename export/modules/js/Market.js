@@ -24,10 +24,9 @@ define(['dojo/_base/declare'], (declare) => {
         SetServer(server){this.server = server},
         SetStocks(stocks){this.stocks = stocks},
 
-        SetItem(item, block) {
+        SetItem(item) {
             var location = 'item_' + item.location_arg;
             this.items[location] = item;
-            dojo.place(block, location);
         },
 
         GetItemFromSelectedColumn() {

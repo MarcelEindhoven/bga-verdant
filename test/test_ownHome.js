@@ -126,12 +126,17 @@ describe('OwnHome', function () {
         // Arrange
         item = [];
         item['id'] = '5';
+        item['location'] = '123456';
+        item['location_arg'] = '24';
         id = 'item_id_5'
         location = '123456_24';
+        toolkit = {
+            placeOnObjectPos: sinon.spy(),
+        };
         // Act
-        sut.SetItem(item, location);
+        sut.SetItem(item, toolkit);
         // Assert
-        sinon.assert.calledOnceWithExactly(dojo.placeOnObjectPos, id, location, 50, 75);
+        sinon.assert.calledOnceWithExactly(toolkit.placeOnObjectPos, id, location, 50, 75);
     });
   });
 });

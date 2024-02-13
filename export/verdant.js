@@ -136,13 +136,16 @@ function (dojo, declare, OwnHome, Market) {
             console.log(items);
             for (var number in items) {
                 item = items[number];
+                this.createItem(item);
                 if (item['location'] == 'item') {
-                    this.market.SetItem(item, this.getBlockItem(item));
-                    if (item['location_arg'] == '3') {
-                        //this.placeOnObjectPos(this.getBlockItem(item), this.player_id + "_24", 50, 75);
-                    }
-                    }
+                    this.market.SetItem(item);
+                } else {
+                    this.own_home.SetItem(item);
+                }
             }
+        },
+        createItem(item) {
+            dojo.place(this.getBlockItem(item), this.getElementName(item));
         },
         getBlockItem(item) {
             nr = item['id'];
@@ -446,6 +449,12 @@ function (dojo, declare, OwnHome, Market) {
             dojo.subscribe( 'MoveFromStockToStock', this, "notify_MoveFromStockToStock" );
             this.notifqueue.setSynchronous( 'MoveFromStockToStock', 500 );
 
+            dojo.subscribe( 'MoveItem', this, "notify_MoveItem" );
+            this.notifqueue.setSynchronous( 'MoveItem', 500 );
+
+            dojo.subscribe( 'CreateItem', this, "notify_CreateItem" );
+            this.notifqueue.setSynchronous( 'CreateItem', 500 );
+
             dojo.subscribe( 'NewSelectablePositions', this, "notify_NewSelectablePositions" );
             this.notifqueue.setSynchronous( 'NewSelectablePositions', 1 );
 
@@ -476,13 +485,27 @@ function (dojo, declare, OwnHome, Market) {
             this.stocks[notif.args.to].addToStockWithId(card_type, notif.args.from);
             this.stocks[notif.args.from].removeFromStockById(notif.args.from);
         },
+        notify_MoveItem: function(notif) {
+            console.log('notify_MoveItem');
+            console.log(notif.args);
+            this.own_home.SetItem(notif.args.item, notif.args.location);
+        },
+        notify_CreateItem: function(notif) {
+            console.log('notify_CreateItem');
+            console.log(notif.args);
+            this.createItem(notif.args.item);
+            this.market.SetItem(notif.args.item);
+        },
         notify_NewSelectablePositions: function(notif) {
             console.log('notify_NewSelectablePositions');
             console.log(notif.args);
             console.log(this.gamedatas);
             this.gamedatas.selectable_plant_positions = notif.args.selectable_plant_positions;
             this.gamedatas.selectable_room_positions = notif.args.selectable_room_positions;
+            this.gamedatas.selectable_plants = notif.args.selectable_plants;
+            this.gamedatas.selectable_rooms = notif.args.selectable_rooms;
         },
+
 
         // TODO: from this point and below, you can write your game notifications handling methods
         

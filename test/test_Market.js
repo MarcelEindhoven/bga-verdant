@@ -13,7 +13,7 @@ describe('Market', function () {
             connect: sinon.fake.returns(connection_handler),
             removeClass: sinon.spy(),
             disconnect: sinon.spy(),
-            place: sinon.spy(),
+            placeOnObject: sinon.spy(),
         };
         sut.SetWebToolkit(dojo);
 
@@ -87,7 +87,7 @@ describe('Market', function () {
 
             market_item = [];
             market_item['location_arg'] = '3';
-            sut.SetItem(market_item, []);
+            sut.SetItem(market_item);
             // Act
             item = act_default_get_item();
             // Assert
