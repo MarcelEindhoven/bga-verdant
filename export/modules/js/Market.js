@@ -25,8 +25,10 @@ define(['dojo/_base/declare'], (declare) => {
         SetStocks(stocks){this.stocks = stocks},
 
         SetItem(item) {
-            var location = 'item_' + item.location_arg;
-            this.items[location] = item;
+            this.items[this.getElementName(item)] = item;
+        },
+        getElementName: function(card) {
+            return card['location'] + '_' + card['location_arg'];
         },
 
         GetItemFromSelectedColumn() {

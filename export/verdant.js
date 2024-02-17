@@ -205,9 +205,9 @@ function (dojo, declare, OwnHome, Market) {
         },
         getElementName: function(card) {
             if (+card['location'] > 0) {
-                return card['location'] + '_' + Math.floor(+card['location_arg'] / 10) + '' + +card['location_arg'] % 10;
+                return this.own_home.getElementName(card);
             } else {
-                return card['location'] + '_' + card['location_arg'];
+                return this.market.getElementName(card);
             }
 
         },
@@ -294,7 +294,8 @@ function (dojo, declare, OwnHome, Market) {
                         if (this.gamedatas.selectable_plant_positions.length > 0) {categories.push('plant');}
                         if (this.gamedatas.selectable_room_positions.length > 0) {categories.push('room');}
                         this.market.MakeRowsSelectable(categories, 'marketCardSelected');
-                    case 'placeItem':
+                        break;
+                        case 'placeItem':
                         item = this.market.GetItemFromSelectedColumn();
                         this.selected_market_card = item.location + '_'+ item.location_arg;
                         console.log(this.selected_market_card);
@@ -303,6 +304,7 @@ function (dojo, declare, OwnHome, Market) {
                         } else {
                             this.own_home.SetSelectableCards(this.gamedatas.selectable_rooms, 'playerPlacesItemOnRoom');
                         }
+                        break;
                         // Which item will be placed?
                             /*               
                  Example:
@@ -479,6 +481,7 @@ function (dojo, declare, OwnHome, Market) {
             this.own_home.ResetSelectableEmptyPositions();
         },
         notify_newStockContent: function(notif) {
+            console.log('notify_newStockContent');
             this.fillCard(notif.args.card);
         },
         notify_MoveFromStockToStock: function(notif) {

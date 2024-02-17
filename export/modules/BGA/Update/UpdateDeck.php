@@ -15,9 +15,11 @@ include_once(__DIR__.'/../FrameworkInterfaces/Notifications.php');
 
 class UpdateDeck {
     const EVENT_NEW_STOCK_CONTENT = 'newStockContent';
+    const EVENT_NEW_ITEM = 'newItem';
     const EVENT_MOVE = 'MoveFromStockToStock';
     const ARGUMENT_KEY_PLAYER_ID = 'player_id';
     const ARGUMENT_KEY_CARD = 'card';
+    const ARGUMENT_KEY_ITEM = 'item';
     const ARGUMENT_KEY_ELEMENT_FROM = 'from';
     const ARGUMENT_KEY_ELEMENT_TO = 'to';
 
@@ -39,6 +41,16 @@ class UpdateDeck {
     public function setNotificationsHandler($notificationsHandler) : UpdateDeck {
         $this->notificationsHandler = $notificationsHandler;
         return $this;
+    }
+
+    public function pickItemForLocation($message, $to, $to_argument=0) {
+        $from_location = \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK;
+        $this->deck->pickCardForLocation($from_location, $to, $to_argument);
+
+        foreach ($this->deck->getCardsInLocation($to, $to_argument) as $card) {
+            $arguments = [UpdateDeck::ARGUMENT_KEY_ITEM => $card,];
+            $this->notificationsHandler->notifyAllPlayers(UpdateDeck::EVENT_NEW_ITEM, $message, $arguments);
+        }
     }
 
     public function pickCardForLocation($message, $to, $to_argument=0) {

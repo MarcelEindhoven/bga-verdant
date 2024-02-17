@@ -16,10 +16,14 @@ define(['dojo/_base/declare'], (declare) => {
 
         SetItem(item, toolkit_bga) {
             var id = 'item_id_' + item.id;
-            var location = item.location + '_'+ item.location_arg;
+            var location = this.getElementName(item);
+
             console.log(id);
             console.log(location);
             toolkit_bga.placeOnObjectPos(id, location, 25, -5);
+        },
+        getElementName: function(card) {
+            return card['location'] + '_' + Math.floor(+card['location_arg'] / 10) + '' + +card['location_arg'] % 10;
         },
         SetSelectableEmptyPositions(positions, selected_card_type_id, callback_method) {
             this.RemoveCardFromPositions();
