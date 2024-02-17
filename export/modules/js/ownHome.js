@@ -14,10 +14,12 @@ define(['dojo/_base/declare'], (declare) => {
         SetServer(server){this.server = server},
         SetStocks(stocks){this.stocks = stocks},
 
-        SetItem(item, toolkit) {
+        SetItem(item, toolkit_bga) {
             var id = 'item_id_' + item.id;
             var location = item.location + '_'+ item.location_arg;
-            toolkit.placeOnObjectPos(id, location, 50, 75);
+            console.log(id);
+            console.log(location);
+            toolkit_bga.placeOnObjectPos(id, location, 25, -5);
         },
         SetSelectableEmptyPositions(positions, selected_card_type_id, callback_method) {
             this.RemoveCardFromPositions();

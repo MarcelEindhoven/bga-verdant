@@ -75,9 +75,10 @@
     function playerPlacesItemOnPlant() {
       self::setAjaxMode();
 
-      $selected_id = self::getArg( "selected_id", AT_alphanum, true );
+      $selected_market_card = self::getArg( "selected_market_card", AT_alphanum, true );
+      $selected_home_id = self::getArg( "selected_home_id", AT_alphanum, true );
 
-      $this->game->playerPlacesItemOnPlant($selected_id);
+      $this->game->playerPlacesItemOnPlant($selected_market_card, $selected_home_id);
 
       self::ajaxResponse( );
     }
@@ -85,9 +86,10 @@
     function playerPlacesItemOnRoom() {
       self::setAjaxMode();
 
-      $selected_id = self::getArg( "selected_id", AT_alphanum, true );
+      $selected_market_card = self::getArg( "selected_market_card", AT_alphanum, true );
+      $selected_home_id = self::getArg( "selected_home_id", AT_alphanum, true );
 
-      $this->game->playerPlacesItemOnRoom($selected_id);
+      $this->game->playerPlacesItemOnRoom($selected_market_card, $selected_home_id);
 
       self::ajaxResponse( );
     }
@@ -95,9 +97,10 @@
     function playerPlacesItemOnStorage() {
       self::setAjaxMode();
 
-      $selected_id = self::getArg( "selected_id", AT_alphanum, true );
+      $selected_market_card = self::getArg( "selected_market_card", AT_alphanum, true );
+      $selected_home_id = self::getArg( "selected_home_id", AT_alphanum, true );
 
-      $this->game->playerPlacesItemOnStorage($selected_id);
+      $this->game->playerPlacesItemOnStorage($selected_market_card, $selected_home_id);
 
       self::ajaxResponse( );
     }

@@ -136,7 +136,7 @@ describe('OwnHome', function () {
         // Act
         sut.SetItem(item, toolkit);
         // Assert
-        sinon.assert.calledOnceWithExactly(toolkit.placeOnObjectPos, id, location, 50, 75);
+        sinon.assert.calledOnceWithExactly(toolkit.placeOnObjectPos, id, location, 25, -5);
     });
   });
 });

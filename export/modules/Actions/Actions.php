@@ -22,6 +22,7 @@ include_once(__DIR__.'/AIsPlaceCard.php');
 include_once(__DIR__.'/AISelectsAndPlacesCard.php');
 include_once(__DIR__.'/NextPlayer.php');
 include_once(__DIR__.'/PlayerPlacesInitialPlant.php');
+include_once(__DIR__.'/PlayerPlacesItem.php');
 include_once(__DIR__.'/PlayerPlacesPlant.php');
 
 include_once(__DIR__.'/../CurrentData/CurrentData.php');
@@ -116,13 +117,16 @@ class Actions {
         $this->playerPlacesPlant($selected_market_card, $selected_home_id);
     }
 
-    public function playerPlacesItemOnPlant($field_id) {
+    public function playerPlacesItemOnPlant($selected_market_card, $selected_home_id) {
+        PlayerPlacesItem::create($this->gamestate)->setNotificationsHandler($this->notifications)->setCurrentDecks($this->current_decks)->setUpdateDecks($this->update_decks)->setSelectedMarketCard($selected_market_card)->setSelectedHomeID($selected_home_id)->execute()->nextState();
     }
 
-    public function playerPlacesItemOnRoom($field_id) {
+    public function playerPlacesItemOnRoom($selected_market_card, $selected_home_id) {
+        $this->playerPlacesItemOnPlant($selected_market_card, $selected_home_id);
     }
 
-    public function playerPlacesItemOnStorage($field_id) {
+    public function playerPlacesItemOnStorage($selected_market_card, $selected_home_id) {
+        $this->playerPlacesItemOnPlant($selected_market_card, $selected_home_id);
     }
 
     public function stAIsPlaceCard() {

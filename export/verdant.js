@@ -140,11 +140,13 @@ function (dojo, declare, OwnHome, Market) {
                 if (item['location'] == 'item') {
                     this.market.SetItem(item);
                 } else {
-                    this.own_home.SetItem(item);
+                    this.own_home.SetItem(item, this);
                 }
             }
         },
         createItem(item) {
+            console.log(this.getElementName(item));
+            console.log(this.getBlockItem(item));
             dojo.place(this.getBlockItem(item), this.getElementName(item));
         },
         getBlockItem(item) {
@@ -294,7 +296,8 @@ function (dojo, declare, OwnHome, Market) {
                         this.market.MakeRowsSelectable(categories, 'marketCardSelected');
                     case 'placeItem':
                         item = this.market.GetItemFromSelectedColumn();
-                        console.log(item);
+                        this.selected_market_card = item.location + '_'+ item.location_arg;
+                        console.log(this.selected_market_card);
                         if (item['type'] == 0) {
                             this.own_home.SetSelectableCards(this.gamedatas.selectable_plants, 'playerPlacesItemOnPlant');
                         } else {
@@ -319,13 +322,13 @@ function (dojo, declare, OwnHome, Market) {
             }
         },        
         playerPlacesItemOnPlant: function(element_name) {
-            this.call('playerPlacesItemOnPlant', {selected_id: element_name});
+            this.call('playerPlacesItemOnPlant', {selected_market_card:this.selected_market_card, selected_home_id: element_name});
         },
         playerPlacesItemOnRoom: function(element_name) {
-            this.call('playerPlacesItemOnRoom', {selected_id: element_name});
+            this.call('playerPlacesItemOnRoom', {selected_market_card:this.selected_market_card, selected_home_id: element_name});
         },
         playerPlacesItemOnStorage: function(element_name) {
-            this.call('playerPlacesItemOnStorage', {selected_id: element_name});
+            this.call('playerPlacesItemOnStorage', {selected_market_card:this.selected_market_card, selected_home_id: element_name});
         },
         marketCardSelected: function(element_name) {
             console.log('marketCardSelected ' + element_name);
@@ -488,7 +491,7 @@ function (dojo, declare, OwnHome, Market) {
         notify_MoveItem: function(notif) {
             console.log('notify_MoveItem');
             console.log(notif.args);
-            this.own_home.SetItem(notif.args.item, notif.args.location);
+            this.own_home.SetItem(notif.args.item, notif.args.to);
         },
         notify_CreateItem: function(notif) {
             console.log('notify_CreateItem');
