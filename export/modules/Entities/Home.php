@@ -1,5 +1,5 @@
 <?php
-namespace NieuwenhovenGames\Verdant\Entities;
+namespace NieuwenhovenGames\Verdant;
 /**
  * Player home
  *------
@@ -9,23 +9,25 @@ namespace NieuwenhovenGames\Verdant\Entities;
  *
  */
 
-
 class Home {
+    const KEY_POSITION = 'location_arg';
     protected array $plants = [];
     protected array $items = [];
 
-    public function setPlants($plants) {
+    public function setPlants($plants) : Home {
         $this->plants = $plants;
+        return $this;
     }
-    public function setItems($items) {
+    public function setItems($items) : Home {
         $this->items = $items;
+        return $this;
     }
 
     public function getSelectablePlants() {
         $selectables = [];
         $item_positions = $this->getPositions($this->items);
         foreach ($this->plants as $element) {
-            $position = +$element['position'];
+            $position = +$element[Home::KEY_POSITION];
             if (!in_array($position, $item_positions)) {
                 $selectables[] = $element;
             }
@@ -36,7 +38,7 @@ class Home {
     public function getPositions($elements) {
         $positions = [];
         foreach ($elements as $element) {
-            $position = +$element['position'];
+            $position = +$element[Home::KEY_POSITION];
             if ($position != 99) {
                 $positions[] = $position;
             }

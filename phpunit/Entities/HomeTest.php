@@ -1,5 +1,5 @@
 <?php
-namespace NieuwenhovenGames\Verdant\Entities;
+namespace NieuwenhovenGames\Verdant;
 /**
  *------
  * MilleFiori implementation unit tests : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
@@ -48,10 +48,11 @@ class HomeTest extends TestCase{
         // Assert
         $this->assertEqualsCanonicalizing($expected_plants, $selectables);
     }
+
     protected function arrangeCreateElements($number) {
         $elements = [];
         for ($i = 0; $i <$number; $i++) {
-            $elements[] = ['position' => $i];
+            $elements[] = [Home::KEY_POSITION => $i];
         }
         return $elements;
     }

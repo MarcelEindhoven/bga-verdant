@@ -25,7 +25,7 @@ class HomesViewTest extends TestCase{
 
     public function test_build_page__begin_block() {
         // Arrange
-        $this->mock_parent->expects($this->exactly(3))->method('begin_block')->withConsecutive([HomesRow::BLOCK_NAME], [Home::BLOCK_NAME], [HomesView::BLOCK_NAME]);
+        $this->mock_parent->expects($this->exactly(3))->method('begin_block')->withConsecutive([HomesRow::BLOCK_NAME], [HomePlayer::BLOCK_NAME], [HomesView::BLOCK_NAME]);
 
         // Act
         $this->sut->build_page();

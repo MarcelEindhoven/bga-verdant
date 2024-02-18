@@ -12,6 +12,8 @@ require_once(__DIR__.'/../BGA/CurrentPlayerRobotProperties.php');
 
 require_once(__DIR__.'/../Constants.php');
 
+include_once(__DIR__.'/../Entities/Home.php');
+
 class CurrentDecks {
     const RESULT_KEY_DECKS = 'decks';
     const RESULT_KEY_SELECTABLE_PLANT_POSITIONS = 'selectable_plant_positions';
@@ -76,7 +78,11 @@ class CurrentDecks {
     }
 
     public function getSelectablePlants($player_id) : array {
-        return $this->getPositionsFromCards($this->decks[Constants::PLANT_NAME]->getCardsInLocation($player_id));
+        $home = new Home();
+        return $this->getPositionsFromCards($home
+        ->SetPlants($this->decks[Constants::PLANT_NAME]->getCardsInLocation($player_id))
+        ->SetItems($this->decks[Constants::ITEM_NAME]->getCardsInLocation($player_id))
+        ->getSelectablePlants());
     }
     public function getSelectableRooms($player_id) : array {
         return $this->getPositionsFromCards($this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id));
