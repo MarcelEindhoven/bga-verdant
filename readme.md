@@ -19,7 +19,7 @@ https://studio.boardgamearena.com/controlpanel
 https://studio.boardgamearena.com/studio
 https://studio.boardgamearena.com/studiogame?game=verdant
 
-## Development
+## Development environment
 ### PHP
 Installing PHP is tricky. For example, you cannot simply install PHP in "Program Files" because that directory name contains a space.
 The messages you get assume you are already an expert in PHP terminology.
@@ -57,5 +57,7 @@ npm install --save-dev sinon
 npm install --save-dev dojo
 npm install --save-dev amd-loader
 
+## Some design principles
+https://ebi.readthedocs.io/en/latest/introduction.html
 
 

@@ -86,6 +86,7 @@ describe('Market', function () {
             sut.SetStocks(stocks);
 
             market_item = [];
+            market_item['location'] = 'item';
             market_item['location_arg'] = '3';
             sut.SetItem(market_item);
             // Act

@@ -69,6 +69,7 @@ class CurrentDecks {
             $decks[$name] = $deck->getCardsInLocation($name);
             foreach ($this->players as $player_id => $player) {
                 $decks[$name] = array_merge($decks[$name], $deck->getCardsInLocation($player_id));
+                $decks[$player_id] = $deck->getCardsInLocation($player_id);
             }
         }
         return $decks;
