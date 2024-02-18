@@ -85,7 +85,11 @@ class CurrentDecks {
         ->getSelectablePlants());
     }
     public function getSelectableRooms($player_id) : array {
-        return $this->getPositionsFromCards($this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id));
+        $home = new Home();
+        return $home
+        ->setRooms($this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id))
+        ->SetItems($this->decks[Constants::ITEM_NAME]->getCardsInLocation($player_id))
+        ->getSelectableRoomPositions();
     }
 
     public function getPlantSelectableHomePositions($player_id) : array {

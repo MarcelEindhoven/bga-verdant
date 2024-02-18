@@ -13,14 +13,24 @@ class Home {
     const KEY_POSITION = 'location_arg';
     protected array $plants = [];
     protected array $items = [];
+    protected array $rooms = [];
+
 
     public function setPlants($plants) : Home {
         $this->plants = $plants;
         return $this;
     }
+    public function setRooms($rooms) : Home {
+        $this->rooms = $rooms;
+        return $this;
+    }
     public function setItems($items) : Home {
         $this->items = $items;
         return $this;
+    }
+
+    public function getSelectableRoomPositions() {
+        return $this->getSelectablePositions($this->rooms);
     }
 
     public function getSelectablePlants() {
@@ -35,10 +45,22 @@ class Home {
         return $selectables;
     }
 
+    public function getSelectablePositions($elements) {
+        $selectables = [];
+        $item_positions = $this->getPositions($this->items);
+        foreach ($elements as $element) {
+            $position = $element[Home::KEY_POSITION];
+            if (!in_array($position, $item_positions)) {
+                $selectables[] = $position;
+            }
+        }
+        return $selectables;
+    }
+
     public function getPositions($elements) {
         $positions = [];
         foreach ($elements as $element) {
-            $position = +$element[Home::KEY_POSITION];
+            $position = $element[Home::KEY_POSITION];
             if ($position != 99) {
                 $positions[] = $position;
             }

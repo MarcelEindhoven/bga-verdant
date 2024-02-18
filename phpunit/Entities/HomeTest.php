@@ -49,6 +49,19 @@ class HomeTest extends TestCase{
         $this->assertEqualsCanonicalizing($expected_plants, $selectables);
     }
 
+    public function test__SelectableRooms__1RoomWithItem__OtherRoomsSelectable() {
+        // Arrange
+        $items = $this->arrangeCreateElements(1);
+        $this->sut->setItems($items);
+        $plants = $this->arrangeCreateElements(2);
+        $this->sut->setRooms($plants);
+        $expected_selectables = [1];
+        // Act
+        $selectables = $this->sut->getSelectableRoomPositions();
+        // Assert
+        $this->assertEqualsCanonicalizing($expected_selectables, $selectables);
+    }
+
     protected function arrangeCreateElements($number) {
         $elements = [];
         for ($i = 0; $i <$number; $i++) {

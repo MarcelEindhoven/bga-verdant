@@ -75,7 +75,7 @@ class UpdateDeck {
     public function moveItem($message, $from, $from_argument, $to, $to_argument) {
         $this->deck->moveAllCardsInLocation($from, $to, $from_argument, $to_argument);
         foreach ($this->deck->getCardsInLocation($to, $to_argument) as $card) {
-            $arguments = [UpdateDeck::ARGUMENT_KEY_CARD => $card, UpdateDeck::ARGUMENT_KEY_ELEMENT_TO => $to . '_' . $to_argument];
+            $arguments = [UpdateDeck::ARGUMENT_KEY_ITEM => $card, UpdateDeck::ARGUMENT_KEY_ELEMENT_TO => $to . '_' . $to_argument];
             $this->notificationsHandler->notifyAllPlayers('MoveItem', $message, $arguments);
         }
 
