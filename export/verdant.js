@@ -98,7 +98,6 @@ function (dojo, declare, OwnHome, Market) {
         },
         setupStocks: function(players) {
             this.setupMarketStocks();
-            this.setupSelectedStocks();
             this.setupPlayersStocks(players);
         },
         setupMarketStocks: function() {
@@ -106,10 +105,6 @@ function (dojo, declare, OwnHome, Market) {
                 this.setupCardStock('plant_'+ place, 'plant');
                 this.setupCardStock('room_'+ place, 'room');
             }
-        },
-        setupSelectedStocks: function() {
-            this.setupCardStock('selected_plant', 'plant');
-            this.setupCardStock('selected_room', 'room');
         },
         setupPlayersStocks: function(players) {
             for(var player_id in players) {

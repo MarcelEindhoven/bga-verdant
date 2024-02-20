@@ -55,22 +55,14 @@
     </table>
 </div>
 
-<div style="display: inline-block">
-    <h3>Selected plant card</h3>
-    <div id="selected_plant" class="single_card">
-    </div>
-</div>
-
-<div style="display: inline-block">
-    <h3>Selected room card</h3>
-    <div id="selected_room" class="single_card">
-    </div>
-</div>
-
 <!-- BEGIN player -->
     <div style="display: inline-block" id="home_{PLAYER_ID}">
     <h3>{PLAYER_NAME}</h3>
-    <table>
+<div style="display: inline-block">
+    <div id="{PLAYER_ID}_Storage" class="single_card">
+    </div>
+</div>
+    <table style="display: inline-block">
     <tr>
     <td>
     ....Market 0....
