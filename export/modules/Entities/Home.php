@@ -61,9 +61,7 @@ class Home {
         $positions = [];
         foreach ($elements as $element) {
             $position = $element[Home::KEY_POSITION];
-            if ($position != 99) {
-                $positions[] = $position;
-            }
+            $positions[] = $position;
         }
         return $positions;
     }

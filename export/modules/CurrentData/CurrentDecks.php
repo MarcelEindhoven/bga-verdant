@@ -120,9 +120,7 @@ class CurrentDecks {
         $positions = [];
         foreach ($cards as $card) {
             $position = +$card['location_arg'];
-            if ($position != 99) {
-                $positions[] = $position;
-            }
+            $positions[] = $position;
         }
         return $positions;
     }
