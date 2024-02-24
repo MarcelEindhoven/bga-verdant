@@ -55,9 +55,9 @@ class CurrentDecks {
         CurrentDecks::RESULT_KEY_SELECTABLE_PLANTS => $this->getSelectablePlants($this->player_id),
         CurrentDecks::RESULT_KEY_SELECTABLE_ROOMS => $this->getSelectableRooms($this->player_id)];
 
-        $initial_plant_card = InitialPlantRepository::create($this->decks[Constants::PLANT_NAME])->setup($this->player_id)->card;
-        if ($initial_plant_card) {
-            $data[CurrentDecks::RESULT_KEY_INITIAL_PLANT] = $initial_plant_card;
+        $initial_plants = InitialPlantRepository::create($this->decks[Constants::PLANT_NAME])->refresh();
+        if (isset($initial_plants[$this->player_id])) {
+            $data[CurrentDecks::RESULT_KEY_INITIAL_PLANT] = $initial_plants[$this->player_id];
         }
 
         foreach ($this->decks as $name => $deck) {
