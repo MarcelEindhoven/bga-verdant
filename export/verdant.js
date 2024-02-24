@@ -78,7 +78,7 @@ function (dojo, declare, OwnHome, Market) {
             }
 
             // TODO: Set up your game interface here, according to "gamedatas"
-            this.selected_card = null;
+            this.initial_plant = 'initial_plant' in gamedatas ? gamedatas['initial_plant'] : null;
             this.setupStocks(gamedatas.players);
 
             this.market.SetStocks(this.stocks);
@@ -189,7 +189,7 @@ function (dojo, declare, OwnHome, Market) {
             console.log(card);
             if (99 == +card['location_arg']) {
                 if (this.player_id == +card['location']) {
-                    this.selected_card = card;
+                    this.initial_plant = card;
                 }
             } else {
                 element_name = this.getElementName(card);
@@ -277,8 +277,8 @@ function (dojo, declare, OwnHome, Market) {
             console.log( 'onUpdateActionButtons: '+stateName );
                       
             if ('allPlayersPlaceInitialPlant' == stateName) {
-                if (this.selected_card) {
-                    this.own_home.SetSelectableEmptyPositions(this.gamedatas.selectable_plant_positions, this.getTypeID(this.selected_card), 'placeInitialPlant');
+                if (this.initial_plant) {
+                    this.own_home.SetSelectableEmptyPositions(this.gamedatas.selectable_plant_positions, this.getTypeID(this.initial_plant), 'placeInitialPlant');
                 }
             } else if( this.isCurrentPlayerActive() )
             {            
@@ -344,7 +344,7 @@ function (dojo, declare, OwnHome, Market) {
         },
         placeInitialPlant: function(element_name) {
             this.call('playerPlacesInitialPlant', {selected_id: element_name});
-            this.selected_card = null;
+            this.initial_plant = null;
         },
         playerPlacesPlant: function(element_name) {
             this.call('playerPlacesPlant', {selected_market_card:this.selected_market_card, selected_home_id: element_name});

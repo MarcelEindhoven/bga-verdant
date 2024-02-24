@@ -16,6 +16,7 @@ include_once(__DIR__.'/../Entities/Home.php');
 
 class CurrentDecks {
     const RESULT_KEY_DECKS = 'decks';
+    const RESULT_KEY_INITIAL_PLANT = 'initial_plant';
     const RESULT_KEY_SELECTABLE_PLANT_POSITIONS = 'selectable_plant_positions';
     const RESULT_KEY_SELECTABLE_ROOM_POSITIONS = 'selectable_room_positions';
     const RESULT_KEY_SELECTABLE_PLANTS = 'selectable_plants';
