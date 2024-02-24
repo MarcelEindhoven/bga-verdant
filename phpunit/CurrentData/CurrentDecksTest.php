@@ -75,39 +75,5 @@ class CurrentDecksTest extends TestCase{
         // Assert
         $this->assertEquals($expected_positions, $positions);
     }
-
-    public function testGetSelected__SingleCard__ReturnCard() {
-        // Arrange
-        $player_id = 77;
-        $card = [5 => 3];
-        $this->mock_deck_plants->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, Constants::LOCATION_SELECTED)->willReturn([$card]);
-
-        // Act
-        $selected_card = $this->sut->getSelectedCard($player_id, 'plant');
-        // Assert
-        $this->assertEquals($card, $selected_card);
-    }
-
-    public function testGetSelected__NoCard__ReturnNull() {
-        // Arrange
-        $player_id = 77;
-        $this->mock_deck_plants->expects($this->exactly(1))->method('getCardsInLocation')->with($player_id, Constants::LOCATION_SELECTED)->willReturn([]);
-
-        // Act
-        $selected_card = $this->sut->getSelectedCard($player_id, 'plant');
-        // Assert
-        $this->assertEquals(null, $selected_card);
-    }
-
-    public function testGetAllSelected__CardS__ReturnBoth() {
-        // Arrange
-        $card = [5 => 3];
-        $this->mock_deck_plants->expects($this->exactly(2))->method('getCardsInLocation')->willReturn([$card]);
-
-        // Act
-        $selected_cards = $this->sut->getAllSelected('plant');
-        // Assert
-        $this->assertEquals([$card, $card], $selected_cards);
-    }
 }
 ?>

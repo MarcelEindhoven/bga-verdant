@@ -10,19 +10,19 @@ namespace NieuwenhovenGames\Verdant;
 
  include_once(__DIR__.'/../BGA/Action.php');
 
-class AIsPlaceCard extends \NieuwenhovenGames\BGA\Action {
-    public static function create($gamestate) : AIsPlaceCard {
-        return new AIsPlaceCard($gamestate);
+class AIsPlaceInitialPlant extends \NieuwenhovenGames\BGA\Action {
+    public static function create($gamestate) : AIsPlaceInitialPlant {
+        return new AIsPlaceInitialPlant($gamestate);
     }
 
-    public function setAIs($ais) : AIsPlaceCard {
+    public function setAIs($ais) : AIsPlaceInitialPlant {
         $this->ais = $ais;
         return $this;
     }
 
-    public function execute() : AIsPlaceCard {
+    public function execute() : AIsPlaceInitialPlant {
         foreach($this->ais as $player_id => $ai) {
-            $ai->placeSelectedPlantCard();
+            $ai->placeInitialPlant();
         }
         return $this;
     }

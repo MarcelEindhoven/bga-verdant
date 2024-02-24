@@ -14,6 +14,8 @@ require_once(__DIR__.'/../Constants.php');
 
 include_once(__DIR__.'/../Entities/Home.php');
 
+require_once(__DIR__.'/../Repository/InitialPlantRepository.php');
+
 class CurrentDecks {
     const RESULT_KEY_DECKS = 'decks';
     const RESULT_KEY_INITIAL_PLANT = 'initial_plant';
@@ -52,6 +54,11 @@ class CurrentDecks {
         CurrentDecks::RESULT_KEY_SELECTABLE_ROOM_POSITIONS => $this->getRoomSelectableHomePositions($this->player_id),
         CurrentDecks::RESULT_KEY_SELECTABLE_PLANTS => $this->getSelectablePlants($this->player_id),
         CurrentDecks::RESULT_KEY_SELECTABLE_ROOMS => $this->getSelectableRooms($this->player_id)];
+
+        $initial_plant_card = InitialPlantRepository::create($this->decks[Constants::PLANT_NAME])->setup($this->player_id)->card;
+        if ($initial_plant_card) {
+            $data[CurrentDecks::RESULT_KEY_INITIAL_PLANT] = $initial_plant_card;
+        }
 
         foreach ($this->decks as $name => $deck) {
             $data[$name] = $deck->getCardsInLocation($name);
@@ -154,22 +161,6 @@ class CurrentDecks {
             $y[] = intdiv($position, 10);
         }
         return ['left' => min($x), 'right' => max($x), 'up' => min($y), 'down' => max($y)];
-    }
-
-    public function getSelectedCard($player_id, $deck_name) {
-        $cards = $this->decks[$deck_name]->getCardsInLocation($player_id, Constants::LOCATION_SELECTED);
-        return array_pop($cards);
-    }
-
-    public function getAllSelected($deck_name) {
-        $cards = [];
-        foreach ($this->players as $player_id => $player) {
-            $card = $this->getSelectedCard($player_id, $deck_name);
-            if ($card) {
-                $cards[] = $card;
-            }
-        }
-        return $cards;
     }
 }
 ?>

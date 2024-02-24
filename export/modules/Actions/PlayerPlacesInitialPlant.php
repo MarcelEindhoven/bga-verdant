@@ -25,6 +25,11 @@ class PlayerPlacesInitialPlant extends PlayerPlacesCard {
         return new PlayerPlacesInitialPlant($gamestate);
     }
 
+    public function setInitialPlants($initial_plants) : PlayerPlacesInitialPlant {
+        $this->initial_plants = $initial_plants;
+        return $this;
+    }
+
     public function setFieldID($field_id) : PlayerPlacesInitialPlant {
         $this->field_id = $field_id;
         return $this;
@@ -35,12 +40,13 @@ class PlayerPlacesInitialPlant extends PlayerPlacesCard {
         list ($this->player_id, $position) = explode('_', $this->field_id);
 
         $this->update_decks[Constants::PLANT_NAME]->movePrivateToPublic(PlayerPlacesInitialPlant::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, Constants::LOCATION_SELECTED, $this->player_id, $position);
+        unset($this->initial_plants[$this->player_id]);
 
         return PlayerPlacesCard::execute();
     }
 
     public function getTransitionName() : string {
-        return $this->current_decks->getAllSelected(Constants::PLANT_NAME) ? 'stillPlacingCard' : 'finishedPlacingCard';
+        return ((array)$this->initial_plants) ? 'stillPlacingCard' : 'finishedPlacingCard';
     }
 }
 ?>

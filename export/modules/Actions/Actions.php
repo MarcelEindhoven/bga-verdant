@@ -18,7 +18,7 @@ include_once(__DIR__.'/../BGA/UpdateStorage.php');
 
 include_once(__DIR__.'/AIs.php');
 include_once(__DIR__.'/UpdateDecks.php');
-include_once(__DIR__.'/AIsPlaceCard.php');
+include_once(__DIR__.'/AIsPlaceInitialPlant.php');
 include_once(__DIR__.'/AISelectsAndPlacesCard.php');
 include_once(__DIR__.'/NextPlayer.php');
 include_once(__DIR__.'/PlayerPlacesInitialPlant.php');
@@ -129,8 +129,8 @@ class Actions {
         $this->playerPlacesItemOnPlant($selected_market_card, $selected_home_id);
     }
 
-    public function stAIsPlaceCard() {
-        AIsPlaceCard::create($this->gamestate)->setAIs($this->ais)->execute()->nextState();
+    public function stAIsPlaceInitialPlant() {
+        AIsPlaceInitialPlant::create($this->gamestate)->setAIs($this->ais)->execute()->nextState();
     }
 
     public function stNextPlayer($player_id) {

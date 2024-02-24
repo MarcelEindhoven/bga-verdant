@@ -13,14 +13,47 @@ include_once(__DIR__.'/../../export/modules/Repository/InitialPlantRepository.ph
 
 include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/Deck.php');
 
+class Properties {
+    public function set($key) {$this->$key = 1;}
+}
+
+class Extra extends \ArrayObject {
+    public function set($key) {$this->$key = 1;}
+}
+
 class InitialPlantRepositoryTest extends TestCase{
     protected InitialPlantRepository $sut;
     protected ?\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck $mock_cards = null;
+    protected array $test_array = [];
 
     protected function setUp(): void {
         $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
 
         $this->sut = InitialPlantRepository::create($this->mock_cards);
+    }
+
+    public function testp() {
+        // Arrange
+        $sut = new Properties();
+        // Act
+        $sut->set('test');
+        // Assert
+        $this->assertEquals(['test' =>1], (array) $sut);
+    }
+
+    public function teste() {
+        // Arrange
+        $sut = new Extra();
+        // Act
+        $sut->set('x');
+        $sut['test'] = 1;
+        if ($sut->offsetExists('y')) {
+            $sut->offsetUnset('y');
+        }
+        // $this->test_array = $sut;
+        
+        // Assert
+        $this->assertEquals(['test' =>1], (array) $sut);
     }
 
     public function testCreate__Players__OneCardPerPlayer() {
@@ -54,27 +87,27 @@ class InitialPlantRepositoryTest extends TestCase{
         $this->mock_cards
         ->expects($this->exactly(1))
         ->method('getCardsInLocation')
-        ->with(InitialPlantRepository::KEY_LOCATION, $player_id)
+        ->with(InitialPlantRepository::KEY_LOCATION_CONTENT)
         ->willReturn([]);
         // Act
-        $this->sut->setup($player_id);
+        $this->sut->refresh();
         // Assert
-        $this->assertEquals(null, $this->sut->card);
+        $this->assertEquals([], (array)$this->sut);
     }
 
     public function testSetup__NotEmpty__Card() {
         // Arrange
         $player_id = 77;
-        $card = ['test '];
+        $card = ['location_arg' => $player_id];
 
         $this->mock_cards
         ->expects($this->exactly(1))
         ->method('getCardsInLocation')
         ->willReturn([$card]);
         // Act
-        $this->sut->setup($player_id);
+        $this->sut->refresh();
         // Assert
-        $this->assertEquals($card, $this->sut->card);
+        $this->assertEquals($card, $this->sut[$player_id]);
     }
 }
 ?>

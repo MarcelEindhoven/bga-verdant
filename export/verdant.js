@@ -187,16 +187,10 @@ function (dojo, declare, OwnHome, Market) {
         },
         fillCard: function(card) {
             console.log(card);
-            if (99 == +card['location_arg']) {
-                if (this.player_id == +card['location']) {
-                    this.initial_plant = card;
-                }
-            } else {
-                element_name = this.getElementName(card);
-                console.log(element_name);
-                
-                this.stocks[element_name].addToStockWithId(this.getTypeID(card), element_name);
-            }
+            element_name = this.getElementName(card);
+            console.log(element_name);
+            
+            this.stocks[element_name].addToStockWithId(this.getTypeID(card), element_name);
         },
         getElementName: function(card) {
             if (+card['location'] > 0) {

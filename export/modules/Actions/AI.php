@@ -64,7 +64,7 @@ class AI {
         return $this;
     }
 
-    public function placeSelectedPlantCard() : AI {
+    public function placeInitialPlant() : AI {
         $positions = $this->decks->getPlantSelectableHomePositions($this->player_id);
         $position = $positions[array_rand($positions)];
         $this->update_decks[Constants::PLANT_NAME]->movePrivateToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, Constants::LOCATION_SELECTED, $this->player_id, $position);

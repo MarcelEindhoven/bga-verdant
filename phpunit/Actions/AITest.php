@@ -33,7 +33,7 @@ class AITest extends TestCase{
         $this->sut->setUpdateDecks([Constants::PLANT_NAME => $this->mock_deck, Constants::ROOM_NAME => $this->mock_deck]);
     }
 
-    public function testExecute_SingleAI_placeSelectedPlantCard() {
+    public function testExecute_SingleAI_placeInitialPlant() {
         // Arrange
         $this->mock_decks->expects($this->exactly(1))->method('getPlantSelectableHomePositions')
         ->willReturn([10]);
@@ -42,7 +42,7 @@ class AITest extends TestCase{
         ->with(AI::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, Constants::LOCATION_SELECTED, $this->player_id, 10);
 
         // Act
-        $this->sut->placeSelectedPlantCard();
+        $this->sut->placeInitialPlant();
         // Assert
     }
 

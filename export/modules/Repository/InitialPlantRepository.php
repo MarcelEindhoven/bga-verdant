@@ -3,6 +3,8 @@ namespace NieuwenhovenGames\Verdant;
 /**
  * Create and retrieve the initial plants from the plant deck
  * Take into account that the deck requires the location to be a string and the location argument to be a number
+ * In PHP, objects cannot be cast to Boolean or implement a real array interface
+ * 
  *------
  * Verdant implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
@@ -12,9 +14,9 @@ namespace NieuwenhovenGames\Verdant;
 
 require_once(__DIR__.'/../BGA/FrameworkInterfaces/Deck.php');
 
-class InitialPlantRepository {
-    const KEY_LOCATION = 'Initial';
-    public ?array $card = null;
+class InitialPlantRepository extends \ArrayObject {
+    const KEY_LOCATION_CONTENT = 'Initial';
+    const KEY_PLAYER_ID = 'location_arg';
 
     static public function create($deck) : InitialPlantRepository {
         $object = new InitialPlantRepository();
@@ -27,17 +29,26 @@ class InitialPlantRepository {
         return $this;
     }
 
+    // Implement ArrayAccess
+    /*
+    public function offsetExists($player_id): bool {return false;}
+    public function offsetGet($player_id): ?array {return $this->card;}
+    public function offsetSet($player_id, $value): void {}
+    public function offsetUnset($player_id): void {}
+    */
+
     public function fill($players) : InitialPlantRepository {
         foreach ($players as $player_id => $player) {
-            $this->deck->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, InitialPlantRepository::KEY_LOCATION, $player_id);
+            $this->deck->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, InitialPlantRepository::KEY_LOCATION_CONTENT, $player_id);
         }
 
         return $this;
     }
 
-    public function setup($player_id) : InitialPlantRepository {
-        foreach ($this->deck->getCardsInLocation(InitialPlantRepository::KEY_LOCATION, $player_id) as $card) {
-            $this->card = $card;
+    /** Content array is only guaranteed to be valid after refresh  */
+    public function refresh() : InitialPlantRepository {
+        foreach ($this->deck->getCardsInLocation(InitialPlantRepository::KEY_LOCATION_CONTENT) as $card) {
+            $this[$card[InitialPlantRepository::KEY_PLAYER_ID]] = $card;
         }
 
         return $this;
