@@ -12,6 +12,8 @@ require_once(__DIR__.'/../BGA/FrameworkInterfaces/Deck.php');
 require_once(__DIR__.'/DecksSetup.php');
 require_once(__DIR__.'/CardsAndItemsSetup.php');
 
+require_once(__DIR__.'/../Repository/InitialPlantRepository.php');
+
 require_once(__DIR__.'/../Constants.php');
 
 class CardsSetup extends CardsAndItemsSetup {
@@ -28,9 +30,7 @@ class CardsSetup extends CardsAndItemsSetup {
     public function setup() {
         parent::setup();
 
-        foreach ($this->players as $player_id => $player) {
-            $this->pickCard($player_id);
-        }
+        $this->pickCards();
     }
 
     /**
@@ -57,8 +57,8 @@ class CardsSetup extends CardsAndItemsSetup {
         return $object->setTemplatePrefix(Constants::PLANT_NAME)->setPlayers($players)->setDeck($deck);
     }
 
-    protected function pickCard($player_id) {
-        $this->deck->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, $player_id, 99);
+    protected function pickCards() {
+        InitialPlantRepository::create($this->deck)->fill($this->players);
     }
 }
 
@@ -66,6 +66,12 @@ class RoomsSetup extends CardsSetup {
     static public function create($deck, $players) : RoomsSetup {
         $object = new RoomsSetup();
         return $object->setTemplatePrefix(Constants::ROOM_NAME)->setPlayers($players)->setDeck($deck);
+    }
+
+    protected function pickCards() {
+        foreach ($this->players as $player_id => $player) {
+            $this->pickCard($player_id);
+        }
     }
 
     protected function pickCard($player_id) {
