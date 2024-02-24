@@ -10,6 +10,8 @@ namespace NieuwenhovenGames\Verdant;
  
 require_once(__DIR__.'/../Constants.php');
 
+require_once(__DIR__.'/../Repository/InitialPlantRepository.php');
+
 class AI {
     const MESSAGE_PLACE_SELECTED_CARD = 'Placing card';
     protected int $player_id = 0;
@@ -67,7 +69,7 @@ class AI {
     public function placeInitialPlant() : AI {
         $positions = $this->decks->getPlantSelectableHomePositions($this->player_id);
         $position = $positions[array_rand($positions)];
-        $this->update_decks[Constants::PLANT_NAME]->movePrivateToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, Constants::LOCATION_SELECTED, $this->player_id, $position);
+        $this->update_decks[Constants::PLANT_NAME]->movePrivateToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, InitialPlantRepository::KEY_LOCATION_CONTENT, $this->player_id, $this->player_id, $position);
 
         return $this;
     }

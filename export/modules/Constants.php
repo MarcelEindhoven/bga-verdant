@@ -13,8 +13,6 @@ class Constants {
     const PLANT_NAME = 'plant';
     const ROOM_NAME = 'room';
 
-    const LOCATION_SELECTED = 99;
-
     static public function getNames(): array {
         return [Constants::PLANT_NAME, Constants::ITEM_NAME, Constants::ROOM_NAME];
     }

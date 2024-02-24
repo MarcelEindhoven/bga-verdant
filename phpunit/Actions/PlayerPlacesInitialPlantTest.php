@@ -52,7 +52,7 @@ class PlayerPlacesInitialPlantTest extends TestCase{
     public function testExecute_SingleAI_placeInitialPlant() {
         // Arrange
         $this->mock_update_deck->expects($this->exactly(1))->method('movePrivateToPublic')
-        ->with(PlayerPlacesInitialPlant::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, Constants::LOCATION_SELECTED, $this->player_id, 15);
+        ->with(PlayerPlacesInitialPlant::MESSAGE_PLACE_SELECTED_CARD, InitialPlantRepository::KEY_LOCATION_CONTENT, $this->player_id, $this->player_id, 15);
         // Act
         $this->sut->execute();
         // Assert

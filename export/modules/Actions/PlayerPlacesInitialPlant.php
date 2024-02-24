@@ -39,7 +39,7 @@ class PlayerPlacesInitialPlant extends PlayerPlacesCard {
         // For now, no verification is needed on the field ID, handled by JavaScript
         list ($this->player_id, $position) = explode('_', $this->field_id);
 
-        $this->update_decks[Constants::PLANT_NAME]->movePrivateToPublic(PlayerPlacesInitialPlant::MESSAGE_PLACE_SELECTED_CARD, $this->player_id, Constants::LOCATION_SELECTED, $this->player_id, $position);
+        $this->update_decks[Constants::PLANT_NAME]->movePrivateToPublic(PlayerPlacesInitialPlant::MESSAGE_PLACE_SELECTED_CARD, InitialPlantRepository::KEY_LOCATION_CONTENT, $this->player_id, $this->player_id, $position);
         unset($this->initial_plants[$this->player_id]);
 
         return PlayerPlacesCard::execute();
