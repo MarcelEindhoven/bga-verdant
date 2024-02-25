@@ -19,11 +19,12 @@ define([
     "dojo","dojo/_base/declare",
     g_gamethemeurl + 'modules/js/OwnHome.js',
     g_gamethemeurl + 'modules/js/Market.js',
+    g_gamethemeurl + 'modules/js/StockSetup.js',
     "ebg/core/gamegui",
     "ebg/counter",
     "ebg/stock",
 ],
-function (dojo, declare, OwnHome, Market) {
+function (dojo, declare, OwnHome, Market, StockSetup) {
     return declare("bgagame.verdant", ebg.core.gamegui, {
         constructor: function(){
             console.log('verdant constructor');
@@ -31,8 +32,6 @@ function (dojo, declare, OwnHome, Market) {
             // Here, you can init the global variables of your user interface
             // Example:
             // this.myGlobalValue = 0;
-            this.cardwidth = 100;
-            this.cardheight = 152;
 
             this.itemwidth = 50;
             this.itemheight = 50;
@@ -154,18 +153,13 @@ function (dojo, declare, OwnHome, Market) {
             } );
         },
         setupCardStock: function(element, category) {
-            hand = new ebg.stock();
-            hand.create(this, $(element), this.cardwidth, this.cardheight);
-            hand.image_items_per_row = 12;
-            for (var colour = 0; colour <= 5; colour++) {
-                for (var type = 0; type <= 11; type++) {
-                    var card_type_id = this.getCardTypeID(colour, type);
-                    hand.addItemType(card_type_id, card_type_id, g_gamethemeurl+'img/' + category + '.png', card_type_id);
-                }
-            }
-            hand.onItemCreate = dojo.hitch( this, 'setupNewCard' ); 
-            console.log(element);
-            this.stocks[element] = hand;
+            setup = new StockSetup();
+            setup.SetServer(this);
+            setup.SetWebToolkit(dojo);
+            setup.SetStockClass(ebg.stock);
+            setup.SetURLPrefix(g_gamethemeurl);
+            setup.setCategory(category);
+            this.stocks[element] = setup.setup($(element));
         },
         setupNewCard: function( card_div, card_type_id, card_id )
         {
