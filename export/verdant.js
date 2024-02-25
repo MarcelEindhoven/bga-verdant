@@ -436,7 +436,7 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
         notify_MoveItem: function(notif) {
             console.log('notify_MoveItem');
             console.log(notif.args);
-            this.own_home.SetItem(notif.args.item, notif.args.to);
+            this.own_home.SetItem(notif.args.item, this);
         },
         notify_CreateItem: function(notif) {
             console.log('notify_CreateItem');
