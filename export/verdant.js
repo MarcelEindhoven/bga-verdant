@@ -37,7 +37,6 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             this.itemheight = 50;
 
             this.stocks = [];
-            this.colour_names = ['', 'Succulent', 'Flowering', 'Foliage', 'Vining', 'Unusual'];
 
             this.market = new Market();
             this.market.SetWebToolkit(dojo);
@@ -78,9 +77,6 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             // TODO: Set up your game interface here, according to "gamedatas"
             this.setupStocks(gamedatas.players);
 
-            this.market.SetStocks(this.stocks);
-            this.own_home.SetStocks(this.stocks);
-
             this.setupDecks(gamedatas.decks);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
@@ -93,26 +89,19 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
         
             console.log( "Ending game setup" );
         },
+        getElement: function(html_id) {return $(html_id);},
         setupStocks: function(players) {
-            this.setupMarketStocks();
-            this.setupPlayersStocks(players);
-        },
-        setupMarketStocks: function() {
-            for (var place = 0; place < 4; place ++) {
-                this.setupCardStock('plant_'+ place, 'plant');
-                this.setupCardStock('room_'+ place, 'room');
-            }
-        },
-        setupPlayersStocks: function(players) {
-            for(var player_id in players) {
-                for (var row = 0; row < 5; row ++) {
-                    for (var place = 0; place < 9; place ++) {
-                        template_id = ''+ player_id + '_' + row + place;
-                        console.log(template_id);
-                        this.setupCardStock(template_id, (row + place) % 2 ? 'plant' : 'room');
-                    }
-                }
-            }
+            setup = new StockSetup();
+            setup.SetServer(this);
+            setup.SetWebToolkit(dojo);
+            setup.SetStockClass(ebg.stock);
+            setup.SetURLPrefix(g_gamethemeurl);
+
+            var stocks_market = setup.setupMarketStocks();
+            this.market.SetStocks(stocks_market);
+            var stocks_players = setup.setupPlayersStocks(players)
+            this.own_home.SetStocks(stocks_players);
+            this.stocks = {...stocks_market, ...stocks_players};
         },
         setupDecks: function(decks) {
             console.log("setupDecks");
@@ -151,24 +140,6 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
                 background_horizontal: color,
                 background_vertical: type
             } );
-        },
-        setupCardStock: function(element, category) {
-            setup = new StockSetup();
-            setup.SetServer(this);
-            setup.SetWebToolkit(dojo);
-            setup.SetStockClass(ebg.stock);
-            setup.SetURLPrefix(g_gamethemeurl);
-            setup.setCategory(category);
-            this.stocks[element] = setup.setup($(element));
-        },
-        setupNewCard: function( card_div, card_type_id, card_id )
-        {
-            console.log('setupNewCard');
-            console.log(card_div);
-            console.log(card_type_id);
-            console.log(card_id);
-           // Add a special tooltip on the card:
-           this.addTooltip(card_div.id, "" + this.colour_names[Math.floor(card_type_id/12)]);
         },
         fillCards: function(cards) {
             console.log(cards);

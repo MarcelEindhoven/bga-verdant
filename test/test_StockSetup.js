@@ -21,14 +21,17 @@ describe('StockSetup', function () {
         };
         sut.SetWebToolkit(dojo);
 
+        server = {getElementById: sinon.spy(),};
+        sut.SetServer(server);
+
         category = 'plant ';
         sut.setCategory(category);
     });
     describe('Setup', function () {
         function act_default_set(global_id) {
-            sut.setup(global_id);
+            sut.setupCardStock(global_id, category);
         };
-        it('Nothing selectable', function () {
+        it('setup', function () {
             // Arrange
             // Act
             act_default_set('Market_3');

@@ -17,14 +17,35 @@ define(['dojo/_base/declare'], (declare) => {
         setCategory(category){this.category = category},
         SetServer(server){this.server = server},
 
-        setup(div){
+        setupMarketStocks: function() {
+            var stocks = [];
+            for (var place = 0; place < 4; place ++) {
+                stocks['plant_'+ place] =this.setupCardStock('plant_'+ place, 'plant');
+                stocks['room_'+ place] = this.setupCardStock('room_'+ place, 'room');
+            }
+            return stocks;
+        },
+        setupPlayersStocks: function(players) {
+            var stocks = [];
+            for(var player_id in players) {
+                for (var row = 0; row < 5; row ++) {
+                    for (var place = 0; place < 9; place ++) {
+                        template_id = ''+ player_id + '_' + row + place;
+                        console.log(template_id);
+                        stocks[template_id] = this.setupCardStock(template_id, (row + place) % 2 ? 'plant' : 'room');
+                    }
+                }
+            }
+            return stocks;
+        },
+        setupCardStock(template_id, category){
             hand = new this.stock_class();
-            hand.create(this.server, div, this.cardwidth, this.cardheight);
+            hand.create(this.server, this.server.getElement(template_id), this.cardwidth, this.cardheight);
             hand.image_items_per_row = 12;
             for (var colour = 0; colour <= 5; colour++) {
                 for (var type = 0; type <= 11; type++) {
                     var card_type_id = this.getCardTypeID(colour, type);
-                    hand.addItemType(card_type_id, card_type_id, this.gamethemeurl+'img/' + this.category + '.png', card_type_id);
+                    hand.addItemType(card_type_id, card_type_id, this.gamethemeurl+'img/' + category + '.png', card_type_id);
                 }
             }
             hand.onItemCreate = this.toolkit.hitch( this, 'setupNewCard' );
