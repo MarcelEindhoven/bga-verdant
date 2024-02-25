@@ -62,7 +62,6 @@ function (dojo, declare, OwnHome, Market) {
             
             "gamedatas" argument contains all datas retrieved by your "getAllDatas" PHP method.
         */
-        
         setup: function( gamedatas )
         {
             console.log( "Starting game setup" );
@@ -78,7 +77,6 @@ function (dojo, declare, OwnHome, Market) {
             }
 
             // TODO: Set up your game interface here, according to "gamedatas"
-            this.initial_plant = 'initial_plant' in gamedatas ? gamedatas['initial_plant'] : null;
             this.setupStocks(gamedatas.players);
 
             this.market.SetStocks(this.stocks);
@@ -206,7 +204,6 @@ function (dojo, declare, OwnHome, Market) {
         getCardTypeID: function(colour, index) {
             return 12*colour + index;
         },
-       
 
         ///////////////////////////////////////////////////
         //// Game & client states
@@ -217,12 +214,9 @@ function (dojo, declare, OwnHome, Market) {
         onEnteringState: function( stateName, args )
         {
             console.log( 'Entering state: '+stateName );
-            
             switch( stateName )
             {
-            
             /* Example:
-            
             case 'myGameState':
             
                 // Show some HTML block at this game state
@@ -230,8 +224,6 @@ function (dojo, declare, OwnHome, Market) {
                 
                 break;
            */
-           
-           
             case 'dummmy':
                 break;
             }
@@ -243,10 +235,8 @@ function (dojo, declare, OwnHome, Market) {
         onLeavingState: function( stateName )
         {
             console.log( 'Leaving state: '+stateName );
-            
             switch( stateName )
             {
-            
             /* Example:
             
             case 'myGameState':
@@ -256,8 +246,6 @@ function (dojo, declare, OwnHome, Market) {
                 
                 break;
            */
-           
-           
             case 'dummmy':
                 break;
             }               
@@ -271,8 +259,8 @@ function (dojo, declare, OwnHome, Market) {
             console.log( 'onUpdateActionButtons: '+stateName );
                       
             if ('allPlayersPlaceInitialPlant' == stateName) {
-                if (this.initial_plant) {
-                    this.own_home.SetSelectableEmptyPositions(this.gamedatas.selectable_plant_positions, this.getTypeID(this.initial_plant), 'placeInitialPlant');
+                if ('initial_plant' in this.gamedatas) {
+                    this.own_home.SetSelectableEmptyPositions(this.gamedatas.selectable_plant_positions, this.getTypeID(this.gamedatas['initial_plant']), 'placeInitialPlant');
                 }
             } else if( this.isCurrentPlayerActive() )
             {            
@@ -338,7 +326,7 @@ function (dojo, declare, OwnHome, Market) {
         },
         placeInitialPlant: function(element_name) {
             this.call('playerPlacesInitialPlant', {selected_id: element_name});
-            this.initial_plant = null;
+            delete this.gamedatas['initial_plant'];
         },
         playerPlacesPlant: function(element_name) {
             this.call('playerPlacesPlant', {selected_market_card:this.selected_market_card, selected_home_id: element_name});
@@ -346,7 +334,7 @@ function (dojo, declare, OwnHome, Market) {
         },
         playerPlacesRoom: function(element_name) {
             this.call('playerPlacesRoom', {selected_market_card:this.selected_market_card, selected_home_id: element_name});
-            this.selected_market_card = null;
+            delete this.selected_market_card;
         },
         call: function(action, args, handler) {
             console.log(action);
