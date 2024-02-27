@@ -21,7 +21,7 @@ describe('StockSetup', function () {
         };
         sut.SetWebToolkit(dojo);
 
-        server = {getElementById: sinon.spy(),};
+        server = {getElement: sinon.spy(),};
         sut.SetServer(server);
 
         category = 'plant ';
