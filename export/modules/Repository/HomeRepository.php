@@ -17,6 +17,8 @@ require_once(__DIR__.'/../BGA/FrameworkInterfaces/Deck.php');
 class HomeRepository extends \ArrayObject {
     const KEY_PLAYER_ID = 'location';
     const KEY_LOCATION = 'location_arg';
+    const KEY_ELEMENT_ID = 'element_id';
+
     protected array $decks = [];
     protected string $player_id = '';
 
@@ -48,10 +50,24 @@ class HomeRepository extends \ArrayObject {
     /** Content array is only guaranteed to be valid after refresh  */
     public function refresh() : HomeRepository {
         foreach ($this->decks as $name => $deck) {
-            $this[$name] = $deck->getCardsInLocation($this->player_id);
+            $this[$name] = $this->getUpdatedCards($deck->getCardsInLocation($this->player_id));
         }
 
         return $this;
+    }
+    protected function getUpdatedCards($cards) {
+        $updated_cards = [];
+        foreach ($cards as $card) {
+            $updated_cards[] = $this->getUpdatedCard($card);
+        }
+        return $updated_cards;
+    }
+    protected function getUpdatedCard($card) {
+        $updated_card = $card;
+        // '4' -> player id'_04'
+        $location = +$card[HomeRepository::KEY_LOCATION];
+        $updated_card[HomeRepository::KEY_ELEMENT_ID] = $this->player_id . '_' . intdiv($location, 10) . $location % 10;
+        return $updated_card;
     }
 }
 ?>
