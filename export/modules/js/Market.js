@@ -28,8 +28,32 @@ define(['dojo/_base/declare'], (declare) => {
         setItem(item) {
             this.items[this.getElementName(item)] = item;
         },
+        fill: function(decks) {
+            this.fillCards(decks.plant);
+            this.fillCards(decks.room);
+        },
+        fillCards: function(cards) {
+            console.log(cards);
+            for (var number in cards) {
+                var card = cards[number];
+                this.fillCard(card);
+            }
+        },
+        fillCard: function(card) {
+            console.log(card);
+            element_name = this.getElementName(card);
+            console.log(element_name);
+            
+            this.stocks[element_name].addToStockWithId(this.getTypeID(card), element_name);
+        },
+        getTypeID: function(card) {
+            return this.getCardTypeID(+card['type'], +card['type_arg']);
+        },
+        getCardTypeID: function(colour, index) {
+            return 12*colour + index;
+        },
         getElementName: function(card) {
-            return card['location'] + '_' + card['location_arg'];
+            return card['element_id'];
         },
 
         getItemFromSelectedColumn() {

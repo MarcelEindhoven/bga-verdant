@@ -67,17 +67,19 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             
             // Setting up player boards
             console.log(gamedatas);
+            this.setupStocks(gamedatas.players);
             for( var player_id in gamedatas.players )
             {
                 var player = gamedatas.players[player_id];
+                this.own_home.fill(gamedatas.homes[player_id]);
                          
                 // TODO: Setting up players boards if needed
             }
 
             // TODO: Set up your game interface here, according to "gamedatas"
-            this.setupStocks(gamedatas.players);
+            this.market.fill(gamedatas.market);
 
-            this.setupDecks(gamedatas.decks);
+            //this.setupDecks(gamedatas.decks);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();

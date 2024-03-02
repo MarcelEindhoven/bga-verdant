@@ -86,8 +86,7 @@ describe('Market', function () {
             sut.setStocks(stocks);
 
             market_item = [];
-            market_item['location'] = 'item';
-            market_item['location_arg'] = '3';
+            market_item['element_id'] = 'item_3';
             sut.setItem(market_item);
             // Act
             item = act_default_get_item();

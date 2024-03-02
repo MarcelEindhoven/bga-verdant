@@ -124,12 +124,11 @@ describe('OwnHome', function () {
   describe('Set item', function () {
     it('Set item', function () {
         // Arrange
+        location = '123456_24';
         item = [];
         item['id'] = '5';
-        item['location'] = '123456';
-        item['location_arg'] = '24';
+        item['element_id'] = location;
         id = 'item_id_5'
-        location = '123456_24';
         toolkit = {
             placeOnObjectPos: sinon.spy(),
         };
