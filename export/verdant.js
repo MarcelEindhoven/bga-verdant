@@ -79,8 +79,6 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             // TODO: Set up your game interface here, according to "gamedatas"
             this.market.fill(gamedatas.market);
 
-            //this.setupDecks(gamedatas.decks);
-
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
 
@@ -105,28 +103,6 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             this.own_home.setStocks(stocks_players);
             this.stocks = {...stocks_market, ...stocks_players};
         },
-        setupDecks: function(decks) {
-            console.log("setupDecks");
-            console.log(decks);
-            this.setupCards(decks);
-            this.setupItems(decks.item);
-        },
-        setupCards: function(decks) {
-            this.fillCards(decks.plant);
-            this.fillCards(decks.room);
-        },
-        setupItems: function(items) {
-            console.log(items);
-            for (var number in items) {
-                item = items[number];
-                this.createItem(item);
-                if (item['location'] == 'item') {
-                    this.market.setItem(item);
-                } else {
-                    this.own_home.setItem(item, this);
-                }
-            }
-        },
         createItem(item) {
             console.log(this.getElementName(item));
             console.log(this.getBlockItem(item));
@@ -142,13 +118,6 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
                 background_horizontal: color,
                 background_vertical: type
             } );
-        },
-        fillCards: function(cards) {
-            console.log(cards);
-            for (var number in cards) {
-                var card = cards[number];
-                this.fillCard(card);
-            }
         },
         fillCard: function(card) {
             console.log(card);

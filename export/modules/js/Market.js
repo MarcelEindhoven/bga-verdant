@@ -19,11 +19,13 @@ define(['dojo/_base/declare'], (declare) => {
                 this.element_names[category] = row;
             }
             this.items = [];
+
+            this.itemwidth = 50;
+            this.itemheight = 50;
         },
         setWebToolkit(toolkit){this.toolkit = toolkit},
         setServer(server){this.server = server},
         setStocks(stocks){this.stocks = stocks},
-
 
         setItem(item) {
             this.items[this.getElementName(item)] = item;
@@ -31,6 +33,31 @@ define(['dojo/_base/declare'], (declare) => {
         fill: function(decks) {
             this.fillCards(decks.plant);
             this.fillCards(decks.room);
+            this.setupItems(decks.item);
+        },
+        setupItems: function(items) {
+            console.log(items);
+            for (var number in items) {
+                var item = items[number];
+                this.createItem(item);
+                this.setItem(item);
+            }
+        },
+        createItem(item) {
+            console.log(this.getElementName(item));
+            console.log(this.getBlockItem(item));
+            dojo.place(this.getBlockItem(item), this.getElementName(item));
+        },
+        getBlockItem(item) {
+            nr = item['id'];
+            type = this.itemwidth * Number(item['type']);
+            color = this.itemheight * Number(item['type_arg']);
+
+            return this.server.format_block( 'jstpl_item', {
+                nr: nr,
+                background_horizontal: color,
+                background_vertical: type
+            } );
         },
         fillCards: function(cards) {
             console.log(cards);

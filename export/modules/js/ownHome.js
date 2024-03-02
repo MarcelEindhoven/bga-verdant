@@ -8,6 +8,9 @@ define(['dojo/_base/declare'], (declare) => {
             this.stocks = null;
             this.selectable_positions = [];
             this.connection_handlers = [];
+
+            this.itemwidth = 50;
+            this.itemheight = 50;
         },
         setWebToolkit(toolkit){this.toolkit = toolkit},
         setOwnerID(owner_id){this.owner_id = owner_id},
@@ -20,11 +23,36 @@ define(['dojo/_base/declare'], (declare) => {
 
             console.log(id);
             console.log(location);
-            toolkit_bga.placeOnObjectPos(id, location, 25, -5);
+            this.server.placeOnObjectPos(id, location, 25, -5);
         },
         fill: function(decks) {
             this.fillCards(decks.plant);
             this.fillCards(decks.room);
+            this.setupItems(decks.item);
+        },
+        setupItems: function(items) {
+            console.log(items);
+            for (var number in items) {
+                var item = items[number];
+                this.createItem(item);
+                this.setItem(item);
+            }
+        },
+        createItem(item) {
+            console.log(this.getElementName(item));
+            console.log(this.getBlockItem(item));
+            dojo.place(this.getBlockItem(item), this.getElementName(item));
+        },
+        getBlockItem(item) {
+            nr = item['id'];
+            type = this.itemwidth * Number(item['type']);
+            color = this.itemheight * Number(item['type_arg']);
+
+            return this.server.format_block( 'jstpl_item', {
+                nr: nr,
+                background_horizontal: color,
+                background_vertical: type
+            } );
         },
         fillCards: function(cards) {
             console.log(cards);
