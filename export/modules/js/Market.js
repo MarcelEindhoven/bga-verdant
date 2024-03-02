@@ -28,6 +28,7 @@ define(['dojo/_base/declare'], (declare) => {
         setStocks(stocks){this.stocks = stocks},
 
         setItem(item) {
+            this.createItem(item);
             this.items[this.getElementName(item)] = item;
         },
         fill: function(decks) {
@@ -39,7 +40,6 @@ define(['dojo/_base/declare'], (declare) => {
             console.log(items);
             for (var number in items) {
                 var item = items[number];
-                this.createItem(item);
                 this.setItem(item);
             }
         },

@@ -103,22 +103,6 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             this.own_home.setStocks(stocks_players);
             this.stocks = {...stocks_market, ...stocks_players};
         },
-        createItem(item) {
-            console.log(this.getElementName(item));
-            console.log(this.getBlockItem(item));
-            dojo.place(this.getBlockItem(item), this.getElementName(item));
-        },
-        getBlockItem(item) {
-            nr = item['id'];
-            type = this.itemwidth * Number(item['type']);
-            color = this.itemheight * Number(item['type_arg']);
-
-            return this.format_block( 'jstpl_item', {
-                nr: nr,
-                background_horizontal: color,
-                background_vertical: type
-            } );
-        },
         fillCard: function(card) {
             console.log(card);
             element_name = this.getElementName(card);
@@ -412,7 +396,6 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
         notify_CreateItem: function(notif) {
             console.log('notify_CreateItem');
             console.log(notif.args);
-            this.createItem(notif.args.item);
             this.market.setItem(notif.args.item);
         },
         notify_NewSelectablePositions: function(notif) {
