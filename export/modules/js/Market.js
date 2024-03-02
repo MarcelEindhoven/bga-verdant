@@ -20,35 +20,36 @@ define(['dojo/_base/declare'], (declare) => {
             }
             this.items = [];
         },
-        SetWebToolkit(toolkit){this.toolkit = toolkit},
-        SetServer(server){this.server = server},
-        SetStocks(stocks){this.stocks = stocks},
+        setWebToolkit(toolkit){this.toolkit = toolkit},
+        setServer(server){this.server = server},
+        setStocks(stocks){this.stocks = stocks},
 
-        SetItem(item) {
+
+        setItem(item) {
             this.items[this.getElementName(item)] = item;
         },
         getElementName: function(card) {
             return card['location'] + '_' + card['location_arg'];
         },
 
-        GetItemFromSelectedColumn() {
+        getItemFromSelectedColumn() {
             for (var id in this.stocks) {
-                if (this.IsStockIDCardInMarket(id)){
+                if (this.isStockIDCardInMarket(id)){
                     if (this.stocks[id].getAllItems().length == 0) {
-                        return this.items[this.GetItemLocationFromSameColumn(id)];
+                        return this.items[this.getItemLocationFromSameColumn(id)];
                     }
                 }
             }
         },
-        IsStockIDCardInMarket(id) {
+        isStockIDCardInMarket(id) {
             return id.slice(0, 5) == 'plant' || id.slice(0, 4) == 'room'
         },
-        GetItemLocationFromSameColumn(id) {
+        getItemLocationFromSameColumn(id) {
             return 'item_' + id.slice(-1);
         },
 
-        MakeRowsSelectable(categories_to_select, callback_method) {
-            this.ResetSelectableCards();
+        makeRowsSelectable(categories_to_select, callback_method) {
+            this.resetSelectableCards();
 
             this.callback_method = callback_method;
 
@@ -64,7 +65,7 @@ define(['dojo/_base/declare'], (declare) => {
                 }
             }
         },
-        ResetSelectableCards() {
+        resetSelectableCards() {
             for(var c in this.connection_handlers) {
                 this.toolkit.disconnect(this.connection_handlers[c]);
             }
@@ -77,12 +78,12 @@ define(['dojo/_base/declare'], (declare) => {
             this.selectable_cards = [];
         },
         onSelectCard(field_id){
-            this.ResetSelectableCards();
+            this.resetSelectableCards();
             console.log(this.server);
             console.log(this.callback_method);
             console.log(this.server[this.callback_method]);
             this.server[this.callback_method](field_id);
         },
-        _GetElementName(category, position) {return category + '_' + position;},
+        _getElementName(category, position) {return category + '_' + position;},
 });
 });

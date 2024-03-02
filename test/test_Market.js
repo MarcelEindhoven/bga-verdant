@@ -15,10 +15,10 @@ describe('Market', function () {
             disconnect: sinon.spy(),
             placeOnObject: sinon.spy(),
         };
-        sut.SetWebToolkit(dojo);
+        sut.setWebToolkit(dojo);
 
         ajaxcallwrapper = {playerPlacesInitialPlant: sinon.spy(),};
-        sut.SetServer(ajaxcallwrapper);
+        sut.setServer(ajaxcallwrapper);
 
         stock = {
             addToStockWithId: sinon.spy(),
@@ -26,13 +26,13 @@ describe('Market', function () {
         };
         stocks = [];
         stocks['plant_3'] = stock;
-        sut.SetStocks(stocks);
+        sut.setStocks(stocks);
 
         selected_card_type_id = 15;
     });
-    describe('MakeRowsSelectable', function () {
+    describe('makeRowsSelectable', function () {
         function act_default_set(categories) {
-            sut.MakeRowsSelectable(categories);
+            sut.makeRowsSelectable(categories);
         };
             it('Nothing selectable', function () {
             // Arrange
@@ -52,14 +52,14 @@ describe('Market', function () {
             // Arrange
             act_default_set(['room']);
             // Act
-            sut.ResetSelectableCards();
+            sut.resetSelectableCards();
             // Assert
             sinon.assert.callCount(dojo.removeClass, 4);
         });
     });
     describe('Get item from column with missing element', function () {
         function act_default_get_item() {
-            return sut.GetItemFromSelectedColumn();
+            return sut.getItemFromSelectedColumn();
         };
         beforeEach(function() {
             stock = {
@@ -71,7 +71,7 @@ describe('Market', function () {
             stock.getAllItems.returns([3]);
             stocks = [];
             stocks['plant_3'] = stock;
-            sut.SetStocks(stocks);
+            sut.setStocks(stocks);
             // Act
             item = act_default_get_item();
             // Assert
@@ -83,12 +83,12 @@ describe('Market', function () {
             stock.getAllItems.returns([]);
             stocks = [];
             stocks['plant_3'] = stock;
-            sut.SetStocks(stocks);
+            sut.setStocks(stocks);
 
             market_item = [];
             market_item['location'] = 'item';
             market_item['location_arg'] = '3';
-            sut.SetItem(market_item);
+            sut.setItem(market_item);
             // Act
             item = act_default_get_item();
             // Assert
@@ -99,7 +99,7 @@ describe('Market', function () {
             stock.getAllItems.returns([]);
             stocks = [];
             stocks['xxx_3'] = stock;
-            sut.SetStocks(stocks);
+            sut.setStocks(stocks);
             // Act
             item = act_default_get_item();
             // Assert

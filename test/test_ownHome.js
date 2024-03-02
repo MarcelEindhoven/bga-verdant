@@ -15,13 +15,13 @@ describe('OwnHome', function () {
             disconnect: sinon.spy(),
             placeOnObjectPos: sinon.spy(),
         };
-        sut.SetWebToolkit(dojo);
+        sut.setWebToolkit(dojo);
 
         owner_id = '123';
-        sut.SetOwnerID(owner_id);
+        sut.setOwnerID(owner_id);
 
         ajaxcallwrapper = {playerPlacesInitialPlant: sinon.spy(),};
-        sut.SetServer(ajaxcallwrapper);
+        sut.setServer(ajaxcallwrapper);
 
         position = 14;
         field_id = owner_id + '_' + position;
@@ -31,12 +31,12 @@ describe('OwnHome', function () {
         };
         stocks = [];
         stocks[field_id] = stock;
-        sut.SetStocks(stocks);
+        sut.setStocks(stocks);
 
         selected_card_type_id = 15;
     });
     function act_default_set(positions) {
-        sut.SetSelectableEmptyPositions(positions, selected_card_type_id, 'playerPlacesInitialPlant');
+        sut.setSelectableEmptyPositions(positions, selected_card_type_id, 'playerPlacesInitialPlant');
     };
     describe('Callbacks', function () {
         it('Call server', function () {
@@ -68,7 +68,7 @@ describe('OwnHome', function () {
     it('Reset zero selectable empty positions', function () {
         // Arrange
         // Act
-        sut.ResetSelectableEmptyPositions();
+        sut.resetSelectableEmptyPositions();
         // Assert
         assert.ok(dojo.removeClass.notCalled, 'Do not remove class when there are no selectable empty positions');
     });
@@ -76,7 +76,7 @@ describe('OwnHome', function () {
         // Arrange
         act_default_set([position]);
         // Act
-        sut.ResetSelectableEmptyPositions();
+        sut.resetSelectableEmptyPositions();
         // Assert
         assert.ok(dojo.removeClass.calledOnceWithExactly(field_id, 'selectable'), 'Remove selectable class for all selectable empty positions');
         assert.ok(dojo.disconnect.calledOnceWithExactly(connection_handler), 'Remove return value of connect for all selectable empty positions');
@@ -86,7 +86,7 @@ describe('OwnHome', function () {
         // Arrange
         act_default_set([position]);
         // Act
-        sut.SetSelectableEmptyPositions([position], 5);
+        sut.setSelectableEmptyPositions([position], 5);
         // Assert
         assert.ok(dojo.removeClass.calledOnceWithExactly(field_id, 'selectable'), 'Set starts with cleanup');
         assert.ok(dojo.disconnect.calledOnceWithExactly(connection_handler), 'Set starts with cleanup');
@@ -94,9 +94,9 @@ describe('OwnHome', function () {
     it('Double reset', function () {
         // Arrange
         act_default_set([position]);
-        sut.ResetSelectableEmptyPositions();
+        sut.resetSelectableEmptyPositions();
         // Act
-        sut.ResetSelectableEmptyPositions();
+        sut.resetSelectableEmptyPositions();
         // Assert
         assert.ok(dojo.removeClass.calledOnceWithExactly(field_id, 'selectable'), 'Reset cleans up');
         assert.ok(dojo.disconnect.calledOnceWithExactly(connection_handler), 'Reset cleans up');
@@ -104,7 +104,7 @@ describe('OwnHome', function () {
   });
   describe('Set selectable cards', function () {
     function act_default_set(positions) {
-        sut.SetSelectableCards(positions, 'playerSelectsCard');
+        sut.setSelectableCards(positions, 'playerSelectsCard');
     };
     it('Set zero selectable cards', function () {
         // Arrange
@@ -134,7 +134,7 @@ describe('OwnHome', function () {
             placeOnObjectPos: sinon.spy(),
         };
         // Act
-        sut.SetItem(item, toolkit);
+        sut.setItem(item, toolkit);
         // Assert
         sinon.assert.calledOnceWithExactly(toolkit.placeOnObjectPos, id, location, 25, -5);
     });

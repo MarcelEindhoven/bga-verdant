@@ -39,12 +39,12 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             this.stocks = [];
 
             this.market = new Market();
-            this.market.SetWebToolkit(dojo);
-            this.market.SetServer(this);
+            this.market.setWebToolkit(dojo);
+            this.market.setServer(this);
 
             this.own_home = new OwnHome();
-            this.own_home.SetWebToolkit(dojo);
-            this.own_home.SetServer(this);
+            this.own_home.setWebToolkit(dojo);
+            this.own_home.setServer(this);
             // this.player_id not available here
         },
         
@@ -63,7 +63,7 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
         setup: function( gamedatas )
         {
             console.log( "Starting game setup" );
-            this.own_home.SetOwnerID(this.player_id);
+            this.own_home.setOwnerID(this.player_id);
             
             // Setting up player boards
             console.log(gamedatas);
@@ -92,15 +92,15 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
         getElement: function(html_id) {return $(html_id);},
         setupStocks: function(players) {
             setup = new StockSetup();
-            setup.SetServer(this);
-            setup.SetWebToolkit(dojo);
+            setup.setServer(this);
+            setup.setWebToolkit(dojo);
             setup.SetStockClass(ebg.stock);
             setup.SetURLPrefix(g_gamethemeurl);
 
             var stocks_market = setup.setupMarketStocks();
-            this.market.SetStocks(stocks_market);
+            this.market.setStocks(stocks_market);
             var stocks_players = setup.setupPlayersStocks(players)
-            this.own_home.SetStocks(stocks_players);
+            this.own_home.setStocks(stocks_players);
             this.stocks = {...stocks_market, ...stocks_players};
         },
         setupDecks: function(decks) {
@@ -119,9 +119,9 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
                 item = items[number];
                 this.createItem(item);
                 if (item['location'] == 'item') {
-                    this.market.SetItem(item);
+                    this.market.setItem(item);
                 } else {
-                    this.own_home.SetItem(item, this);
+                    this.own_home.setItem(item, this);
                 }
             }
         },
@@ -225,7 +225,7 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
                       
             if ('allPlayersPlaceInitialPlant' == stateName) {
                 if ('initial_plant' in this.gamedatas) {
-                    this.own_home.SetSelectableEmptyPositions(this.gamedatas.selectable_plant_positions, this.getTypeID(this.gamedatas['initial_plant']), 'placeInitialPlant');
+                    this.own_home.setSelectableEmptyPositions(this.gamedatas.selectable_plant_positions, this.getTypeID(this.gamedatas['initial_plant']), 'placeInitialPlant');
                 }
             } else if( this.isCurrentPlayerActive() )
             {            
@@ -235,16 +235,16 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
                         categories = [];
                         if (this.gamedatas.selectable_plant_positions.length > 0) {categories.push('plant');}
                         if (this.gamedatas.selectable_room_positions.length > 0) {categories.push('room');}
-                        this.market.MakeRowsSelectable(categories, 'marketCardSelected');
+                        this.market.makeRowsSelectable(categories, 'marketCardSelected');
                         break;
                         case 'placeItem':
-                        item = this.market.GetItemFromSelectedColumn();
+                        item = this.market.getItemFromSelectedColumn();
                         this.selected_market_card = item.location + '_'+ item.location_arg;
                         console.log(this.selected_market_card);
                         if (item['type'] == 0) {
-                            this.own_home.SetSelectableCards(this.gamedatas.selectable_plants, 'playerPlacesItemOnPlant');
+                            this.own_home.setSelectableCards(this.gamedatas.selectable_plants, 'playerPlacesItemOnPlant');
                         } else {
-                            this.own_home.SetSelectableCards(this.gamedatas.selectable_rooms, 'playerPlacesItemOnRoom');
+                            this.own_home.setSelectableCards(this.gamedatas.selectable_rooms, 'playerPlacesItemOnRoom');
                         }
                         break;
                         // Which item will be placed?
@@ -262,7 +262,7 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
 */
                 }
             } else {
-                this.market.ResetSelectableCards();
+                this.market.resetSelectableCards();
             }
         },        
         playerPlacesItemOnPlant: function(element_name) {
@@ -277,15 +277,15 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
         marketCardSelected: function(element_name) {
             console.log('marketCardSelected ' + element_name);
 
-            this.market.ResetSelectableCards();
+            this.market.resetSelectableCards();
             card_type = this.stocks[element_name].getItemById(element_name).type;
             this.selected_market_card = element_name;
             console.log(this.stocks[element_name]);
             console.log(card_type);
             if (element_name.startsWith('plant')) {
-                this.own_home.SetSelectableEmptyPositions(this.gamedatas.selectable_plant_positions, card_type, 'playerPlacesPlant');
+                this.own_home.setSelectableEmptyPositions(this.gamedatas.selectable_plant_positions, card_type, 'playerPlacesPlant');
             } else {
-                this.own_home.SetSelectableEmptyPositions(this.gamedatas.selectable_room_positions, card_type, 'playerPlacesRoom');
+                this.own_home.setSelectableEmptyPositions(this.gamedatas.selectable_room_positions, card_type, 'playerPlacesRoom');
             }
             
         },
@@ -387,8 +387,8 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
         {
             console.log( 'notifications subscriptions setup' );
 
-            dojo.subscribe( 'ResetSelectableEmptyPositions', this, "notify_ResetSelectableEmptyPositions" );
-            this.notifqueue.setSynchronous( 'ResetSelectableEmptyPositions', 500 );
+            dojo.subscribe( 'resetSelectableEmptyPositions', this, "notify_resetSelectableEmptyPositions" );
+            this.notifqueue.setSynchronous( 'resetSelectableEmptyPositions', 500 );
 
             dojo.subscribe( 'newStockContent', this, "notify_newStockContent" );
             this.notifqueue.setSynchronous( 'newStockContent', 5 );
@@ -418,9 +418,9 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             // 
             console.log( 'notifications subscriptions finished setup' );
         },  
-        notify_ResetSelectableEmptyPositions: function(notif) {
-            console.log('notify_ResetSelectableEmptyPositions');
-            this.own_home.ResetSelectableEmptyPositions();
+        notify_resetSelectableEmptyPositions: function(notif) {
+            console.log('notify_resetSelectableEmptyPositions');
+            this.own_home.resetSelectableEmptyPositions();
         },
         notify_newStockContent: function(notif) {
             console.log('notify_newStockContent');
@@ -436,13 +436,13 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
         notify_MoveItem: function(notif) {
             console.log('notify_MoveItem');
             console.log(notif.args);
-            this.own_home.SetItem(notif.args.item, this);
+            this.own_home.setItem(notif.args.item, this);
         },
         notify_CreateItem: function(notif) {
             console.log('notify_CreateItem');
             console.log(notif.args);
             this.createItem(notif.args.item);
-            this.market.SetItem(notif.args.item);
+            this.market.setItem(notif.args.item);
         },
         notify_NewSelectablePositions: function(notif) {
             console.log('notify_NewSelectablePositions');

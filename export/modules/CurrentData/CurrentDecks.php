@@ -110,14 +110,14 @@ class CurrentDecks {
         $home = new Home();
         return $this->getPositionsFromCards($home
         ->SetPlants($this->decks[Constants::PLANT_NAME]->getCardsInLocation($player_id))
-        ->SetItems($this->decks[Constants::ITEM_NAME]->getCardsInLocation($player_id))
+        ->setItems($this->decks[Constants::ITEM_NAME]->getCardsInLocation($player_id))
         ->getSelectablePlants());
     }
     public function getSelectableRooms($player_id) : array {
         $home = new Home();
         return $home
         ->setRooms($this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id))
-        ->SetItems($this->decks[Constants::ITEM_NAME]->getCardsInLocation($player_id))
+        ->setItems($this->decks[Constants::ITEM_NAME]->getCardsInLocation($player_id))
         ->getSelectableRoomPositions();
     }
 

@@ -12,10 +12,10 @@ define(['dojo/_base/declare'], (declare) => {
             this.gamethemeurl = null;
         },
         SetURLPrefix(gamethemeurl){this.gamethemeurl = gamethemeurl},
-        SetWebToolkit(toolkit){this.toolkit = toolkit},
+        setWebToolkit(toolkit){this.toolkit = toolkit},
         SetStockClass(stock_class){this.stock_class = stock_class},
         setCategory(category){this.category = category},
-        SetServer(server){this.server = server},
+        setServer(server){this.server = server},
 
         setupMarketStocks: function() {
             var stocks = [];

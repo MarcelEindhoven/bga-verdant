@@ -19,10 +19,10 @@ describe('StockSetup', function () {
         dojo = {
             hitch: sinon.fake.returns(onItemCreate),
         };
-        sut.SetWebToolkit(dojo);
+        sut.setWebToolkit(dojo);
 
         server = {getElement: sinon.spy(),};
-        sut.SetServer(server);
+        sut.setServer(server);
 
         category = 'plant ';
         sut.setCategory(category);
