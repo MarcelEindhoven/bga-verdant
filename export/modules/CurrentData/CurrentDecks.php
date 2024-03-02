@@ -1,6 +1,9 @@
 <?php
 namespace NieuwenhovenGames\Verdant;
 /**
+ * BGA decks are encapsulated into repository objects
+ * Each repository object represents a domain concept
+ * 
  *------
  * Verdant implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
@@ -15,6 +18,8 @@ require_once(__DIR__.'/../Constants.php');
 include_once(__DIR__.'/../Entities/Home.php');
 
 require_once(__DIR__.'/../Repository/InitialPlantRepository.php');
+require_once(__DIR__.'/../Repository/HomeRepository.php');
+require_once(__DIR__.'/../Repository/MarketRepository.php');
 
 class CurrentDecks {
     const RESULT_KEY_DECKS = 'decks';
@@ -27,10 +32,18 @@ class CurrentDecks {
     protected array $players = [];
     protected array $decks = [];
     protected int $player_id = 0;
+    protected ?InitialPlantRepository $initial_plant = null;
+    protected array $homes = [];
+    protected ?MarketRepository $market = null;
 
     public static function create($decks, $players) : CurrentDecks {
         $object = new CurrentDecks();
-        return $object->setDecks($decks)->setPlayers($players);
+        $object->initial_plant = InitialPlantRepository::create($decks[Constants::PLANT_NAME])->fill($players)->refresh();
+        foreach ($players as $player_id => $player) {
+            $object->homes[$player_id] = HomeRepository::create($decks)->setOwner($player_id)->refresh();
+        }
+        $object->market = MarketRepository::create($decks)->refresh();
+        return $object->setPlayers($players)->setDecks($decks);
     }
 
     public function setPlayers($players) : CurrentDecks {
@@ -44,6 +57,11 @@ class CurrentDecks {
     }
 
     public function setDecks($decks) : CurrentDecks {
+        $this->decks = $decks;
+        return $this;
+    }
+
+    public function refresh($decks) : CurrentDecks {
         $this->decks = $decks;
         return $this;
     }

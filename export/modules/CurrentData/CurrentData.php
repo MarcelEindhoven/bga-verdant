@@ -1,6 +1,8 @@
 <?php
 namespace NieuwenhovenGames\Verdant;
 /**
+ * BGA database is encapsulated into storage object
+ * Player properties are retrieved from storage
  *------
  * Verdant implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.

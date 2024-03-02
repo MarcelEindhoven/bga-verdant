@@ -27,13 +27,11 @@ class CurrentDecksTest extends TestCase{
             77 => ['player_id' => 77, 'player_name' => 'test '], 
             17 => ['player_id' => 17, 'player_naam' => 'tests']];
 
-        $this->sut = CurrentDecks::create([], $this->players);
-        $this->sut->setCurrentPlayer($this->player_id);
-
         $this->mock_deck_plants = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
         $this->mock_deck_rooms = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
 
-        $this->sut->setDecks(['plant' => $this->mock_deck_plants, 'room' => $this->mock_deck_rooms]);
+        $this->sut = CurrentDecks::create(['plant' => $this->mock_deck_plants, 'room' => $this->mock_deck_rooms], $this->players);
+        $this->sut->setCurrentPlayer($this->player_id);
     }
 
     public function testGetBoundary__SinglePosition__MinimumBoundary() {
