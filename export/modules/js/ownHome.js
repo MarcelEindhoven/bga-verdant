@@ -17,7 +17,7 @@ define(['dojo/_base/declare'], (declare) => {
         setServer(server){this.server = server},
         setStocks(stocks){this.stocks = stocks},
 
-        setItem(item, toolkit_bga) {
+        setItem(item) {
             var id = 'item_id_' + item.id;
             var location = this.getElementName(item);
 

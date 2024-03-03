@@ -13,11 +13,14 @@ describe('Market', function () {
             connect: sinon.fake.returns(connection_handler),
             removeClass: sinon.spy(),
             disconnect: sinon.spy(),
-            placeOnObject: sinon.spy(),
+            place: sinon.spy(),
         };
         sut.setWebToolkit(dojo);
 
-        ajaxcallwrapper = {playerPlacesInitialPlant: sinon.spy(),};
+        ajaxcallwrapper = {
+            format_block: sinon.spy(),
+            playerPlacesInitialPlant: sinon.spy(),
+        };
         sut.setServer(ajaxcallwrapper);
 
         stock = {

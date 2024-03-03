@@ -13,8 +13,6 @@ include_once(__DIR__.'/../BGA/Action.php');
 
 include_once(__DIR__.'/PlayerPlacesCard.php');
 
-include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
-
 class PlayerPlacesInitialPlant extends PlayerPlacesCard {
     const MESSAGE_PLACE_SELECTED_CARD = 'Place initial plant ';
     const EVENT_NEW_SELECTABLE_EMPTY_POSITIONS = 'NewSelectablePositions';

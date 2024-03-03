@@ -87,6 +87,9 @@ class CurrentDecks {
 
         return $data;
     }
+    public function getMarket() {
+        return $this->market;
+    }
     public function getCardsForPlayer($player_id) {
         $decks = [];
         foreach ($this->decks as $name => $deck) {

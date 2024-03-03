@@ -55,7 +55,7 @@ class NextPlayer extends \NieuwenhovenGames\BGA\Action {
         return $this;
     }
     protected function replenishMarket() : NextPlayer {
-        $market = $this->current_decks->getAllDatas();
+        $market = $this->current_decks->getMarket();
         foreach (Constants::getNames() as $name) {
             $this->replenish($name, $this->getLocationsFromMarketRow($market[$name]));
         }

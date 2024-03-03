@@ -11,8 +11,6 @@ namespace NieuwenhovenGames\Verdant;
 
 include_once(__DIR__.'/../BGA/Action.php');
 
-include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
-
 class AISelectsAndPlacesCard extends \NieuwenhovenGames\BGA\Action {
 
     public static function create($gamestate) : AISelectsAndPlacesCard {

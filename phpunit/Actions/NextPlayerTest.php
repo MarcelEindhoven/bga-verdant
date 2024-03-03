@@ -49,7 +49,7 @@ class NextPlayerTest extends TestCase{
         // Arrange
         $row = [['location_arg' => 0], ['location_arg' => 1], ['location_arg' => 2], ['location_arg' => 3]];
         $arguments = [Constants::PLANT_NAME => $row, Constants::ITEM_NAME => $row, Constants::ROOM_NAME => $row];
-        $this->mock_current_decks->expects($this->exactly(1))->method('getAllDatas')->willReturn($arguments);
+        $this->mock_current_decks->expects($this->exactly(1))->method('getMarket')->willReturn($arguments);
         $this->mock_update_deck->expects($this->exactly(0))->method('pickCardForLocation');
         // Act
         $this->sut->execute();
@@ -60,7 +60,7 @@ class NextPlayerTest extends TestCase{
         // Arrange
         $row = [];
         $arguments = [Constants::PLANT_NAME => $row, Constants::ITEM_NAME => $row, Constants::ROOM_NAME => $row];
-        $this->mock_current_decks->expects($this->exactly(1))->method('getAllDatas')->willReturn($arguments);
+        $this->mock_current_decks->expects($this->exactly(1))->method('getMarket')->willReturn($arguments);
         $this->mock_update_deck->expects($this->exactly(12))->method('pickCardForLocation');
         // Act
         $this->sut->execute();

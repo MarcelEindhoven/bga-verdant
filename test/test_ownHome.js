@@ -13,15 +13,17 @@ describe('OwnHome', function () {
             connect: sinon.fake.returns(connection_handler),
             removeClass: sinon.spy(),
             disconnect: sinon.spy(),
-            placeOnObjectPos: sinon.spy(),
         };
         sut.setWebToolkit(dojo);
 
         owner_id = '123';
         sut.setOwnerID(owner_id);
 
-        ajaxcallwrapper = {playerPlacesInitialPlant: sinon.spy(),};
-        sut.setServer(ajaxcallwrapper);
+        server = {
+            playerPlacesInitialPlant: sinon.spy(),
+            placeOnObjectPos: sinon.spy(),
+        };
+        sut.setServer(server);
 
         position = 14;
         field_id = owner_id + '_' + position;
@@ -45,9 +47,9 @@ describe('OwnHome', function () {
             // Act
             sut.onSelectEmptyPosition(field_id);
             // Assert
-            assert.ok(ajaxcallwrapper.playerPlacesInitialPlant.calledOnceWithExactly(field_id), 'Call server that player places card on empty position');
+            assert.ok(server.playerPlacesInitialPlant.calledOnceWithExactly(field_id), 'Call server that player places card on empty position');
         });
-        });
+    });
     describe('Set selectable empty positions', function () {
     it('Set zero selectable empty positions', function () {
         // Arrange
@@ -129,13 +131,10 @@ describe('OwnHome', function () {
         item['id'] = '5';
         item['element_id'] = location;
         id = 'item_id_5'
-        toolkit = {
-            placeOnObjectPos: sinon.spy(),
-        };
         // Act
-        sut.setItem(item, toolkit);
+        sut.setItem(item);
         // Assert
-        sinon.assert.calledOnceWithExactly(toolkit.placeOnObjectPos, id, location, 25, -5);
+        sinon.assert.calledOnceWithExactly(server.placeOnObjectPos, id, location, 25, -5);
     });
   });
 });
