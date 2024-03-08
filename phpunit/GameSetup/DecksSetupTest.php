@@ -24,7 +24,7 @@ class DecksSetupTest extends TestCase{
         $this->mock_items = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
         $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
 
-        $this->players = [77 => ['player_id' => 77, 'player_name' => 'test ']];
+        $this->players = [77 => ['player_id' => 77, 'player_name' => 'test '], 7 => ['player_id' => 7, 'player_name' => 'test ']];
 
         $this->sut = DecksSetup::create(['plant'=> $this->mock_cards, 'item'=> $this->mock_items, 'room'=> $this->mock_cards], $this->players);
     }
@@ -45,7 +45,8 @@ class DecksSetupTest extends TestCase{
         // Arrange
         $this->mock_items->expects($this->exactly(4))->method('pickCardForLocation');
 
-        $this->mock_cards->expects($this->exactly(10))->method('pickCardForLocation');
+        // 4 cards per market row +1 initial plant +1 initial room card
+        $this->mock_cards->expects($this->exactly(2*4 + 2*count($this->players)))->method('pickCardForLocation');
         // Act
         $this->sut->setup();
         // Assert
