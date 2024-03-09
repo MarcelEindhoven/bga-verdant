@@ -22,21 +22,16 @@ class HomeRepository extends \ArrayObject {
     protected array $decks = [];
     protected string $player_id = '';
 
-    static public function create($decks) : HomeRepository {
+    static public function create($decks, $player_id) : HomeRepository {
         $object = new HomeRepository();
-        return $object->setDecks($decks);
+        return $object->initialise($decks, $player_id);
     }
 
-    public function setDecks($decks) : HomeRepository {
+    public function initialise($decks, $player_id) : HomeRepository {
         $this->decks = $decks;
-
-        return $this;
-    }
-
-    public function setOwner($player_id) : HomeRepository {
         $this->player_id = $player_id;
 
-        return $this;
+        return $this->refresh();
     }
 
     // Implement ArrayAccess
@@ -48,7 +43,7 @@ class HomeRepository extends \ArrayObject {
     */
 
     /** Content array is only guaranteed to be valid after refresh  */
-    public function refresh() : HomeRepository {
+    protected function refresh() : HomeRepository {
         foreach ($this->decks as $name => $deck) {
             $this[$name] = $this->getUpdatedCards($deck->getCardsInLocation($this->player_id));
         }

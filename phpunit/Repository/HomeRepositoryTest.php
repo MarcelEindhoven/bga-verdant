@@ -23,18 +23,15 @@ class HomeRepositoryTest extends TestCase{
     protected function setUp(): void {
         $this->mock_items = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
         $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
-
-        $this->sut = HomeRepository::create([Constants::PLANT_NAME => $this->mock_cards, Constants::ITEM_NAME => $this->mock_items, Constants::ROOM_NAME => $this->mock_cards]);
-        $this->sut->setOwner($this->player_id);
     }
 
     public function testSetup__Empty__NoCard() {
         // Arrange
         $expected_decks = [Constants::PLANT_NAME => [], Constants::ITEM_NAME => [], Constants::ROOM_NAME => []];
         // Act
-        $decks = (array) ($this->sut->refresh());
+        $this->actInitialise();
         // Assert
-        $this->assertEqualsCanonicalizing($expected_decks, $decks);
+        $this->assertEqualsCanonicalizing($expected_decks, (array) ($this->sut));
     }
 
     public function testSetup__MiddleLocation__ConcatenatedElementID() {
@@ -48,11 +45,11 @@ class HomeRepositoryTest extends TestCase{
         ->with($this->player_id)
         ->willReturn([$item]);
         // Act
-        $decks = (array) ($this->sut->refresh());
+        $this->actInitialise();
         // Assert
         $expected_item = $this->getUpdatedCard($item, $this->player_id . '_24');
         $expected_decks = [Constants::PLANT_NAME => [], Constants::ITEM_NAME => [$expected_item], Constants::ROOM_NAME => []];
-        $this->assertEqualsCanonicalizing($expected_decks, $decks);
+        $this->assertEqualsCanonicalizing($expected_decks, (array) ($this->sut));
     }
 
     public function testSetup__TopLocation__UpdatedElementID() {
@@ -66,11 +63,14 @@ class HomeRepositoryTest extends TestCase{
         ->with($this->player_id)
         ->willReturn([$item]);
         // Act
-        $decks = (array) ($this->sut->refresh());
+        $this->actInitialise();
         // Assert
         $expected_item = $this->getUpdatedCard($item, $this->player_id . '_04');
         $expected_decks = [Constants::PLANT_NAME => [], Constants::ITEM_NAME => [$expected_item], Constants::ROOM_NAME => []];
-        $this->assertEqualsCanonicalizing($expected_decks, $decks);
+        $this->assertEqualsCanonicalizing($expected_decks, (array) ($this->sut));
+    }
+    protected function actInitialise() {
+        $this->sut = HomeRepository::create([Constants::PLANT_NAME => $this->mock_cards, Constants::ITEM_NAME => $this->mock_items, Constants::ROOM_NAME => $this->mock_cards], $this->player_id);
     }
     protected function arrangeEmptyCards() {
         $this->mock_cards

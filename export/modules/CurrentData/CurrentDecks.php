@@ -42,7 +42,7 @@ class CurrentDecks {
         $object = new CurrentDecks();
         $object->initial_plants = InitialPlantRepository::create($decks[Constants::PLANT_NAME])->fill($players)->refresh();
         foreach ($players as $player_id => $player) {
-            $object->homes[$player_id] = HomeRepository::create($decks)->setOwner($player_id)->refresh();
+            $object->homes[$player_id] = HomeRepository::create($decks, $player_id);
         }
         $object->market = MarketRepository::create($decks)->refresh();
         return $object->setPlayers($players)->setDecks($decks);
