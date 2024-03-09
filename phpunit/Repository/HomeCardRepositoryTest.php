@@ -50,6 +50,26 @@ class HomeCardRepositoryTest extends TestCase{
         $this->assertEqualsCanonicalizing($expected_deck, (array) ($this->sut));
     }
 
+    public function testSet__InitialPlant__moveAllCardsInLocation() {
+        // Arrange
+        $expected_deck = $this->arrangeSingleCard('4', '04');
+        $this->actInitialise();
+
+        $element_id = '123_05';
+        $location = 'plant';
+        $location_arg = '2';
+        $card = [HomeCardRepository::KEY_PLAYER_ID => $location, HomeCardRepository::KEY_LOCATION => $location_arg];
+        $this->mock_cards
+        ->expects($this->exactly(1))
+        ->method('moveAllCardsInLocation')
+        ->with($location, '123', $location_arg, '05');
+        // Act
+        $this->sut[$element_id] = $card;
+        // Assert
+        $expected_deck[HomeCardRepository::KEY_ELEMENT_ID] = $card;
+        $this->assertEqualsCanonicalizing($expected_deck, (array) ($this->sut));
+    }
+
     protected function actInitialise() {
         $this->sut = HomeCardRepository::create($this->mock_cards, $this->player_id);
     }
