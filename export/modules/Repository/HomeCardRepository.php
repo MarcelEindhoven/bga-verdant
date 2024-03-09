@@ -47,6 +47,7 @@ class HomeCardRepository extends \ArrayObject {
         if ($this->initialised) {
             $this->moveTo($element_id, $card);
         }
+        $card[HomeCardRepository::KEY_ELEMENT_ID] = $element_id;
         parent::offsetSet($element_id, $card);
     }
     // Implement ArrayAccess
@@ -59,20 +60,17 @@ class HomeCardRepository extends \ArrayObject {
     /** Content array is only guaranteed to be valid after refresh  */
     protected function refresh() : HomeCardRepository {
         foreach ($this->deck->getCardsInLocation($this->player_id) as $card) {
-            $updated_card = $this->getUpdatedCard($card);
-            $this[$updated_card[HomeCardRepository::KEY_ELEMENT_ID]] = $updated_card;
+            $this[$this->getElementID($card)] = $card;
         }
         $this->initialised = true;
 
         return $this;
     }
 
-    protected function getUpdatedCard($card) {
-        $updated_card = $card;
+    protected function getElementID($card) {
         // '4' -> player id'_04'
         $location = +$card[HomeCardRepository::KEY_LOCATION];
-        $updated_card[HomeCardRepository::KEY_ELEMENT_ID] = $this->player_id . '_' . intdiv($location, 10) . $location % 10;
-        return $updated_card;
+        return $this->player_id . '_' . intdiv($location, 10) . $location % 10;
     }
 }
 ?>

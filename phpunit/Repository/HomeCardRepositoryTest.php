@@ -66,6 +66,7 @@ class HomeCardRepositoryTest extends TestCase{
         // Act
         $this->sut[$element_id] = $card;
         // Assert
+        $card[HomeCardRepository::KEY_ELEMENT_ID] = $element_id;
         $expected_deck[HomeCardRepository::KEY_ELEMENT_ID] = $card;
         $this->assertEqualsCanonicalizing($expected_deck, (array) ($this->sut));
     }
