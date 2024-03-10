@@ -57,21 +57,19 @@ class HomeCardRepositoryTest extends TestCase{
 
     public function testSet__InitialPlant__EVENT_NEW_STOCK_CONTENT() {
         // Arrange
-        $expected_deck = [];
 
         $element_id_to = $this->player_id . '_' . $this->location;
         $from = 'initial';
         $from_arg = $this->player_id;
         $card = [HomeCardRepository::KEY_PLAYER_ID => $from, HomeCardRepository::KEY_LOCATION => $from_arg];
 
-        $this->arrangeMove($from, $from_arg);
-        $new_card = $this->arrangeGetCards();
+        $new_card = $this->arrangeMoveAndGetCards($from, $from_arg);
         $this->arrangeNotifyNewStock($new_card);
+        $expected_deck = [HomeCardRepository::KEY_ELEMENT_ID => $new_card];
 
         // Act
         $this->sut[$element_id_to] = $card;
         // Assert
-        $expected_deck[HomeCardRepository::KEY_ELEMENT_ID] = $new_card;
         $this->assertEqualsCanonicalizing($expected_deck, (array) ($this->sut));
     }
 
@@ -85,13 +83,13 @@ class HomeCardRepositoryTest extends TestCase{
         $element_id_from = $from . '_' . $from_arg;
         $card = [HomeCardRepository::KEY_PLAYER_ID => $from, HomeCardRepository::KEY_LOCATION => $from_arg, HomeCardRepository::KEY_ELEMENT_ID => $element_id_from];
 
-        $this->arrangeMove($from, $from_arg);
-        $stored_card = $this->arrangeGetCards();
+        $new_card = $this->arrangeMoveAndGetCards($from, $from_arg);
         $this->arrangeNotifyMove($element_id_from, $element_id_to);
+        $expected_deck = [HomeCardRepository::KEY_ELEMENT_ID => $new_card];
+
         // Act
         $this->sut[$element_id_to] = $card;
         // Assert
-        $expected_deck[HomeCardRepository::KEY_ELEMENT_ID] = $stored_card;
         $this->assertEqualsCanonicalizing($expected_deck, (array) ($this->sut));
     }
     protected function arrangeNotifyNewStock($card) {
@@ -107,6 +105,10 @@ class HomeCardRepositoryTest extends TestCase{
         ->expects($this->exactly(1))
         ->method('notifyAllPlayers')
         ->with(HomeCardRepository::EVENT_MOVE, HomeCardRepository::EVENT_MOVE_MESSAGE, $arguments);
+    }
+    protected function arrangeMoveAndGetCards($from, $from_arg) {
+        $this->arrangeMove($from, $from_arg);
+        return $this->arrangeGetCards();
     }
     protected function arrangeMove($from, $from_arg) {
         $this->mock_cards
