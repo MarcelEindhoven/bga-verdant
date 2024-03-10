@@ -26,6 +26,10 @@ class HomeCardRepository extends \ArrayObject {
     const KEY_PLAYER_ID = 'location';
     const KEY_LOCATION = 'location_arg';
     const KEY_ELEMENT_ID = 'element_id';
+    const ARGUMENT_KEY_ELEMENT_FROM = 'from';
+    const EVENT_MOVE = 'MoveFromStockToStock';
+    const EVENT_MOVE_MESSAGE = 'Place card';
+
 
     protected string $player_id = '';
     protected bool $initialised = false;
@@ -33,6 +37,11 @@ class HomeCardRepository extends \ArrayObject {
     static public function create($deck, $player_id) : HomeCardRepository {
         $object = new HomeCardRepository();
         return $object->initialise($deck, $player_id);
+    }
+
+    public function setNotificationsHandler($notificationsHandler) : HomeCardRepository {
+        $this->notificationsHandler = $notificationsHandler;
+        return $this;
     }
 
     public function initialise($deck, $player_id) : HomeCardRepository {
@@ -55,6 +64,8 @@ class HomeCardRepository extends \ArrayObject {
         $this->deck->moveAllCardsInLocation($from, $to, $from_argument, $to_argument);
         // moveAllCardsInLocation changes card properties, so it must be refreshed from the repository
         foreach ($this->deck->getCardsInLocation($to, $to_argument) as $stored_card) {
+            $arguments = [HomeCardRepository::ARGUMENT_KEY_ELEMENT_FROM => $from . '_' . $from_argument, HomeCardRepository::KEY_ELEMENT_ID => $element_id];
+            $this->notificationsHandler->notifyAllPlayers(HomeCardRepository::EVENT_MOVE, HomeCardRepository::EVENT_MOVE_MESSAGE, $arguments);
             return $stored_card;
         }
     }
@@ -71,7 +82,7 @@ class HomeCardRepository extends \ArrayObject {
     public function offsetUnset($player_id): void {}
     */
 
-    /** Content array is only guaranteed to be valid after refresh  */
+    /** Precondition: array must be empty */
     protected function refresh() : HomeCardRepository {
         foreach ($this->deck->getCardsInLocation($this->player_id) as $card) {
             $this[$this->getElementID($card)] = $card;
