@@ -2,10 +2,16 @@
 namespace NieuwenhovenGames\Verdant;
 /**
  * Element ID->card
+ * In PHP, objects cannot be cast to Boolean or implement a real array interface
+ * "extends \ArrayObject" is the closest thing
+ * 
  * card[element ID] is calculated
  * Take into account that the deck requires the location to be a string and the location argument to be a number
- * In PHP, objects cannot be cast to Boolean or implement a real array interface
+ * 
  * Adding a card after initialisation means moving the card from a different location
+ * Note however that this location might also be the initial plant, so not always a physical location on-screen
+ * If the original card has an element ID, then it was a move, otherwise a new card
+ * Notify anyone interested (in practice the GUI) of the new card/move
  * 
  *------
  * Verdant implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
@@ -36,19 +42,27 @@ class HomeCardRepository extends \ArrayObject {
         return $this->refresh();
     }
 
-    public function moveTo($element_id, $card): void {
-        list ($to, $to_argument) = explode('_', $element_id);
-        $from = $card[HomeCardRepository::KEY_PLAYER_ID];
-        $from_argument = $card[HomeCardRepository::KEY_LOCATION];
-        $this->deck->moveAllCardsInLocation($from, $to, $from_argument, $to_argument);
-    }
-
     public function offsetSet($element_id, $card): void {
         if ($this->initialised) {
-            $this->moveTo($element_id, $card);
+            $card = $this->moveTo($element_id, $card);
         }
         $card[HomeCardRepository::KEY_ELEMENT_ID] = $element_id;
         parent::offsetSet($element_id, $card);
+    }
+
+    public function moveTo($element_id, $card): array {
+        list ($from, $to, $from_argument, $to_argument) = $this->getMoveArguments($element_id, $card);
+        $this->deck->moveAllCardsInLocation($from, $to, $from_argument, $to_argument);
+        // moveAllCardsInLocation changes card properties, so it must be refreshed from the repository
+        foreach ($this->deck->getCardsInLocation($to, $to_argument) as $stored_card) {
+            return $stored_card;
+        }
+    }
+    protected function getMoveArguments($element_id, $card): array {
+        list ($to, $to_argument) = explode('_', $element_id);
+        $from = $card[HomeCardRepository::KEY_PLAYER_ID];
+        $from_argument = $card[HomeCardRepository::KEY_LOCATION];
+        return [$from, $to, $from_argument, $to_argument];
     }
     // Implement ArrayAccess
     /*

@@ -21,6 +21,7 @@ class HomeCardRepositoryTest extends TestCase{
 
     protected function setUp(): void {
         $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
+        $this->actInitialise();
     }
 
     public function testSetup__Empty__NoCard() {
@@ -50,24 +51,29 @@ class HomeCardRepositoryTest extends TestCase{
         $this->assertEqualsCanonicalizing($expected_deck, (array) ($this->sut));
     }
 
-    public function testSet__InitialPlant__moveAllCardsInLocation() {
+    public function testSet__MarketPlant__moveAllCardsInLocation() {
         // Arrange
-        $expected_deck = $this->arrangeSingleCard('4', '04');
-        $this->actInitialise();
+        $expected_deck = [];
 
-        $element_id = '123_05';
+        $element_id = $this->player_id . '_05';
         $location = 'plant';
         $location_arg = '2';
         $card = [HomeCardRepository::KEY_PLAYER_ID => $location, HomeCardRepository::KEY_LOCATION => $location_arg];
+        $stored_card = [HomeCardRepository::KEY_PLAYER_ID => $this->player_id, HomeCardRepository::KEY_LOCATION => '05'];
         $this->mock_cards
         ->expects($this->exactly(1))
         ->method('moveAllCardsInLocation')
-        ->with($location, '123', $location_arg, '05');
+        ->with($location, $this->player_id, $location_arg, '05');
+        $this->mock_cards
+        ->expects($this->exactly(1))
+        ->method('getCardsInLocation')
+        ->with($this->player_id, '05')
+        ->willReturn([$stored_card]);
         // Act
         $this->sut[$element_id] = $card;
         // Assert
-        $card[HomeCardRepository::KEY_ELEMENT_ID] = $element_id;
-        $expected_deck[HomeCardRepository::KEY_ELEMENT_ID] = $card;
+        $stored_card[HomeCardRepository::KEY_ELEMENT_ID] = $element_id;
+        $expected_deck[HomeCardRepository::KEY_ELEMENT_ID] = $stored_card;
         $this->assertEqualsCanonicalizing($expected_deck, (array) ($this->sut));
     }
 
