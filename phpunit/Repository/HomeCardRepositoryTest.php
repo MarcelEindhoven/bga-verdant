@@ -55,14 +55,46 @@ class HomeCardRepositoryTest extends TestCase{
         $this->assertEqualsCanonicalizing($expected_deck, (array) ($this->sut));
     }
 
-    public function testSet__MarketPlant__moveAllCardsInLocation() {
+    public function testSet__InitialPlant__EVENT_NEW_STOCK_CONTENT() {
+        // Arrange
+        $expected_deck = [];
+
+        $element_id = $this->player_id . '_05';
+        $from = 'initial';
+        $from_arg = $this->player_id;
+        $card = [HomeCardRepository::KEY_PLAYER_ID => $from, HomeCardRepository::KEY_LOCATION => $from_arg];
+        $stored_card = [HomeCardRepository::KEY_PLAYER_ID => $this->player_id, HomeCardRepository::KEY_LOCATION => '05'];
+        $this->mock_cards
+        ->expects($this->exactly(1))
+        ->method('moveAllCardsInLocation')
+        ->with($from, $this->player_id, $from_arg, '05');
+        $this->mock_cards
+        ->expects($this->exactly(1))
+        ->method('getCardsInLocation')
+        ->with($this->player_id, '05')
+        ->willReturn([$stored_card]);
+
+        $stored_card[HomeCardRepository::KEY_ELEMENT_ID] = $element_id;
+        $arguments = [HomeCardRepository::ARGUMENT_KEY_CARD => $stored_card];
+        $this->mock_notifications
+        ->expects($this->exactly(1))
+        ->method('notifyAllPlayers')
+        ->with(HomeCardRepository::EVENT_NEW_STOCK_CONTENT, HomeCardRepository::EVENT_NEW_STOCK_CONTENT_MESSAGE, $arguments);
+        // Act
+        $this->sut[$element_id] = $card;
+        // Assert
+        $expected_deck[HomeCardRepository::KEY_ELEMENT_ID] = $stored_card;
+        $this->assertEqualsCanonicalizing($expected_deck, (array) ($this->sut));
+    }
+
+    public function testSet__MarketPlant__EVENT_MOVE() {
         // Arrange
         $expected_deck = [];
 
         $element_id = $this->player_id . '_05';
         $from = 'plant';
         $from_arg = '2';
-        $card = [HomeCardRepository::KEY_PLAYER_ID => $from, HomeCardRepository::KEY_LOCATION => $from_arg];
+        $card = [HomeCardRepository::KEY_PLAYER_ID => $from, HomeCardRepository::KEY_LOCATION => $from_arg, HomeCardRepository::KEY_ELEMENT_ID => $from . '_' . $from_arg];
         $stored_card = [HomeCardRepository::KEY_PLAYER_ID => $this->player_id, HomeCardRepository::KEY_LOCATION => '05'];
         $this->mock_cards
         ->expects($this->exactly(1))
