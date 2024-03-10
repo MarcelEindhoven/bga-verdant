@@ -68,19 +68,25 @@ class HomeCardRepository extends \ArrayObject {
         list ($from, $to, $from_argument, $to_argument) = $this->getMoveArguments($element_id, $card);
         $this->deck->moveAllCardsInLocation($from, $to, $from_argument, $to_argument);
         // moveAllCardsInLocation changes card properties, so it must be refreshed from the repository
-        foreach ($this->deck->getCardsInLocation($to, $to_argument) as $stored_card) {
-            if (array_key_exists (HomeCardRepository::KEY_ELEMENT_ID, $card)) {
-                $arguments = [HomeCardRepository::ARGUMENT_KEY_ELEMENT_FROM => $card[HomeCardRepository::KEY_ELEMENT_ID], HomeCardRepository::KEY_ELEMENT_ID => $element_id];
-                $this->notificationsHandler->notifyAllPlayers(HomeCardRepository::EVENT_MOVE, HomeCardRepository::EVENT_MOVE_MESSAGE, $arguments);
-    
-            } else {
-                $stored_card[HomeCardRepository::KEY_ELEMENT_ID] = $element_id;
-                $arguments = [HomeCardRepository::ARGUMENT_KEY_CARD => $stored_card];
-                $this->notificationsHandler->notifyAllPlayers(HomeCardRepository::EVENT_NEW_STOCK_CONTENT, HomeCardRepository::EVENT_NEW_STOCK_CONTENT_MESSAGE, $arguments);
-    
-            }
-            return $stored_card;
+        return $this->refreshAndNotify($element_id, $card, $this->deck->getCardsInLocation($to, $to_argument));
+    }
+    /** Precondition: new location contains one card */
+    protected function refreshAndNotify($element_id, $card, $cards_new_location): array {
+        foreach ($cards_new_location as $stored_card) {
+            return array_key_exists (HomeCardRepository::KEY_ELEMENT_ID, $card) ? $this->notifyMove($element_id, $card, $stored_card) : $this->notifyNewStock($element_id, $stored_card);
         }
+    }
+    protected function notifyMove($element_id, $card, $stored_card): array {
+        $arguments = [HomeCardRepository::ARGUMENT_KEY_ELEMENT_FROM => $card[HomeCardRepository::KEY_ELEMENT_ID], HomeCardRepository::KEY_ELEMENT_ID => $element_id];
+        $this->notificationsHandler->notifyAllPlayers(HomeCardRepository::EVENT_MOVE, HomeCardRepository::EVENT_MOVE_MESSAGE, $arguments);
+        $stored_card[HomeCardRepository::KEY_ELEMENT_ID] = $element_id;
+        return $stored_card;
+    }
+    protected function notifyNewStock($element_id, $stored_card): array {
+        $stored_card[HomeCardRepository::KEY_ELEMENT_ID] = $element_id;
+        $arguments = [HomeCardRepository::ARGUMENT_KEY_CARD => $stored_card];
+        $this->notificationsHandler->notifyAllPlayers(HomeCardRepository::EVENT_NEW_STOCK_CONTENT, HomeCardRepository::EVENT_NEW_STOCK_CONTENT_MESSAGE, $arguments);
+        return $stored_card;
     }
     protected function getMoveArguments($element_id, $card): array {
         list ($to, $to_argument) = explode('_', $element_id);

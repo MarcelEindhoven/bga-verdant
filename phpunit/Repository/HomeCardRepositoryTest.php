@@ -59,31 +59,19 @@ class HomeCardRepositoryTest extends TestCase{
         // Arrange
         $expected_deck = [];
 
-        $element_id = $this->player_id . '_05';
+        $element_id_to = $this->player_id . '_' . $this->location;
         $from = 'initial';
         $from_arg = $this->player_id;
         $card = [HomeCardRepository::KEY_PLAYER_ID => $from, HomeCardRepository::KEY_LOCATION => $from_arg];
-        $stored_card = [HomeCardRepository::KEY_PLAYER_ID => $this->player_id, HomeCardRepository::KEY_LOCATION => '05'];
-        $this->mock_cards
-        ->expects($this->exactly(1))
-        ->method('moveAllCardsInLocation')
-        ->with($from, $this->player_id, $from_arg, '05');
-        $this->mock_cards
-        ->expects($this->exactly(1))
-        ->method('getCardsInLocation')
-        ->with($this->player_id, '05')
-        ->willReturn([$stored_card]);
 
-        $stored_card[HomeCardRepository::KEY_ELEMENT_ID] = $element_id;
-        $arguments = [HomeCardRepository::ARGUMENT_KEY_CARD => $stored_card];
-        $this->mock_notifications
-        ->expects($this->exactly(1))
-        ->method('notifyAllPlayers')
-        ->with(HomeCardRepository::EVENT_NEW_STOCK_CONTENT, HomeCardRepository::EVENT_NEW_STOCK_CONTENT_MESSAGE, $arguments);
+        $this->arrangeMove($from, $from_arg);
+        $new_card = $this->arrangeGetCards();
+        $this->arrangeNotifyNewStock($new_card);
+
         // Act
-        $this->sut[$element_id] = $card;
+        $this->sut[$element_id_to] = $card;
         // Assert
-        $expected_deck[HomeCardRepository::KEY_ELEMENT_ID] = $stored_card;
+        $expected_deck[HomeCardRepository::KEY_ELEMENT_ID] = $new_card;
         $this->assertEqualsCanonicalizing($expected_deck, (array) ($this->sut));
     }
 
@@ -91,31 +79,50 @@ class HomeCardRepositoryTest extends TestCase{
         // Arrange
         $expected_deck = [];
 
-        $element_id = $this->player_id . '_05';
+        $element_id_to = $this->player_id . '_' . $this->location;
         $from = 'plant';
         $from_arg = '2';
-        $card = [HomeCardRepository::KEY_PLAYER_ID => $from, HomeCardRepository::KEY_LOCATION => $from_arg, HomeCardRepository::KEY_ELEMENT_ID => $from . '_' . $from_arg];
-        $stored_card = [HomeCardRepository::KEY_PLAYER_ID => $this->player_id, HomeCardRepository::KEY_LOCATION => '05'];
-        $this->mock_cards
+        $element_id_from = $from . '_' . $from_arg;
+        $card = [HomeCardRepository::KEY_PLAYER_ID => $from, HomeCardRepository::KEY_LOCATION => $from_arg, HomeCardRepository::KEY_ELEMENT_ID => $element_id_from];
+
+        $this->arrangeMove($from, $from_arg);
+        $stored_card = $this->arrangeGetCards();
+        $this->arrangeNotifyMove($element_id_from, $element_id_to);
+        // Act
+        $this->sut[$element_id_to] = $card;
+        // Assert
+        $expected_deck[HomeCardRepository::KEY_ELEMENT_ID] = $stored_card;
+        $this->assertEqualsCanonicalizing($expected_deck, (array) ($this->sut));
+    }
+    protected function arrangeNotifyNewStock($card) {
+        $arguments = [HomeCardRepository::ARGUMENT_KEY_CARD => $card];
+        $this->mock_notifications
         ->expects($this->exactly(1))
-        ->method('moveAllCardsInLocation')
-        ->with($from, $this->player_id, $from_arg, '05');
-        $this->mock_cards
-        ->expects($this->exactly(1))
-        ->method('getCardsInLocation')
-        ->with($this->player_id, '05')
-        ->willReturn([$stored_card]);
-        $arguments = [HomeCardRepository::ARGUMENT_KEY_ELEMENT_FROM => $from . '_' . $from_arg, HomeCardRepository::KEY_ELEMENT_ID => $element_id];
+        ->method('notifyAllPlayers')
+        ->with(HomeCardRepository::EVENT_NEW_STOCK_CONTENT, HomeCardRepository::EVENT_NEW_STOCK_CONTENT_MESSAGE, $arguments);
+    }
+    protected function arrangeNotifyMove($element_id_from, $element_id) {
+        $arguments = [HomeCardRepository::ARGUMENT_KEY_ELEMENT_FROM => $element_id_from, HomeCardRepository::KEY_ELEMENT_ID => $element_id];
         $this->mock_notifications
         ->expects($this->exactly(1))
         ->method('notifyAllPlayers')
         ->with(HomeCardRepository::EVENT_MOVE, HomeCardRepository::EVENT_MOVE_MESSAGE, $arguments);
-        // Act
-        $this->sut[$element_id] = $card;
-        // Assert
-        $stored_card[HomeCardRepository::KEY_ELEMENT_ID] = $element_id;
-        $expected_deck[HomeCardRepository::KEY_ELEMENT_ID] = $stored_card;
-        $this->assertEqualsCanonicalizing($expected_deck, (array) ($this->sut));
+    }
+    protected function arrangeMove($from, $from_arg) {
+        $this->mock_cards
+        ->expects($this->exactly(1))
+        ->method('moveAllCardsInLocation')
+        ->with($from, $this->player_id, $from_arg, $this->location);
+    }
+    protected function arrangeGetCards() {
+        $stored_card = [HomeCardRepository::KEY_PLAYER_ID => $this->player_id, HomeCardRepository::KEY_LOCATION => $this->location];
+        $this->mock_cards
+        ->expects($this->exactly(1))
+        ->method('getCardsInLocation')
+        ->with($this->player_id, $this->location)
+        ->willReturn([$stored_card]);
+        $stored_card[HomeCardRepository::KEY_ELEMENT_ID] = $this->player_id . '_' . $this->location;
+        return $stored_card;
     }
 
     protected function actInitialise() {
