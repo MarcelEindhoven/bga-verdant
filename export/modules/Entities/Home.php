@@ -11,32 +11,35 @@ namespace NieuwenhovenGames\Verdant;
 
 class Home {
     const KEY_POSITION = 'location_arg';
-    protected array $plants = [];
-    protected array $items = [];
-    protected array $rooms = [];
+    const RESULT_KEY_SELECTABLE_PLANT_POSITIONS = 'selectable_plant_positions';
+    const RESULT_KEY_SELECTABLE_ROOM_POSITIONS = 'selectable_room_positions';
+    const RESULT_KEY_SELECTABLE_PLANTS = 'selectable_plants';
+    const RESULT_KEY_SELECTABLE_ROOMS = 'selectable_rooms';
+
+    protected array $decks = [];
 
 
-    public function setPlants($plants) : Home {
-        $this->plants = $plants;
+    public function setDecks($decks) : Home {
+        $this->decks = $decks;
         return $this;
     }
-    public function setRooms($rooms) : Home {
-        $this->rooms = $rooms;
-        return $this;
-    }
-    public function setItems($items) : Home {
-        $this->items = $items;
-        return $this;
+
+    public function getAllSelectables() {
+        return [
+            Home::RESULT_KEY_SELECTABLE_PLANT_POSITIONS => [], 
+            Home::RESULT_KEY_SELECTABLE_ROOM_POSITIONS => [], 
+            Home::RESULT_KEY_SELECTABLE_PLANTS => $this->getSelectablePlants(), 
+            Home::RESULT_KEY_SELECTABLE_ROOMS => []];
     }
 
     public function getSelectableRoomPositions() {
-        return $this->getSelectablePositions($this->rooms);
+        return $this->getSelectablePositions($this->decks[Constants::ROOM_NAME]);
     }
 
     public function getSelectablePlants() {
         $selectables = [];
-        $item_positions = $this->getPositions($this->items);
-        foreach ($this->plants as $element) {
+        $item_positions = $this->getPositions($this->decks[Constants::ITEM_NAME]);
+        foreach ($this->decks[Constants::PLANT_NAME] as $element) {
             $position = +$element[Home::KEY_POSITION];
             if (!in_array($position, $item_positions)) {
                 $selectables[] = $element;
@@ -47,9 +50,9 @@ class Home {
 
     public function getSelectablePositions($elements) {
         $selectables = [];
-        $item_positions = $this->getPositions($this->items);
+        $item_positions = $this->getPositions($this->decks[Constants::ITEM_NAME]);
         foreach ($elements as $element) {
-            $position = $element[Home::KEY_POSITION];
+            $position = +$element[Home::KEY_POSITION];
             if (!in_array($position, $item_positions)) {
                 $selectables[] = $position;
             }
