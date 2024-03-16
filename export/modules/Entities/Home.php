@@ -9,7 +9,7 @@ namespace NieuwenhovenGames\Verdant;
  *
  */
 
-class Home {
+class Home extends \ArrayObject {
     const KEY_POSITION = 'location_arg';
     const RESULT_KEY_SELECTABLE_PLANT_POSITIONS = 'selectable_plant_positions';
     const RESULT_KEY_SELECTABLE_ROOM_POSITIONS = 'selectable_room_positions';
@@ -20,7 +20,9 @@ class Home {
 
 
     public function setDecks($decks) : Home {
-        $this->decks = $decks;
+        foreach ($decks as $name => $deck) {
+            $this[$name] = $deck;
+        }
         return $this;
     }
 
@@ -33,13 +35,13 @@ class Home {
     }
 
     public function getSelectableRoomPositions() {
-        return $this->getSelectablePositions($this->decks[Constants::ROOM_NAME]);
+        return $this->getSelectablePositions($this[Constants::ROOM_NAME]);
     }
 
     public function getSelectablePlants() {
         $selectables = [];
-        $item_positions = $this->getPositions($this->decks[Constants::ITEM_NAME]);
-        foreach ($this->decks[Constants::PLANT_NAME] as $element) {
+        $item_positions = $this->getPositions($this[Constants::ITEM_NAME]);
+        foreach ($this[Constants::PLANT_NAME] as $element) {
             $position = +$element[Home::KEY_POSITION];
             if (!in_array($position, $item_positions)) {
                 $selectables[] = $element;
@@ -50,7 +52,7 @@ class Home {
 
     public function getSelectablePositions($elements) {
         $selectables = [];
-        $item_positions = $this->getPositions($this->decks[Constants::ITEM_NAME]);
+        $item_positions = $this->getPositions($this[Constants::ITEM_NAME]);
         foreach ($elements as $element) {
             $position = +$element[Home::KEY_POSITION];
             if (!in_array($position, $item_positions)) {
