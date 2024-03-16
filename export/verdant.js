@@ -360,6 +360,9 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             dojo.subscribe( 'NewSelectablePositions', this, "notify_NewSelectablePositions" );
             this.notifqueue.setSynchronous( 'NewSelectablePositions', 1 );
 
+            dojo.subscribe('NewSelectableElements', this, "notify_NewSelectableElements" );
+            this.notifqueue.setSynchronous( 'NewSelectableElements', 1 );
+
             // TODO: here, associate your game notifications with local methods
             
             // Example 1: standard notification handling
@@ -400,6 +403,15 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
         },
         notify_NewSelectablePositions: function(notif) {
             console.log('notify_NewSelectablePositions');
+            console.log(notif.args);
+            console.log(this.gamedatas);
+            this.gamedatas.selectable_plant_positions = notif.args.selectable_plant_positions;
+            this.gamedatas.selectable_room_positions = notif.args.selectable_room_positions;
+            this.gamedatas.selectable_plants = notif.args.selectable_plants;
+            this.gamedatas.selectable_rooms = notif.args.selectable_rooms;
+        },
+        notify_NewSelectableElements: function(notif) {
+            console.log('notify_NewSelectableElements');
             console.log(notif.args);
             console.log(this.gamedatas);
             this.gamedatas.selectable_plant_positions = notif.args.selectable_plant_positions;

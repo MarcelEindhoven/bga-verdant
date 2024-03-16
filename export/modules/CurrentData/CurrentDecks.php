@@ -121,7 +121,7 @@ class CurrentDecks {
         return $home
         ->setRooms($this->decks[Constants::ROOM_NAME]->getCardsInLocation($player_id))
         ->setItems($this->decks[Constants::ITEM_NAME]->getCardsInLocation($player_id))
-        ->getSelectableRoomPositions();
+        ->getElementIDsSelectableRooms();
     }
 
     public function getPlantSelectableHomePositions($player_id) : array {

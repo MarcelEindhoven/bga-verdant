@@ -14,10 +14,12 @@ namespace NieuwenhovenGames\Verdant;
 
 class Home extends \ArrayObject {
     const KEY_POSITION = 'location_arg';
-    const KEY_SELECTABLE_EMPTY_POSITIONS_FOR_PLANTS = 'selectable_plant_positions';
-    const KEY_SELECTABLE_EMPTY_POSITIONS_FOR_ROOMS = 'selectable_room_positions';
-    const KEY_POSITIONS_SELECTABLE_PLANT = 'selectable_plants';
-    const KEY_POSITIONS_SELECTABLE_ROOM = 'selectable_rooms';
+    const KEY_SELECTABLE_EMPTY_ELEMENTS_FOR_PLANTS = 'selectable_plant_positions';
+    const KEY_SELECTABLE_EMPTY_ELEMENTS_FOR_ROOMS = 'selectable_room_positions';
+    const KEY_ELEMENTS_SELECTABLE_PLANT = 'selectable_plants';
+    const KEY_ELEMENTS_SELECTABLE_ROOM = 'selectable_rooms';
+
+    protected int $player_id = 0;
 
     public function setDecks($decks) : Home {
         foreach ($decks as $name => $deck) {
@@ -26,32 +28,25 @@ class Home extends \ArrayObject {
         return $this;
     }
 
+    public function setOwner($player_id) : Home {
+        $this->player_id = $player_id;
+        return $this;
+    }
+
     public function getAllSelectables() {
         return [
-            Home::KEY_SELECTABLE_EMPTY_POSITIONS_FOR_PLANTS => $this->getSelectableEmptyPlantPositions(),
-            Home::KEY_SELECTABLE_EMPTY_POSITIONS_FOR_ROOMS => $this->getSelectableEmptyRoomPositions(),
-            Home::KEY_POSITIONS_SELECTABLE_PLANT => $this->getSelectablePlantPositions(),
-            Home::KEY_POSITIONS_SELECTABLE_ROOM => $this->getSelectableRoomPositions()];
+            Home::KEY_SELECTABLE_EMPTY_ELEMENTS_FOR_PLANTS => $this->getSelectableEmptyPlantElements(),
+            Home::KEY_SELECTABLE_EMPTY_ELEMENTS_FOR_ROOMS => $this->getSelectableEmptyRoomElements(),
+            Home::KEY_ELEMENTS_SELECTABLE_PLANT => $this->getElementIDsSelectablePlants(),
+            Home::KEY_ELEMENTS_SELECTABLE_ROOM => $this->getElementIDsSelectableRooms()];
     }
 
-    public function getSelectablePlantPositions() {
-        return $this->getSelectablePositions($this[Constants::PLANT_NAME]);
+    public function getElementIDsSelectablePlants() {
+        return $this->getElementIDsFromPositions($this->getSelectablePositions($this[Constants::PLANT_NAME]));
     }
 
-    public function getSelectableRoomPositions() {
-        return $this->getSelectablePositions($this[Constants::ROOM_NAME]);
-    }
-
-    public function getSelectablePlants() {
-        $selectables = [];
-        $item_positions = $this->getPositions($this[Constants::ITEM_NAME]);
-        foreach ($this[Constants::PLANT_NAME] as $element) {
-            $position = +$element[Home::KEY_POSITION];
-            if (!in_array($position, $item_positions)) {
-                $selectables[] = $element;
-            }
-        }
-        return $selectables;
+    public function getElementIDsSelectableRooms() {
+        return $this->getElementIDsFromPositions($this->getSelectablePositions($this[Constants::ROOM_NAME]));
     }
 
     public function getSelectablePositions($elements) {
@@ -75,12 +70,12 @@ class Home extends \ArrayObject {
         return $positions;
     }
 
-    public function getSelectableEmptyPlantPositions() {
-        return $this->getSelectableEmptyPositionsGivenCategories(Constants::ROOM_NAME, Constants::PLANT_NAME);
+    public function getSelectableEmptyPlantElements() {
+        return $this->getElementIDsFromPositions($this->getSelectableEmptyPositionsGivenCategories(Constants::ROOM_NAME, Constants::PLANT_NAME));
     }
 
-    public function getSelectableEmptyRoomPositions() {
-        return $this->getSelectableEmptyPositionsGivenCategories(Constants::PLANT_NAME, Constants::ROOM_NAME);
+    public function getSelectableEmptyRoomElements() {
+        return $this->getElementIDsFromPositions($this->getSelectableEmptyPositionsGivenCategories(Constants::PLANT_NAME, Constants::ROOM_NAME));
     }
 
     public function getSelectableEmptyPositionsGivenCategories($seed_name, $occupied_name) {
@@ -121,6 +116,20 @@ class Home extends \ArrayObject {
             $y[] = intdiv($position, 10);
         }
         return ['left' => min($x), 'right' => max($x), 'up' => min($y), 'down' => max($y)];
+    }
+    protected function getElementIDsFromPositions($positions) {
+        $element_ids = [];
+        foreach ($positions as $position) {
+            $element_ids[] = $this->player_id . '_' . intdiv($position, 10) . $position % 10;
+        }
+        return $element_ids;
+    }
+    protected function getCardFromPosition($cards, $position) {
+        foreach ($cards as $card) {
+            if ($card[Home::KEY_POSITION] == $position) {
+                return $card;
+            }
+        }
     }
 }
 
