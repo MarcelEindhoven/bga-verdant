@@ -29,26 +29,15 @@ class HomeTest extends TestCase{
     }
 
     /** */
-    public function test__Selectables__NoPlantsNoRooms__NoSelectables() {
-        // Arrange
-        $this->arrangeSetDecks([], [], []);
-        $expected_selectables = [Home::KEY_SELECTABLE_EMPTY_POSITIONS_FOR_PLANTS => [], Home::KEY_SELECTABLE_EMPTY_POSITIONS_FOR_ROOMS => [], Home::RESULT_KEY_SELECTABLE_PLANT_POSITIONS => [], Home::RESULT_KEY_SELECTABLE_ROOM_POSITIONS => []];
-        // Act
-        $selectables = $this->sut->getAllSelectables();
-        // Assert
-        $this->assertEqualsCanonicalizing($expected_selectables, $selectables);
-    }
-
-    /** */
     public function test__Selectables__PlantsWithoutItems__AllPlantsSelectable() {
         // Arrange
         $plants = $this->arrangeCreateElements(1);
         $this->arrangeSetDecks($plants, [], []);
         $expected_selectables = [
             Home::KEY_SELECTABLE_EMPTY_POSITIONS_FOR_PLANTS => [], 
-            Home::KEY_SELECTABLE_EMPTY_POSITIONS_FOR_ROOMS => [], 
-            Home::RESULT_KEY_SELECTABLE_PLANT_POSITIONS => [0], 
-            Home::RESULT_KEY_SELECTABLE_ROOM_POSITIONS => []];
+            Home::KEY_SELECTABLE_EMPTY_POSITIONS_FOR_ROOMS => [14, 23, 25, 34], 
+            Home::KEY_POSITIONS_SELECTABLE_PLANT => [24], 
+            Home::KEY_POSITIONS_SELECTABLE_ROOM => []];
         // Act
         $selectables = $this->sut->getAllSelectables();
         // Assert
@@ -63,7 +52,7 @@ class HomeTest extends TestCase{
         // Act
         $selectables = $this->sut->getSelectablePlantPositions();
         // Assert
-        $this->assertEqualsCanonicalizing([0], $selectables);
+        $this->assertEqualsCanonicalizing([24], $selectables);
     }
 
     /** */
@@ -71,7 +60,7 @@ class HomeTest extends TestCase{
         // Arrange
         $items = $this->arrangeCreateElements(1);
         $plants = $this->arrangeCreateElements(2);
-        $expected_plants = [1];
+        $expected_plants = [24+1];
         $this->arrangeSetDecks($plants, $items, []);
         // Act
         $selectables = $this->sut->getSelectablePlantPositions();
@@ -84,7 +73,7 @@ class HomeTest extends TestCase{
         // Arrange
         $items = $this->arrangeCreateElements(1);
         $rooms = $this->arrangeCreateElements(2);
-        $expected_selectables = [1];
+        $expected_selectables = [24+1];
         $this->arrangeSetDecks([], $items, $rooms);
         // Act
         $selectables = $this->sut->getSelectableRoomPositions();
@@ -92,10 +81,21 @@ class HomeTest extends TestCase{
         $this->assertEqualsCanonicalizing($expected_selectables, $selectables);
     }
 
+    /** */
+    public function testGetSelectable__SingleRoom__4() {
+        // Arrange
+        $expected_positions = [14, 23, 25, 34];
+
+        // Act
+        $positions = $this->sut->getSelectableEmptyPositions([24], []);
+        // Assert
+        $this->assertEquals($expected_positions, $positions);
+    }
+
     protected function arrangeCreateElements($number) {
         $elements = [];
         for ($i = 0; $i <$number; $i++) {
-            $elements[] = [Home::KEY_POSITION => $i];
+            $elements[] = [Home::KEY_POSITION => 24 + $i];
         }
         return $elements;
     }

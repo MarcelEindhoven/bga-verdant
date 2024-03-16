@@ -28,8 +28,8 @@ class CurrentDecks {
     const RESULT_KEY_MARKET = 'market';
     const KEY_SELECTABLE_EMPTY_POSITIONS_FOR_PLANTS = 'selectable_plant_positions';
     const KEY_SELECTABLE_EMPTY_POSITIONS_FOR_ROOMS = 'selectable_room_positions';
-    const RESULT_KEY_SELECTABLE_PLANT_POSITIONS = 'selectable_plants';
-    const RESULT_KEY_SELECTABLE_ROOM_POSITIONS = 'selectable_rooms';
+    const KEY_POSITIONS_SELECTABLE_PLANT = 'selectable_plants';
+    const KEY_POSITIONS_SELECTABLE_ROOM = 'selectable_rooms';
 
     protected array $players = [];
     protected array $decks = [];
@@ -74,8 +74,8 @@ class CurrentDecks {
         CurrentDecks::RESULT_KEY_MARKET => $this->market,
         CurrentDecks::KEY_SELECTABLE_EMPTY_POSITIONS_FOR_PLANTS => $this->getPlantSelectableHomePositions($this->player_id),
         CurrentDecks::KEY_SELECTABLE_EMPTY_POSITIONS_FOR_ROOMS => $this->getRoomSelectableHomePositions($this->player_id),
-        CurrentDecks::RESULT_KEY_SELECTABLE_PLANT_POSITIONS => $this->getSelectablePlants($this->player_id),
-        CurrentDecks::RESULT_KEY_SELECTABLE_ROOM_POSITIONS => $this->getSelectableRooms($this->player_id)];
+        CurrentDecks::KEY_POSITIONS_SELECTABLE_PLANT => $this->getSelectablePlants($this->player_id),
+        CurrentDecks::KEY_POSITIONS_SELECTABLE_ROOM => $this->getSelectableRooms($this->player_id)];
 
         if (isset($this->initial_plants[$this->player_id])) {
             $data[CurrentDecks::RESULT_KEY_INITIAL_PLANT] = $this->initial_plants[$this->player_id];
