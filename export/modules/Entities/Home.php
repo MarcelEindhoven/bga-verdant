@@ -2,12 +2,15 @@
 namespace NieuwenhovenGames\Verdant;
 /**
  * Player home
+ * Responsible for combinations of items and cards within one home
  *------
  * MilleFiori implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
  * See http://en.doc.boardgamearena.com/Studio for more information.
  *
  */
+
+ require_once(__DIR__.'/../Constants.php');
 
 class Home extends \ArrayObject {
     const KEY_POSITION = 'location_arg';

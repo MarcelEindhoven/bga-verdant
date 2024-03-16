@@ -39,6 +39,7 @@ class Actions {
     protected ?AIs $ais = null;
 
     protected array $decks = [];
+    protected array $homes = [];
     protected int $current_player_id = 0;
 
     public static function create($sql_database) : Actions {
@@ -100,7 +101,17 @@ class Actions {
         $this->player_properties = new \NieuwenhovenGames\BGA\UpdatePlayerRobotProperties($this->current_data->getAllDatas()[CurrentData::RESULT_KEY_PLAYERS]);
         $this->player_properties->setEventEmitter($this->event_emitter);
 
-        $this->reward_handler = \NieuwenhovenGames\BGA\RewardHandler::createFromPlayerProperties($this->player_properties);;
+        $this->reward_handler = \NieuwenhovenGames\BGA\RewardHandler::createFromPlayerProperties($this->player_properties);
+
+        foreach ($players as $player_id => $player) {
+            $home = new Home();
+            $card_repositories = [];
+            foreach ($this->decks as $name => $deck) {
+                $card_repositories[$name] = HomeCardRepository::create($deck, $player_id);
+            }
+            $home->setDecks($card_repositories);
+            $this->homes[$player_id] = $home;
+        }
 
         return $this;
     }
