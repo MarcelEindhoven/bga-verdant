@@ -11,13 +11,10 @@ namespace NieuwenhovenGames\Verdant;
 
 class Home extends \ArrayObject {
     const KEY_POSITION = 'location_arg';
-    const RESULT_KEY_SELECTABLE_PLANT_POSITIONS = 'selectable_plant_positions';
-    const RESULT_KEY_SELECTABLE_ROOM_POSITIONS = 'selectable_room_positions';
-    const RESULT_KEY_SELECTABLE_PLANTS = 'selectable_plants';
-    const RESULT_KEY_SELECTABLE_ROOMS = 'selectable_rooms';
-
-    protected array $decks = [];
-
+    const KEY_SELECTABLE_EMPTY_POSITIONS_FOR_PLANTS = 'selectable_plant_positions';
+    const KEY_SELECTABLE_EMPTY_POSITIONS_FOR_ROOMS = 'selectable_room_positions';
+    const RESULT_KEY_SELECTABLE_PLANT_POSITIONS = 'selectable_plants';
+    const RESULT_KEY_SELECTABLE_ROOM_POSITIONS = 'selectable_rooms';
 
     public function setDecks($decks) : Home {
         foreach ($decks as $name => $deck) {
@@ -28,10 +25,14 @@ class Home extends \ArrayObject {
 
     public function getAllSelectables() {
         return [
-            Home::RESULT_KEY_SELECTABLE_PLANT_POSITIONS => [], 
-            Home::RESULT_KEY_SELECTABLE_ROOM_POSITIONS => [], 
-            Home::RESULT_KEY_SELECTABLE_PLANTS => $this->getSelectablePlants(), 
-            Home::RESULT_KEY_SELECTABLE_ROOMS => []];
+            Home::KEY_SELECTABLE_EMPTY_POSITIONS_FOR_PLANTS => [], 
+            Home::KEY_SELECTABLE_EMPTY_POSITIONS_FOR_ROOMS => [], 
+            Home::RESULT_KEY_SELECTABLE_PLANT_POSITIONS => $this->getSelectablePlantPositions(), 
+            Home::RESULT_KEY_SELECTABLE_ROOM_POSITIONS => []];
+    }
+
+    public function getSelectablePlantPositions() {
+        return $this->getSelectablePositions($this[Constants::PLANT_NAME]);
     }
 
     public function getSelectableRoomPositions() {

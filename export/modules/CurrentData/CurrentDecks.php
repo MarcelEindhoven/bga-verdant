@@ -26,10 +26,10 @@ class CurrentDecks {
     const RESULT_KEY_INITIAL_PLANT = 'initial_plant';
     const RESULT_KEY_HOMES = 'homes';
     const RESULT_KEY_MARKET = 'market';
-    const RESULT_KEY_SELECTABLE_PLANT_POSITIONS = 'selectable_plant_positions';
-    const RESULT_KEY_SELECTABLE_ROOM_POSITIONS = 'selectable_room_positions';
-    const RESULT_KEY_SELECTABLE_PLANTS = 'selectable_plants';
-    const RESULT_KEY_SELECTABLE_ROOMS = 'selectable_rooms';
+    const KEY_SELECTABLE_EMPTY_POSITIONS_FOR_PLANTS = 'selectable_plant_positions';
+    const KEY_SELECTABLE_EMPTY_POSITIONS_FOR_ROOMS = 'selectable_room_positions';
+    const RESULT_KEY_SELECTABLE_PLANT_POSITIONS = 'selectable_plants';
+    const RESULT_KEY_SELECTABLE_ROOM_POSITIONS = 'selectable_rooms';
 
     protected array $players = [];
     protected array $decks = [];
@@ -72,10 +72,10 @@ class CurrentDecks {
         $data = [CurrentDecks::RESULT_KEY_DECKS => $this->getCardsInPlay(),
         CurrentDecks::RESULT_KEY_HOMES => $this->homes,
         CurrentDecks::RESULT_KEY_MARKET => $this->market,
-        CurrentDecks::RESULT_KEY_SELECTABLE_PLANT_POSITIONS => $this->getPlantSelectableHomePositions($this->player_id),
-        CurrentDecks::RESULT_KEY_SELECTABLE_ROOM_POSITIONS => $this->getRoomSelectableHomePositions($this->player_id),
-        CurrentDecks::RESULT_KEY_SELECTABLE_PLANTS => $this->getSelectablePlants($this->player_id),
-        CurrentDecks::RESULT_KEY_SELECTABLE_ROOMS => $this->getSelectableRooms($this->player_id)];
+        CurrentDecks::KEY_SELECTABLE_EMPTY_POSITIONS_FOR_PLANTS => $this->getPlantSelectableHomePositions($this->player_id),
+        CurrentDecks::KEY_SELECTABLE_EMPTY_POSITIONS_FOR_ROOMS => $this->getRoomSelectableHomePositions($this->player_id),
+        CurrentDecks::RESULT_KEY_SELECTABLE_PLANT_POSITIONS => $this->getSelectablePlants($this->player_id),
+        CurrentDecks::RESULT_KEY_SELECTABLE_ROOM_POSITIONS => $this->getSelectableRooms($this->player_id)];
 
         if (isset($this->initial_plants[$this->player_id])) {
             $data[CurrentDecks::RESULT_KEY_INITIAL_PLANT] = $this->initial_plants[$this->player_id];
