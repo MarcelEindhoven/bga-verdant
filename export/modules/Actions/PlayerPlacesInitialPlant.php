@@ -14,10 +14,12 @@ include_once(__DIR__.'/../BGA/Action.php');
 include_once(__DIR__.'/PlayerPlacesCard.php');
 
 class PlayerPlacesInitialPlant extends PlayerPlacesCard {
+    const EVENT_NEW_STOCK_CONTENT = 'newStockContent';
     const MESSAGE_PLACE_SELECTED_CARD = 'Place initial plant ';
+    const ARGUMENT_KEY_CARD = 'card';
     const EVENT_NEW_SELECTABLE_EMPTY_POSITIONS = 'NewSelectablePositions';
 
-    protected string $field_id = '';
+    protected string $element_id = '';
 
     public static function create($gamestate) : PlayerPlacesInitialPlant {
         return new PlayerPlacesInitialPlant($gamestate);
@@ -28,19 +30,28 @@ class PlayerPlacesInitialPlant extends PlayerPlacesCard {
         return $this;
     }
 
-    public function setFieldID($field_id) : PlayerPlacesInitialPlant {
-        $this->field_id = $field_id;
+    public function setFieldID($element_id) : PlayerPlacesInitialPlant {
+        $this->element_id = $element_id;
         return $this;
     }
 
     public function execute() : PlayerPlacesInitialPlant {
         // For now, no verification is needed on the field ID, handled by JavaScript
-        list ($this->player_id, $position) = explode('_', $this->field_id);
+        $this->moveCardFromInitialPlantsToHome();
 
-        $this->update_decks[Constants::PLANT_NAME]->movePrivateToPublic(PlayerPlacesInitialPlant::MESSAGE_PLACE_SELECTED_CARD, InitialPlantRepository::KEY_LOCATION_CONTENT, $this->player_id, $this->player_id, $position);
-        unset($this->initial_plants[$this->player_id]);
+        $this->notifyNewCardInClientInterfaces();
 
         return PlayerPlacesCard::execute();
+    }
+    protected function moveCardFromInitialPlantsToHome() {
+        list ($this->player_id, $position) = explode('_', $this->element_id);
+
+        $this->home[Constants::PLANT_NAME][$this->element_id] = $this->initial_plants[$this->player_id];
+        unset($this->initial_plants[$this->player_id]);
+    }
+    protected function notifyNewCardInClientInterfaces() {
+        $arguments = [PlayerPlacesInitialPlant::ARGUMENT_KEY_CARD => $this->home[Constants::PLANT_NAME][$this->element_id]];
+        $this->notificationsHandler->notifyAllPlayers(PlayerPlacesInitialPlant::EVENT_NEW_STOCK_CONTENT, PlayerPlacesInitialPlant::MESSAGE_PLACE_SELECTED_CARD, $arguments);
     }
 
     public function getTransitionName() : string {
