@@ -33,8 +33,8 @@ class PlayerPlacesCard extends \NieuwenhovenGames\BGA\Action {
         return $this;
     }
 
-    public function setCurrentDecks($current_decks) : PlayerPlacesCard {
-        $this->current_decks = $current_decks;
+    public function setHome($home) : PlayerPlacesCard {
+        $this->home = $home;
         return $this;
     }
 
@@ -44,7 +44,7 @@ class PlayerPlacesCard extends \NieuwenhovenGames\BGA\Action {
     }
 
     public function execute() : PlayerPlacesCard {
-        $arguments = $this->current_decks->getAllDatas();
+        $arguments = $this->home->getAllSelectables();
         $this->notificationsHandler->notifyPlayer($this->player_id, PlayerPlacesCard::EVENT_NEW_SELECTABLE_EMPTY_POSITIONS, '', $arguments);
 
         return $this;

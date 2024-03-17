@@ -29,8 +29,8 @@ class PlayerPlacesItem extends  \NieuwenhovenGames\BGA\Action {
         return $this;
     }
 
-    public function setCurrentDecks($current_decks) : PlayerPlacesItem {
-        $this->current_decks = $current_decks;
+    public function setHome($home) : PlayerPlacesItem {
+        $this->home = $home;
         return $this;
     }
 
@@ -55,7 +55,7 @@ class PlayerPlacesItem extends  \NieuwenhovenGames\BGA\Action {
 
         $this->update_decks[$category]->moveItem(PlayerPlacesItem::MESSAGE_PLACE_ITEM, $category, $entry, $this->player_id, $position);
 
-        $arguments = $this->current_decks->getAllDatas();
+        $arguments = $this->home->getAllSelectables();
         $this->notificationsHandler->notifyPlayer($this->player_id, PlayerPlacesCard::EVENT_NEW_SELECTABLE_EMPTY_POSITIONS, '', $arguments);
 
         return $this;

@@ -16,11 +16,11 @@ include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/GameState.ph
 include_once(__DIR__.'/../../export/modules/BGA/Update/UpdateDeck.php');
 include_once(__DIR__.'/../../export/modules/BGA/PlayerRobotNotifications.php');
 
-include_once(__DIR__.'/../../export/modules/CurrentData/CurrentDecks.php');
+include_once(__DIR__.'/../../export/modules/Entities/Home.php');
 
 class PlayerPlacesItemTest extends TestCase{
     protected ?PlayerPlacesItem $sut = null;
-    protected ?CurrentDecks $mock_current_decks = null;
+    protected ?Home $mock_home = null;
     protected ?\NieuwenhovenGames\BGA\PlayerRobotNotifications $mock_notify = null;
     protected ?\NieuwenhovenGames\BGA\UpdateDeck $mock_update_deck = null;
     protected ?\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState $mock_gamestate = null;
@@ -35,10 +35,10 @@ class PlayerPlacesItemTest extends TestCase{
         $this->mock_notify = $this->createMock(\NieuwenhovenGames\BGA\PlayerRobotNotifications::class);
         $this->sut->setNotificationsHandler($this->mock_notify);
 
-        $this->mock_current_decks = $this->createMock(CurrentDecks::class);
+        $this->mock_home = $this->createMock(Home::class);
         $this->mock_update_deck = $this->createMock(\NieuwenhovenGames\BGA\UpdateDeck::class);
-        $this->sut->setCurrentDecks($this->mock_current_decks);
         $this->sut->setUpdateDecks(['item' => $this->mock_update_deck]);
+        $this->sut->setHome($this->mock_home);
 
         $this->sut->setSelectedMarketCard($this->selected_market_card);
         $this->sut->setSelectedHomeID($this->selected_home_id);
@@ -56,7 +56,7 @@ class PlayerPlacesItemTest extends TestCase{
     public function testExecute__Always__NewSelectablePositions() {
         // Arrange
         $arguments = [5 => 3];
-        $this->mock_current_decks->expects($this->exactly(1))->method('getAllDatas')->willReturn($arguments);
+        $this->mock_home->expects($this->exactly(1))->method('getAllSelectables')->willReturn($arguments);
         $this->mock_notify->expects($this->exactly(1))->method('notifyPlayer')
         ->with(77, PlayerPlacesCard::EVENT_NEW_SELECTABLE_EMPTY_POSITIONS, '', $arguments);
         // Act
