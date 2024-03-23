@@ -39,8 +39,6 @@ class PlayerPlacesPlant extends PlayerPlacesCard {
         list ($category, $entry) = explode('_', $this->selected_market_card);
         list ($this->player_id, $position) = explode('_', $this->selected_home_id);
 
-        $this->update_decks[$category]->movePublicToPublic(PlayerPlacesPlant::MESSAGE_PLACE_SELECTED_CARD, $category, $entry, $this->player_id, $position);
-
         return PlayerPlacesCard::execute();
     }
 

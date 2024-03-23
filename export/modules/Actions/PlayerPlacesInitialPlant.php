@@ -17,7 +17,6 @@ class PlayerPlacesInitialPlant extends PlayerPlacesCard {
     const EVENT_NEW_STOCK_CONTENT = 'newStockContent';
     const MESSAGE_PLACE_SELECTED_CARD = 'Place initial plant ';
     const ARGUMENT_KEY_CARD = 'card';
-    const EVENT_NEW_SELECTABLE_EMPTY_POSITIONS = 'NewSelectablePositions';
 
     protected string $element_id = '';
 

@@ -36,10 +36,10 @@ class HomeTest extends TestCase{
         $plants = $this->arrangeCreateElements(1, 24);
         $this->arrangeSetDecks($plants, [], []);
         $expected_selectables = [
-            Home::KEY_SELECTABLE_EMPTY_ELEMENTS_FOR_PLANTS => [], 
-            Home::KEY_SELECTABLE_EMPTY_ELEMENTS_FOR_ROOMS => $this->getElementIDsFromPositions([14, 23, 25, 34]),
-            Home::KEY_ELEMENTS_SELECTABLE_PLANT => $this->getElementIDsFromPositions([24]),
-            Home::KEY_ELEMENTS_SELECTABLE_ROOM => []];
+            Home::KEY_EMPTY_ELEMENTS_ADJACENT_TO_ROOMS => [], 
+            Home::KEY_EMPTY_ELEMENTS_ADJACENT_TO_PLANTS => $this->getElementIDsFromPositions([14, 23, 25, 34]),
+            Home::KEY_ELEMENTS_INCOMPLETE_PLANTS => $this->getElementIDsFromPositions([24]),
+            Home::KEY_ELEMENTS_OPEN_SPACE_ROOMS => []];
         // Act
         $selectables = $this->sut->getAllSelectables();
         // Assert

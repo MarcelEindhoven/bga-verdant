@@ -26,11 +26,14 @@ class MockHome extends Home {
     public function getAllSelectables() : array {
         return $this->mock_home->getAllSelectables();
     }
+
+    public function getSelectableEmptyPlantElements() : array {
+        return $this->mock_home->getSelectableEmptyPlantElements();
+    }
 }
 class PlayerPlacesInitialPlantTest extends TestCase{
     protected ?PlayerPlacesInitialPlant $sut = null;
     protected ?MockHome $mock_home = null;
-    protected ?InitialPlantRepository $mock_repository = null;
     protected ?\NieuwenhovenGames\BGA\PlayerRobotNotifications $mock_notify = null;
     protected ?\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState $mock_gamestate = null;
     protected string $player_id = '77';
@@ -50,8 +53,6 @@ class PlayerPlacesInitialPlantTest extends TestCase{
         $this->mock_home->setMock($this->createMock(Home::class));
         $this->mock_home[Constants::PLANT_NAME] = [];
         $this->mock_home[Constants::PLANT_NAME]['x'] = [];
-        //$this->mock_home = [Constants::PLANT_NAME => []];
-        $this->mock_repository = $this->createMock(InitialPlantRepository::class);
         $this->sut->setInitialPlants($this->initial_plants);
         $this->sut->setHome($this->mock_home);
 

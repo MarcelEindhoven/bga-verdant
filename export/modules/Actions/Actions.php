@@ -28,6 +28,8 @@ include_once(__DIR__.'/PlayerPlacesPlant.php');
 include_once(__DIR__.'/../CurrentData/CurrentData.php');
 include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
 
+include_once(__DIR__.'/../Repository/InitialPlantRepository.php');
+
 require_once(__DIR__.'/../Constants.php');
 
 class Actions {
@@ -90,10 +92,6 @@ class Actions {
 
         $this->current_decks = CurrentDecks::create($this->decks, $players, $this->current_player_id);
 
-        $this->ais = AIs::create($players);
-        $this->ais->setCurrentDecks($this->current_decks);
-        $this->ais->setUpdateDecks($this->update_decks);
-
         $this->event_emitter = new \NieuwenhovenGames\BGA\EventEmitter();
         
         $this->update_storage->setEventEmitter($this->event_emitter);
@@ -112,6 +110,13 @@ class Actions {
             $home->setDecks($card_repositories);
             $this->homes[$player_id] = $home;
         }
+        $this->initial_plants = InitialPlantRepository::create($this->decks[Constants::PLANT_NAME]);
+
+        $this->ais = AIs::create($players);
+        $this->ais->setInitialPlants($this->initial_plants);
+        $this->ais->setHomes($this->homes);
+        $this->ais->setCurrentDecks($this->current_decks);
+        $this->ais->setUpdateDecks($this->update_decks);
 
         return $this;
     }
@@ -141,7 +146,8 @@ class Actions {
     }
 
     public function stAIsPlaceInitialPlant() {
-        AIsPlaceInitialPlant::create($this->gamestate)->setAIs($this->ais)->execute()->nextState();
+        //AIsPlaceInitialPlant::create($this->gamestate)->setAIs($this->ais)->execute()->nextState();
+        AIsPlaceInitialPlant::create($this->gamestate)->setAIs($this->ais)->nextState();
     }
 
     public function stNextPlayer($player_id) {

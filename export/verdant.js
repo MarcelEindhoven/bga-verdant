@@ -180,7 +180,7 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
                       
             if ('allPlayersPlaceInitialPlant' == stateName) {
                 if ('initial_plant' in this.gamedatas) {
-                    this.own_home.setSelectableEmptyPositions(this.gamedatas.selectable_plant_positions, this.getTypeID(this.gamedatas['initial_plant']), 'placeInitialPlant');
+                    this.own_home.setSelectableEmptyPositions(this.gamedatas.empty_elements_adjacent_to_rooms, this.getTypeID(this.gamedatas['initial_plant']), 'placeInitialPlant');
                 }
             } else if( this.isCurrentPlayerActive() )
             {            
@@ -188,8 +188,8 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
                 {
                     case 'playerTurn':
                         categories = [];
-                        if (this.gamedatas.selectable_plant_positions.length > 0) {categories.push('plant');}
-                        if (this.gamedatas.selectable_room_positions.length > 0) {categories.push('room');}
+                        if (this.gamedatas.empty_elements_adjacent_to_rooms.length > 0) {categories.push('plant');}
+                        if (this.gamedatas.empty_elements_adjacent_to_plants.length > 0) {categories.push('room');}
                         this.market.makeRowsSelectable(categories, 'marketCardSelected');
                         break;
                         case 'placeItem':
@@ -197,9 +197,9 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
                         this.selected_market_card = item.location + '_'+ item.location_arg;
                         console.log(this.selected_market_card);
                         if (item['type'] == 0) {
-                            this.own_home.setSelectableCards(this.gamedatas.selectable_plants, 'playerPlacesItemOnPlant');
+                            this.own_home.setSelectableCards(this.gamedatas.incomplete_plants, 'playerPlacesItemOnPlant');
                         } else {
-                            this.own_home.setSelectableCards(this.gamedatas.selectable_rooms, 'playerPlacesItemOnRoom');
+                            this.own_home.setSelectableCards(this.gamedatas.open_space_rooms, 'playerPlacesItemOnRoom');
                         }
                         break;
                         // Which item will be placed?
@@ -238,9 +238,9 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             console.log(this.stocks[element_name]);
             console.log(card_type);
             if (element_name.startsWith('plant')) {
-                this.own_home.setSelectableEmptyPositions(this.gamedatas.selectable_plant_positions, card_type, 'playerPlacesPlant');
+                this.own_home.setSelectableEmptyPositions(this.gamedatas.empty_elements_adjacent_to_rooms, card_type, 'playerPlacesPlant');
             } else {
-                this.own_home.setSelectableEmptyPositions(this.gamedatas.selectable_room_positions, card_type, 'playerPlacesRoom');
+                this.own_home.setSelectableEmptyPositions(this.gamedatas.empty_elements_adjacent_to_plants, card_type, 'playerPlacesRoom');
             }
             
         },
@@ -414,10 +414,10 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             console.log('notify_NewSelectableElements');
             console.log(notif.args);
             console.log(this.gamedatas);
-            this.gamedatas.selectable_plant_positions = notif.args.selectable_plant_positions;
-            this.gamedatas.selectable_room_positions = notif.args.selectable_room_positions;
-            this.gamedatas.selectable_plants = notif.args.selectable_plants;
-            this.gamedatas.selectable_rooms = notif.args.selectable_rooms;
+            this.gamedatas.empty_elements_adjacent_to_rooms = notif.args.empty_elements_adjacent_to_rooms;
+            this.gamedatas.empty_elements_adjacent_to_plants = notif.args.empty_elements_adjacent_to_plants;
+            this.gamedatas.incomplete_plants = notif.args.incomplete_plants;
+            this.gamedatas.open_space_rooms = notif.args.open_space_rooms;
         },
 
 

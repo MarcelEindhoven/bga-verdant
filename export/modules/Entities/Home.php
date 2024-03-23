@@ -14,10 +14,10 @@ namespace NieuwenhovenGames\Verdant;
 
 class Home extends \ArrayObject {
     const KEY_POSITION = 'location_arg';
-    const KEY_SELECTABLE_EMPTY_ELEMENTS_FOR_PLANTS = 'selectable_plant_positions';
-    const KEY_SELECTABLE_EMPTY_ELEMENTS_FOR_ROOMS = 'selectable_room_positions';
-    const KEY_ELEMENTS_SELECTABLE_PLANT = 'selectable_plants';
-    const KEY_ELEMENTS_SELECTABLE_ROOM = 'selectable_rooms';
+    const KEY_EMPTY_ELEMENTS_ADJACENT_TO_ROOMS = 'empty_elements_adjacent_to_rooms';
+    const KEY_EMPTY_ELEMENTS_ADJACENT_TO_PLANTS = 'empty_elements_adjacent_to_plants';
+    const KEY_ELEMENTS_INCOMPLETE_PLANTS = 'incomplete_plants';
+    const KEY_ELEMENTS_OPEN_SPACE_ROOMS = 'open_space_rooms';
 
     protected int $player_id = 0;
 
@@ -35,10 +35,10 @@ class Home extends \ArrayObject {
 
     public function getAllSelectables() : array {
         return [
-            Home::KEY_SELECTABLE_EMPTY_ELEMENTS_FOR_PLANTS => $this->getSelectableEmptyPlantElements(),
-            Home::KEY_SELECTABLE_EMPTY_ELEMENTS_FOR_ROOMS => $this->getSelectableEmptyRoomElements(),
-            Home::KEY_ELEMENTS_SELECTABLE_PLANT => $this->getElementIDsSelectablePlants(),
-            Home::KEY_ELEMENTS_SELECTABLE_ROOM => $this->getElementIDsSelectableRooms()];
+            Home::KEY_EMPTY_ELEMENTS_ADJACENT_TO_ROOMS => $this->getSelectableEmptyPlantElements(),
+            Home::KEY_EMPTY_ELEMENTS_ADJACENT_TO_PLANTS => $this->getSelectableEmptyRoomElements(),
+            Home::KEY_ELEMENTS_INCOMPLETE_PLANTS => $this->getElementIDsSelectablePlants(),
+            Home::KEY_ELEMENTS_OPEN_SPACE_ROOMS => $this->getElementIDsSelectableRooms()];
     }
 
     public function getElementIDsSelectablePlants() : array {

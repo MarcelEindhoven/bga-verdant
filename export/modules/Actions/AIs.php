@@ -29,6 +29,20 @@ class AIs extends \ArrayObject {
         return $this;
     }
 
+    public function setInitialPlants($initial_plants) : AIs {
+        foreach ($this as $player_id => $player) {
+            $player->setInitialPlants($initial_plants);
+        }
+        return $this;
+    }
+
+    public function setHomes($homes) : AIs {
+        foreach ($this as $player_id => $player) {
+            $player->setHome($homes[$player_id]);
+        }
+        return $this;
+    }
+
     public function setCurrentDecks($decks) : AIs {
         foreach ($this as $player_id => $player) {
             $player->setCurrentDecks($decks);

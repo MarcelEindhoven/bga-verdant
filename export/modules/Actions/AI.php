@@ -26,6 +26,16 @@ class AI {
         return $this;
     }
 
+    public function setInitialPlants($initial_plants) : AI {
+        $this->initial_plants = $initial_plants;
+        return $this;
+    }
+
+    public function setHome($home) : AI {
+        $this->home = $home;
+        return $this;
+    }
+
     public function setCurrentDecks($decks) : AI {
         $this->decks = $decks;
         return $this;
@@ -67,9 +77,10 @@ class AI {
     }
 
     public function placeInitialPlant() : AI {
-        $positions = $this->decks->getPlantSelectableHomePositions($this->player_id);
+        $positions = $this->home->getSelectableEmptyPlantElements();
         $position = $positions[array_rand($positions)];
-        $this->update_decks[Constants::PLANT_NAME]->movePrivateToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, InitialPlantRepository::KEY_LOCATION_CONTENT, $this->player_id, $this->player_id, $position);
+        $this->home[Constants::PLANT_NAME][$position] = $this->initial_plants[$this->player_id];
+        unset($this->initial_plants[$this->player_id]);
 
         return $this;
     }
