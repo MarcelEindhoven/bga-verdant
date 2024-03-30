@@ -51,7 +51,7 @@ class CardsSetup extends CardsAndItemsSetup {
     /**
      * Before the first player takes their first turn, players will simultaneously choose the starting positions of their starting Plant cart and Room card. These two cards must be placed orthogonally adjacent to another in any configuration.
      */
-    class PlantsSetup extends CardsSetup {
+class PlantsSetup extends CardsSetup {
     static public function create($deck, $players) : PlantsSetup {
         $object = new PlantsSetup();
         return $object->setTemplatePrefix(Constants::PLANT_NAME)->setPlayers($players)->setDeck($deck);

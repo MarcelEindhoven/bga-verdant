@@ -77,7 +77,7 @@ class HomeCardRepository extends \ArrayObject {
         }
     }
     protected function notifyMove($element_id, $card, $stored_card): array {
-        if ($this->notificationsHandler) {
+        if (property_exists($this, 'notificationsHandler')) {
             $arguments = [HomeCardRepository::ARGUMENT_KEY_ELEMENT_FROM => $card[HomeCardRepository::KEY_ELEMENT_ID], HomeCardRepository::KEY_ELEMENT_ID => $element_id];
             $this->notificationsHandler->notifyAllPlayers(HomeCardRepository::EVENT_MOVE, HomeCardRepository::EVENT_MOVE_MESSAGE, $arguments);
         }
@@ -87,7 +87,7 @@ class HomeCardRepository extends \ArrayObject {
     }
     protected function notifyNewStock($element_id, $stored_card): array {
         $stored_card[HomeCardRepository::KEY_ELEMENT_ID] = $element_id;
-        if ($this->notificationsHandler) {
+        if (property_exists($this, 'notificationsHandler')) {
             $arguments = [HomeCardRepository::ARGUMENT_KEY_CARD => $stored_card];
             $this->notificationsHandler->notifyAllPlayers(HomeCardRepository::EVENT_NEW_STOCK_CONTENT, HomeCardRepository::EVENT_NEW_STOCK_CONTENT_MESSAGE, $arguments);
         }

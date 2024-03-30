@@ -101,7 +101,7 @@ class Actions {
 
         $this->reward_handler = \NieuwenhovenGames\BGA\RewardHandler::createFromPlayerProperties($this->player_properties);
 
-        $this->initial_plants = InitialPlantRepository::create($this->decks[Constants::PLANT_NAME]);
+        $this->initial_plants = InitialPlantRepository::create($this->decks[Constants::PLANT_NAME])->refresh();
 
         $this->ais = AIs::create($players);
         $this->ais->setInitialPlants($this->initial_plants);
@@ -137,8 +137,7 @@ class Actions {
     }
 
     public function stAIsPlaceInitialPlant() {
-        //AIsPlaceInitialPlant::create($this->gamestate)->setAIs($this->ais)->execute()->nextState();
-        AIsPlaceInitialPlant::create($this->gamestate)->setAIs($this->ais)->nextState();
+        AIsPlaceInitialPlant::create($this->gamestate)->setAIs($this->ais)->execute()->nextState();
     }
 
     public function stNextPlayer($player_id) {

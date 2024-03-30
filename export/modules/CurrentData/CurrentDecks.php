@@ -40,7 +40,7 @@ class CurrentDecks {
 
     public static function create($decks, $players) : CurrentDecks {
         $object = new CurrentDecks();
-        $object->initial_plants = InitialPlantRepository::create($decks[Constants::PLANT_NAME])->fill($players)->refresh();
+        $object->initial_plants = InitialPlantRepository::create($decks[Constants::PLANT_NAME])->refresh();
         $object->market = Market::create($decks)->refresh();
         return $object->setPlayers($players)->setDecks($decks)->createHomes();
     }
