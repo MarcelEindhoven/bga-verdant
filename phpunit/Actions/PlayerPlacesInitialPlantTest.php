@@ -27,8 +27,24 @@ class MockHome extends Home {
         return $this->mock_home->getAllSelectables();
     }
 
-    public function getSelectableEmptyPlantElements() : array {
-        return $this->mock_home->getSelectableEmptyPlantElements();
+    public function getEmptyElementsAdjacentToRooms() : array {
+        return $this->mock_home->getEmptyElementsAdjacentToRooms();
+    }
+
+    public function getEmptyElementsAdjacentToPlants() : array {
+        return $this->mock_home->getEmptyElementsAdjacentToPlants();
+    }
+
+    public function placeCard($card, $category, $element_id) : Home {
+        return $this->mock_home->placeCard($card, $category, $element_id);
+    }
+
+    public function placePlantCard($card, $element_id) : Home {
+        return $this->mock_home->placePlantCard($card, $element_id);
+    }
+
+    public function placeRoomCard($card, $element_id) : Home {
+        return $this->mock_home->placeRoomCard($card, $element_id);
     }
 }
 class PlayerPlacesInitialPlantTest extends TestCase{

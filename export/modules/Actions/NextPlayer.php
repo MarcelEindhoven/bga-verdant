@@ -40,8 +40,13 @@ class NextPlayer extends \NieuwenhovenGames\BGA\Action {
         return $this;
     }
 
-    public function setCurrentDecks($current_decks) : NextPlayer {
-        $this->current_decks = $current_decks;
+    public function setMarket($market) : NextPlayer {
+        $this->market = $market;
+        return $this;
+    }
+
+    public function setHome($home) : NextPlayer {
+        $this->home = $home;
         return $this;
     }
 
@@ -55,9 +60,8 @@ class NextPlayer extends \NieuwenhovenGames\BGA\Action {
         return $this;
     }
     protected function replenishMarket() : NextPlayer {
-        $market = $this->current_decks->getMarket();
         foreach (Constants::getNames() as $name) {
-            $this->replenish($name, $this->getLocationsFromMarketRow($market[$name]));
+            $this->replenish($name, $this->getLocationsFromMarketRow($this->market[$name]));
         }
 
         return $this;
@@ -77,8 +81,8 @@ class NextPlayer extends \NieuwenhovenGames\BGA\Action {
     }
 
     public function getTransitionName() : string {
-        if ($this->current_decks->getPlantSelectableHomePositions($this->player_id)
-         or $this->current_decks->getRoomSelectableHomePositions($this->player_id)) {
+        if ($this->home->getEmptyElementsAdjacentToRooms()
+         or $this->home->getEmptyElementsAdjacentToPlants()) {
             return array_key_exists($this->player_id, $this->ais) ? 'aiPlaying' : 'playerPlaying';
         }
         return 'finishedPlaying';

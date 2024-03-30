@@ -9,20 +9,22 @@ namespace NieuwenhovenGames\Verdant;
  * 
  */
 
-include_once(__DIR__.'/../BGA/Action.php');
-
 include_once(__DIR__.'/PlayerPlacesCard.php');
 
 class PlayerPlacesPlant extends PlayerPlacesCard {
     const MESSAGE_PLACE_SELECTED_CARD = 'Place initial plant ';
     const MESSAGE_PLACE_MARKET_CARD = 'Place plant ';
-    const EVENT_NEW_SELECTABLE_EMPTY_POSITIONS = 'NewSelectablePositions';
 
     protected string $selected_home_id = '';
     protected string $selected_market_card = '';
 
     public static function create($gamestate) : PlayerPlacesPlant {
         return new PlayerPlacesPlant($gamestate);
+    }
+
+    public function setMarket($market) : PlayerPlacesPlant {
+        $this->market = $market;
+        return $this;
     }
 
     public function setSelectedHomeID($selected_home_id) : PlayerPlacesPlant {
@@ -38,6 +40,8 @@ class PlayerPlacesPlant extends PlayerPlacesCard {
     public function execute() : PlayerPlacesPlant {
         list ($category, $entry) = explode('_', $this->selected_market_card);
         list ($this->player_id, $position) = explode('_', $this->selected_home_id);
+
+//        $this->home->placeCard($this->initial_plants[$this->player_id], Constants::PLANT_NAME, $position);
 
         return PlayerPlacesCard::execute();
     }

@@ -2,6 +2,7 @@
 namespace NieuwenhovenGames\Verdant;
 /**
  * Player home
+ * Contains all cards and items inside a player's home by implementing associative array
  * Responsible for combinations of items and cards within one home
  *------
  * MilleFiori implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
@@ -33,10 +34,25 @@ class Home extends \ArrayObject {
         return $this;
     }
 
+    public function placeCard($card, $category, $element_id) : Home {
+        $this[$category][$element_id] = $card;
+        return $this;
+    }
+
+    public function placePlantCard($card, $element_id) : Home {
+        $this[Constants::PLANT_NAME][$element_id] = $card;
+        return $this;
+    }
+
+    public function placeRoomCard($card, $element_id) : Home {
+        $this[Constants::ROOM_NAME][$element_id] = $card;
+        return $this;
+    }
+
     public function getAllSelectables() : array {
         return [
-            Home::KEY_EMPTY_ELEMENTS_ADJACENT_TO_ROOMS => $this->getSelectableEmptyPlantElements(),
-            Home::KEY_EMPTY_ELEMENTS_ADJACENT_TO_PLANTS => $this->getSelectableEmptyRoomElements(),
+            Home::KEY_EMPTY_ELEMENTS_ADJACENT_TO_ROOMS => $this->getEmptyElementsAdjacentToRooms(),
+            Home::KEY_EMPTY_ELEMENTS_ADJACENT_TO_PLANTS => $this->getEmptyElementsAdjacentToPlants(),
             Home::KEY_ELEMENTS_INCOMPLETE_PLANTS => $this->getElementIDsSelectablePlants(),
             Home::KEY_ELEMENTS_OPEN_SPACE_ROOMS => $this->getElementIDsSelectableRooms()];
     }
@@ -61,6 +77,18 @@ class Home extends \ArrayObject {
         return $selectables;
     }
 
+    public function getEmptyElementsAdjacentToRooms() : array {
+        return $this->getElementIDsFromPositions($this->getSelectableEmptyPositionsGivenCategories(Constants::ROOM_NAME, Constants::PLANT_NAME));
+    }
+
+    public function getEmptyElementsAdjacentToPlants() : array {
+        return $this->getElementIDsFromPositions($this->getSelectableEmptyPositionsGivenCategories(Constants::PLANT_NAME, Constants::ROOM_NAME));
+    }
+
+    public function getSelectableEmptyPositionsGivenCategories($seed_name, $occupied_name) : array {
+        return $this->getSelectableEmptyPositions($this->getPositions($this[$seed_name]), $this->getPositions($this[$occupied_name]));
+    }
+
     public function getPositions($elements) : array {
         $positions = [];
         foreach ($elements as $element) {
@@ -68,18 +96,6 @@ class Home extends \ArrayObject {
             $positions[] = $position;
         }
         return $positions;
-    }
-
-    public function getSelectableEmptyPlantElements() : array {
-        return $this->getElementIDsFromPositions($this->getSelectableEmptyPositionsGivenCategories(Constants::ROOM_NAME, Constants::PLANT_NAME));
-    }
-
-    public function getSelectableEmptyRoomElements() : array {
-        return $this->getElementIDsFromPositions($this->getSelectableEmptyPositionsGivenCategories(Constants::PLANT_NAME, Constants::ROOM_NAME));
-    }
-
-    public function getSelectableEmptyPositionsGivenCategories($seed_name, $occupied_name) : array {
-        return $this->getSelectableEmptyPositions($this->getPositions($this[$seed_name]), $this->getPositions($this[$occupied_name]));
     }
 
     public function getSelectableEmptyPositions($positions_seeds, $positions_occupied) : array {

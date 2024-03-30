@@ -17,11 +17,11 @@ include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/GameState.ph
 include_once(__DIR__.'/../../export/modules/BGA/Update/UpdateDeck.php');
 include_once(__DIR__.'/../../export/modules/BGA/PlayerRobotNotifications.php');
 
-include_once(__DIR__.'/../../export/modules/CurrentData/CurrentDecks.php');
+include_once(__DIR__.'/../../export/modules/Entities/Home.php');
 
 class NextPlayerTest extends TestCase{
     protected ?NextPlayer $sut = null;
-    protected ?CurrentDecks $mock_current_decks = null;
+    protected ?Home $mock_home = null;
     protected ?\NieuwenhovenGames\BGA\PlayerRobotNotifications $mock_notify = null;
     protected ?\NieuwenhovenGames\BGA\UpdateDeck $mock_update_deck = null;
     protected ?\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState $mock_gamestate = null;
@@ -35,9 +35,13 @@ class NextPlayerTest extends TestCase{
 
         $this->sut = NextPlayer::create($this->mock_gamestate);
 
-        $this->mock_current_decks = $this->createMock(CurrentDecks::class);
+        $this->mock_home = new MockHome();
+        $this->mock_home->setMock($this->createMock(Home::class));
+        $this->mock_home[Constants::PLANT_NAME] = [];
+        $this->mock_home[Constants::ROOM_NAME] = [];
+        $this->sut->setHome($this->mock_home);
+
         $this->mock_update_deck = $this->createMock(\NieuwenhovenGames\BGA\UpdateDeck::class);
-        $this->sut->setCurrentDecks($this->mock_current_decks);
         $this->sut->setUpdateDecks([Constants::PLANT_NAME => $this->mock_update_deck, Constants::ITEM_NAME => $this->mock_update_deck, Constants::ROOM_NAME => $this->mock_update_deck]);
 
         $this->mock_ai = $this->createMock(AI::class);
@@ -49,7 +53,7 @@ class NextPlayerTest extends TestCase{
         // Arrange
         $row = [['location_arg' => 0], ['location_arg' => 1], ['location_arg' => 2], ['location_arg' => 3]];
         $arguments = [Constants::PLANT_NAME => $row, Constants::ITEM_NAME => $row, Constants::ROOM_NAME => $row];
-        $this->mock_current_decks->expects($this->exactly(1))->method('getMarket')->willReturn($arguments);
+        $this->sut->setMarket($arguments);
         $this->mock_update_deck->expects($this->exactly(0))->method('pickCardForLocation');
         // Act
         $this->sut->execute();
@@ -60,7 +64,7 @@ class NextPlayerTest extends TestCase{
         // Arrange
         $row = [];
         $arguments = [Constants::PLANT_NAME => $row, Constants::ITEM_NAME => $row, Constants::ROOM_NAME => $row];
-        $this->mock_current_decks->expects($this->exactly(1))->method('getMarket')->willReturn($arguments);
+        $this->sut->setMarket($arguments);
         $this->mock_update_deck->expects($this->exactly(12))->method('pickCardForLocation');
         // Act
         $this->sut->execute();
@@ -69,7 +73,7 @@ class NextPlayerTest extends TestCase{
 
     public function testTransitionName__NoAI__playerPlaying() {
         // Arrange
-        $this->mock_current_decks->expects($this->exactly(1))->method('getPlantSelectableHomePositions')->willReturn([5]);
+        $this->mock_home->mock_home->expects($this->exactly(1))->method('getEmptyElementsAdjacentToRooms')->willReturn([5]);
         $this->sut->setAIs([]);
         // Act
         $name = $this->sut->getTransitionName();
@@ -79,7 +83,7 @@ class NextPlayerTest extends TestCase{
 
     public function testTransitionName__AI__AIPlaying() {
         // Arrange
-        $this->mock_current_decks->expects($this->exactly(1))->method('getPlantSelectableHomePositions')->willReturn([5]);
+        $this->mock_home->mock_home->expects($this->exactly(1))->method('getEmptyElementsAdjacentToRooms')->willReturn([5]);
         // Act
         $name = $this->sut->getTransitionName();
         // Assert
@@ -88,8 +92,8 @@ class NextPlayerTest extends TestCase{
 
     public function testTransitionName__NoMoreSelectablePositions__finishedPlaying() {
         // Arrange
-        $this->mock_current_decks->expects($this->exactly(1))->method('getPlantSelectableHomePositions')->willReturn([]);
-        $this->mock_current_decks->expects($this->exactly(1))->method('getRoomSelectableHomePositions')->willReturn([]);
+        $this->mock_home->mock_home->expects($this->exactly(1))->method('getEmptyElementsAdjacentToRooms')->willReturn([]);
+        $this->mock_home->mock_home->expects($this->exactly(1))->method('getEmptyElementsAdjacentToPlants')->willReturn([]);
         // Act
         $name = $this->sut->getTransitionName();
         // Assert

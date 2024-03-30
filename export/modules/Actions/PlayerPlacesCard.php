@@ -18,7 +18,7 @@ include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
 class PlayerPlacesCard extends \NieuwenhovenGames\BGA\Action {
     const MESSAGE_PLACE_SELECTED_CARD = 'Place initial plant ';
     const MESSAGE_PLACE_MARKET_CARD = 'Place plant ';
-    const EVENT_NEW_SELECTABLE_EMPTY_POSITIONS = 'NewSelectablePositions';
+    const EVENT_NEW_SELECTABLE_EMPTY_POSITIONS = 'NewSelectableElements';
 
     protected ?CurrentDecks $current_decks = null;
 
@@ -35,11 +35,6 @@ class PlayerPlacesCard extends \NieuwenhovenGames\BGA\Action {
 
     public function setHome($home) : PlayerPlacesCard {
         $this->home = $home;
-        return $this;
-    }
-
-    public function setUpdateDecks($update_decks) : PlayerPlacesCard {
-        $this->update_decks = $update_decks;
         return $this;
     }
 

@@ -15,7 +15,7 @@ include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
 
 class PlayerPlacesItem extends  \NieuwenhovenGames\BGA\Action {
     const MESSAGE_PLACE_ITEM = 'Place item ';
-    const EVENT_NEW_SELECTABLE_EMPTY_POSITIONS = 'NewSelectablePositions';
+    const EVENT_NEW_SELECTABLE_EMPTY_POSITIONS = 'NewSelectableElements';
 
     protected string $selected_home_id = '';
     protected string $selected_market_card = '';
@@ -31,6 +31,11 @@ class PlayerPlacesItem extends  \NieuwenhovenGames\BGA\Action {
 
     public function setHome($home) : PlayerPlacesItem {
         $this->home = $home;
+        return $this;
+    }
+
+    public function setMarket($market) : PlayerPlacesItem {
+        $this->market = $market;
         return $this;
     }
 

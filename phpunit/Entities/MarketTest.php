@@ -9,12 +9,12 @@ namespace NieuwenhovenGames\Verdant;
 include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../../export/modules/Repository/MarketRepository.php');
+include_once(__DIR__.'/../../export/modules/Entities/Market.php');
 
 include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/Deck.php');
 
-class MarketRepositoryTest extends TestCase{
-    protected MarketRepository $sut;
+class MarketTest extends TestCase{
+    protected Market $sut;
     protected ?\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck $mock_items = null;
     protected ?\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck $mock_cards = null;
     protected string $location = '24';
@@ -23,7 +23,7 @@ class MarketRepositoryTest extends TestCase{
         $this->mock_items = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
         $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
 
-        $this->sut = MarketRepository::create([Constants::PLANT_NAME => $this->mock_cards, Constants::ITEM_NAME => $this->mock_items, Constants::ROOM_NAME => $this->mock_cards]);
+        $this->sut = Market::create([Constants::PLANT_NAME => $this->mock_cards, Constants::ITEM_NAME => $this->mock_items, Constants::ROOM_NAME => $this->mock_cards]);
     }
 
     public function testSetup__Empty__NoCard() {
@@ -61,12 +61,12 @@ class MarketRepositoryTest extends TestCase{
 
     }
     protected function getDefaultStoredCard($location) {
-        return [MarketRepository::KEY_LOCATION => $location];
+        return [Market::KEY_LOCATION => $location];
 
     }
     protected function getUpdatedCard($card, $element_id) {
         $updated_card = $card;
-        $updated_card[MarketRepository::KEY_ELEMENT_ID] = $element_id;
+        $updated_card[Market::KEY_ELEMENT_ID] = $element_id;
         return $updated_card;
 
     }

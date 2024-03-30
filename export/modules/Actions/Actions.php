@@ -101,21 +101,12 @@ class Actions {
 
         $this->reward_handler = \NieuwenhovenGames\BGA\RewardHandler::createFromPlayerProperties($this->player_properties);
 
-        foreach ($players as $player_id => $player) {
-            $home = new Home();
-            $card_repositories = [];
-            foreach ($this->decks as $name => $deck) {
-                $card_repositories[$name] = HomeCardRepository::create($deck, $player_id);
-            }
-            $home->setDecks($card_repositories);
-            $this->homes[$player_id] = $home;
-        }
         $this->initial_plants = InitialPlantRepository::create($this->decks[Constants::PLANT_NAME]);
 
         $this->ais = AIs::create($players);
         $this->ais->setInitialPlants($this->initial_plants);
-        $this->ais->setHomes($this->homes);
-        $this->ais->setCurrentDecks($this->current_decks);
+        $this->ais->setMarket($this->current_decks->getMarket());
+        $this->ais->setHomes($this->current_decks->getHomes());
         $this->ais->setUpdateDecks($this->update_decks);
 
         return $this;

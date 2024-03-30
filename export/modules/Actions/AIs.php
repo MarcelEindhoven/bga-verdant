@@ -36,16 +36,16 @@ class AIs extends \ArrayObject {
         return $this;
     }
 
-    public function setHomes($homes) : AIs {
+    public function setMarket($market) : AIs {
         foreach ($this as $player_id => $player) {
-            $player->setHome($homes[$player_id]);
+            $player->setMarket($market);
         }
         return $this;
     }
 
-    public function setCurrentDecks($decks) : AIs {
+    public function setHomes($homes) : AIs {
         foreach ($this as $player_id => $player) {
-            $player->setCurrentDecks($decks);
+            $player->setHome($homes[$player_id]);
         }
         return $this;
     }

@@ -31,13 +31,13 @@ class AI {
         return $this;
     }
 
-    public function setHome($home) : AI {
-        $this->home = $home;
+    public function setMarket($market) : AI {
+        $this->market = $market;
         return $this;
     }
 
-    public function setCurrentDecks($decks) : AI {
-        $this->decks = $decks;
+    public function setHome($home) : AI {
+        $this->home = $home;
         return $this;
     }
 
@@ -55,8 +55,8 @@ class AI {
     }
     protected function getSelectablePositionsPerCategory() {
         $positions = [];
-        $positions[Constants::PLANT_NAME] = $this->decks->getPlantSelectableHomePositions($this->player_id);
-        $positions[Constants::ROOM_NAME] = $this->decks->getRoomSelectableHomePositions($this->player_id);
+        $positions[Constants::PLANT_NAME] = $this->home->getEmptyElementsAdjacentToRooms();
+        $positions[Constants::ROOM_NAME] = $this->home->getEmptyElementsAdjacentToPlants();
 
         return $positions;
     }
@@ -77,9 +77,9 @@ class AI {
     }
 
     public function placeInitialPlant() : AI {
-        $positions = $this->home->getSelectableEmptyPlantElements();
+        $positions = $this->home->getEmptyElementsAdjacentToRooms();
         $position = $positions[array_rand($positions)];
-        $this->home[Constants::PLANT_NAME][$position] = $this->initial_plants[$this->player_id];
+        $this->home->placeCard($this->initial_plants[$this->player_id], Constants::PLANT_NAME, $position);
         unset($this->initial_plants[$this->player_id]);
 
         return $this;

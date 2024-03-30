@@ -180,7 +180,7 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
                       
             if ('allPlayersPlaceInitialPlant' == stateName) {
                 if ('initial_plant' in this.gamedatas) {
-                    this.own_home.setSelectableEmptyPositions(this.gamedatas.empty_elements_adjacent_to_rooms, this.getTypeID(this.gamedatas['initial_plant']), 'placeInitialPlant');
+                    this.own_home.setSelectableEmptyElements(this.gamedatas.empty_elements_adjacent_to_rooms, this.getTypeID(this.gamedatas['initial_plant']), 'placeInitialPlant');
                 }
             } else if( this.isCurrentPlayerActive() )
             {            
@@ -238,9 +238,9 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             console.log(this.stocks[element_name]);
             console.log(card_type);
             if (element_name.startsWith('plant')) {
-                this.own_home.setSelectableEmptyPositions(this.gamedatas.empty_elements_adjacent_to_rooms, card_type, 'playerPlacesPlant');
+                this.own_home.setSelectableEmptyElements(this.gamedatas.empty_elements_adjacent_to_rooms, card_type, 'playerPlacesPlant');
             } else {
-                this.own_home.setSelectableEmptyPositions(this.gamedatas.empty_elements_adjacent_to_plants, card_type, 'playerPlacesRoom');
+                this.own_home.setSelectableEmptyElements(this.gamedatas.empty_elements_adjacent_to_plants, card_type, 'playerPlacesRoom');
             }
             
         },
@@ -342,8 +342,8 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
         {
             console.log( 'notifications subscriptions setup' );
 
-            dojo.subscribe( 'resetSelectableEmptyPositions', this, "notify_resetSelectableEmptyPositions" );
-            this.notifqueue.setSynchronous( 'resetSelectableEmptyPositions', 500 );
+            dojo.subscribe( 'resetSelectableEmptyElements', this, "notify_resetSelectableEmptyElements" );
+            this.notifqueue.setSynchronous( 'resetSelectableEmptyElements', 500 );
 
             dojo.subscribe( 'newStockContent', this, "notify_newStockContent" );
             this.notifqueue.setSynchronous( 'newStockContent', 5 );
@@ -376,9 +376,9 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             // 
             console.log( 'notifications subscriptions finished setup' );
         },  
-        notify_resetSelectableEmptyPositions: function(notif) {
-            console.log('notify_resetSelectableEmptyPositions');
-            this.own_home.resetSelectableEmptyPositions();
+        notify_resetSelectableEmptyElements: function(notif) {
+            console.log('notify_resetSelectableEmptyElements');
+            this.own_home.resetSelectableEmptyElements();
         },
         notify_newStockContent: function(notif) {
             console.log('notify_newStockContent');
@@ -405,10 +405,6 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             console.log('notify_NewSelectablePositions');
             console.log(notif.args);
             console.log(this.gamedatas);
-            this.gamedatas.selectable_plant_positions = notif.args.selectable_plant_positions;
-            this.gamedatas.selectable_room_positions = notif.args.selectable_room_positions;
-            this.gamedatas.selectable_plants = notif.args.selectable_plants;
-            this.gamedatas.selectable_rooms = notif.args.selectable_rooms;
         },
         notify_NewSelectableElements: function(notif) {
             console.log('notify_NewSelectableElements');

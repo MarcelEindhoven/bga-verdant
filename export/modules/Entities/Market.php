@@ -1,9 +1,9 @@
 <?php
 namespace NieuwenhovenGames\Verdant;
 /**
- * Create and retrieve the initial plants from the plant decks
- * Take into account that the decks requires the location to be a string and the location argument to be a number
- * In PHP, objects cannot be cast to Boolean or implement a real array interface
+ * Contains all cards and items in the market
+ * Responsible for refilling the market
+ * Note: In PHP, objects cannot be cast to Boolean or implement a real array interface
  * 
  *------
  * Verdant implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
@@ -14,7 +14,7 @@ namespace NieuwenhovenGames\Verdant;
 
 require_once(__DIR__.'/../BGA/FrameworkInterfaces/Deck.php');
 
-class MarketRepository extends \ArrayObject {
+class Market extends \ArrayObject {
     const KEY_PLAYER_ID = 'location';
     const KEY_LOCATION = 'location_arg';
     const KEY_ELEMENT_ID = 'element_id';
@@ -22,12 +22,12 @@ class MarketRepository extends \ArrayObject {
     protected array $decks = [];
     protected string $player_id = '';
 
-    static public function create($decks) : MarketRepository {
-        $object = new MarketRepository();
+    static public function create($decks) : Market {
+        $object = new Market();
         return $object->setDecks($decks);
     }
 
-    public function setDecks($decks) : MarketRepository {
+    public function setDecks($decks) : Market {
         $this->decks = $decks;
 
         return $this;
@@ -42,7 +42,7 @@ class MarketRepository extends \ArrayObject {
     */
 
     /** Content array is only guaranteed to be valid after refresh  */
-    public function refresh() : MarketRepository {
+    public function refresh() : Market {
         foreach ($this->decks as $name => $deck) {
             $this[$name] = $this->getUpdatedCards($name, $deck->getCardsInLocation($name));
         }
@@ -59,8 +59,8 @@ class MarketRepository extends \ArrayObject {
     protected function getUpdatedCard($name, $card) {
         $updated_card = $card;
         // '2' -> $name . '_02'
-        $location = +$card[MarketRepository::KEY_LOCATION];
-        $updated_card[MarketRepository::KEY_ELEMENT_ID] = $name . '_' . $location;
+        $location = +$card[Market::KEY_LOCATION];
+        $updated_card[Market::KEY_ELEMENT_ID] = $name . '_' . $location;
         return $updated_card;
     }
 }
