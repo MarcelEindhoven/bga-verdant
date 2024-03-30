@@ -113,7 +113,7 @@ class Actions {
     }
 
     public function playerPlacesInitialPlant($field_id) {
-        PlayerPlacesInitialPlant::create($this->gamestate)->setNotificationsHandler($this->notifications)->setCurrentDecks($this->current_decks)->setUpdateDecks($this->update_decks)->setFieldID($field_id)->execute()->nextState();
+        PlayerPlacesInitialPlant::create($this->gamestate)->setNotificationsHandler($this->notifications)->setHome($this->current_decks->getHomes()[$this->current_player_id])->setInitialPlants($this->initial_plants)->setFieldID($field_id)->execute()->nextState();
     }
 
     public function playerPlacesPlant($selected_market_card, $selected_home_id) {
