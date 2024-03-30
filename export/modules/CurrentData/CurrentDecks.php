@@ -73,6 +73,7 @@ class CurrentDecks {
                 $card_repositories[$name] = HomeCardRepository::create($deck, $player_id);
             }
             $home->setDecks($card_repositories);
+            $home->setOwner($player_id);
             $this->homes[$player_id] = $home;
         }
         return $this;
