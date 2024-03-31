@@ -14,16 +14,25 @@ include_once(__DIR__.'/../../export/modules/Actions/AI.php');
 
 include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/GameState.php');
 
-include_once(__DIR__.'/../../export/modules/BGA/Update/UpdateDeck.php');
-include_once(__DIR__.'/../../export/modules/BGA/PlayerRobotNotifications.php');
-
 include_once(__DIR__.'/../../export/modules/Entities/Home.php');
+include_once(__DIR__.'/../../export/modules/Entities/Market.php');
+
+class MockMarket extends Market {
+    public ?Market $mock_market = null;
+    public function setMock($mock) {
+        $this->mock_market = $mock;
+    }
+
+    public function refill($name, $location) : Market {
+        return $this->mock_market->refill($name, $location);
+    }
+}
 
 class NextPlayerTest extends TestCase{
     protected ?NextPlayer $sut = null;
     protected ?Home $mock_home = null;
+    protected ?Market $mock_market = null;
     protected ?\NieuwenhovenGames\BGA\PlayerRobotNotifications $mock_notify = null;
-    protected ?\NieuwenhovenGames\BGA\UpdateDeck $mock_update_deck = null;
     protected ?\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState $mock_gamestate = null;
     protected string $selected_market_card = 'plant_1';
     protected string $selected_home_id = '77_15';
@@ -41,8 +50,9 @@ class NextPlayerTest extends TestCase{
         $this->mock_home[Constants::ROOM_NAME] = [];
         $this->sut->setHome($this->mock_home);
 
-        $this->mock_update_deck = $this->createMock(\NieuwenhovenGames\BGA\UpdateDeck::class);
-        $this->sut->setUpdateDecks([Constants::PLANT_NAME => $this->mock_update_deck, Constants::ITEM_NAME => $this->mock_update_deck, Constants::ROOM_NAME => $this->mock_update_deck]);
+        $this->mock_market = new MockMarket();
+        $this->mock_market->setMock($this->createMock(Market::class));
+        $this->sut->setMarket($this->mock_market);
 
         $this->mock_ai = $this->createMock(AI::class);
         $this->sut->setAIs([$this->player_id => $this->mock_ai]);
@@ -52,20 +62,38 @@ class NextPlayerTest extends TestCase{
     public function testExecute__MarketFull__NoReplenishMarket() {
         // Arrange
         $row = [['location_arg' => 0], ['location_arg' => 1], ['location_arg' => 2], ['location_arg' => 3]];
-        $arguments = [Constants::PLANT_NAME => $row, Constants::ITEM_NAME => $row, Constants::ROOM_NAME => $row];
-        $this->sut->setMarket($arguments);
-        $this->mock_update_deck->expects($this->exactly(0))->method('pickCardForLocation');
+        $this->mock_market[Constants::PLANT_NAME] = $row;
+        $this->mock_market[Constants::ITEM_NAME] = $row;
+        $this->mock_market[Constants::ROOM_NAME] = $row;
+        $this->mock_market->mock_market->expects($this->exactly(0))->method('refill');
+
         // Act
         $this->sut->execute();
         // Assert
     }
 
-    public function testExecute__MarketEmpty__8ReplenishMarket() {
+    public function testExecute__MarketAlmostFull__ReplenishOnce() {
+        // Arrange
+        $incomplete_row = [['location_arg' => 0], ['location_arg' => 1], ['location_arg' => 3]];
+        $complete_row = $incomplete_row;
+        $complete_row[] = ['location_arg' => 2];
+        $this->mock_market[Constants::PLANT_NAME] = $complete_row;
+        $this->mock_market[Constants::ITEM_NAME] = $incomplete_row;
+        $this->mock_market[Constants::ROOM_NAME] = $complete_row;
+        $this->mock_market->mock_market->expects($this->exactly(1))->method('refill')->with(Constants::ITEM_NAME, 2);
+
+        // Act
+        $this->sut->execute();
+        // Assert
+    }
+
+    public function testExecute__MarketEmpty__12ReplenishMarket() {
         // Arrange
         $row = [];
-        $arguments = [Constants::PLANT_NAME => $row, Constants::ITEM_NAME => $row, Constants::ROOM_NAME => $row];
-        $this->sut->setMarket($arguments);
-        $this->mock_update_deck->expects($this->exactly(12))->method('pickCardForLocation');
+        $this->mock_market[Constants::PLANT_NAME] = $row;
+        $this->mock_market[Constants::ITEM_NAME] = $row;
+        $this->mock_market[Constants::ROOM_NAME] = $row;
+        $this->mock_market->mock_market->expects($this->exactly(12))->method('refill');
         // Act
         $this->sut->execute();
         // Assert

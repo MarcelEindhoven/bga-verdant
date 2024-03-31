@@ -35,6 +35,12 @@ class Market extends \ArrayObject {
         return $this;
     }
 
+    public function refill($name, $location) : Market {
+        $this[$name]->refill($location);
+
+        return $this;
+    }
+
     // Implement ArrayAccess
     /*
     public function offsetExists($player_id): bool {return false;}

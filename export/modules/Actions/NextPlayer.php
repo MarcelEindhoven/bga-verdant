@@ -50,15 +50,11 @@ class NextPlayer extends \NieuwenhovenGames\BGA\Action {
         return $this;
     }
 
-    public function setUpdateDecks($update_decks) : NextPlayer {
-        $this->update_decks = $update_decks;
-        return $this;
-    }
-
     public function execute() : NextPlayer {
         $this->replenishMarket();
         return $this;
     }
+
     protected function replenishMarket() : NextPlayer {
         foreach (Constants::getNames() as $name) {
             $this->replenish($name, $this->getLocationsFromMarketRow($this->market[$name]));
@@ -76,7 +72,7 @@ class NextPlayer extends \NieuwenhovenGames\BGA\Action {
     protected function replenish($name, $market_locations) {
         $missing_locations = array_diff([0, 1, 2, 3], $market_locations);
         foreach ($missing_locations as $missing_location) {
-            $this->update_decks[$name]->pickCardForLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, $name, $missing_location);
+            $this->market->refill($name, $missing_location);
         }
     }
 
