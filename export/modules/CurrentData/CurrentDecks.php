@@ -20,6 +20,7 @@ require_once(__DIR__.'/../Entities/Market.php');
 
 require_once(__DIR__.'/../Repository/HomeCardRepository.php');
 require_once(__DIR__.'/../Repository/InitialPlantRepository.php');
+require_once(__DIR__.'/../Repository/MarketDeckRepository.php');
 
 class CurrentDecks {
     const RESULT_KEY_DECKS = 'decks';
@@ -41,8 +42,7 @@ class CurrentDecks {
     public static function create($decks, $players) : CurrentDecks {
         $object = new CurrentDecks();
         $object->initial_plants = InitialPlantRepository::create($decks[Constants::PLANT_NAME])->refresh();
-        $object->market = Market::create($decks)->refresh();
-        return $object->setPlayers($players)->setDecks($decks)->createHomes();
+        return $object->setPlayers($players)->setDecks($decks)->createHomes()->createMarket();
     }
 
     public function setPlayers($players) : CurrentDecks {
@@ -62,6 +62,16 @@ class CurrentDecks {
 
     public function refresh($decks) : CurrentDecks {
         $this->decks = $decks;
+        return $this;
+    }
+
+    public function createMarket() : CurrentDecks {
+        $deck_repositories = [];
+        foreach ($this->decks as $name => $deck) {
+            $deck_repositories[$name] = MarketDeckRepository::create($deck, $name);;
+        }
+        $this->market = Market::create($deck_repositories);
+
         return $this;
     }
 

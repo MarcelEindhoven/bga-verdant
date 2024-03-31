@@ -28,7 +28,9 @@ class Market extends \ArrayObject {
     }
 
     public function setDecks($decks) : Market {
-        $this->decks = $decks;
+        foreach ($decks as $name => $deck) {
+            $this[$name] = $deck;
+        }
 
         return $this;
     }
@@ -40,28 +42,5 @@ class Market extends \ArrayObject {
     public function offsetSet($player_id, $value): void {}
     public function offsetUnset($player_id): void {}
     */
-
-    /** Content array is only guaranteed to be valid after refresh  */
-    public function refresh() : Market {
-        foreach ($this->decks as $name => $deck) {
-            $this[$name] = $this->getUpdatedCards($name, $deck->getCardsInLocation($name));
-        }
-
-        return $this;
-    }
-    protected function getUpdatedCards($name, $cards) {
-        $updated_cards = [];
-        foreach ($cards as $card) {
-            $updated_cards[] = $this->getUpdatedCard($name, $card);
-        }
-        return $updated_cards;
-    }
-    protected function getUpdatedCard($name, $card) {
-        $updated_card = $card;
-        // '2' -> $name . '_02'
-        $location = +$card[Market::KEY_LOCATION];
-        $updated_card[Market::KEY_ELEMENT_ID] = $name . '_' . $location;
-        return $updated_card;
-    }
 }
 ?>
