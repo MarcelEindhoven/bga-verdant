@@ -26,6 +26,10 @@ class MockMarket extends Market {
     public function refill($name, $location) : Market {
         return $this->mock_market->refill($name, $location);
     }
+
+    public function get($element_id) {
+        return $this->mock_market->get($element_id);
+    }
 }
 
 class NextPlayerTest extends TestCase{

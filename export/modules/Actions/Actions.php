@@ -22,8 +22,8 @@ include_once(__DIR__.'/AIsPlaceInitialPlant.php');
 include_once(__DIR__.'/AISelectsAndPlacesCard.php');
 include_once(__DIR__.'/NextPlayer.php');
 include_once(__DIR__.'/PlayerPlacesInitialPlant.php');
-include_once(__DIR__.'/PlayerPlacesItem.php');
-include_once(__DIR__.'/PlayerPlacesPlant.php');
+include_once(__DIR__.'/PlaceItem.php');
+include_once(__DIR__.'/PlacePlant.php');
 
 include_once(__DIR__.'/../CurrentData/CurrentData.php');
 include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
@@ -113,11 +113,11 @@ class Actions {
     }
 
     public function playerPlacesInitialPlant($field_id) {
-        PlayerPlacesInitialPlant::create($this->gamestate)->setNotificationsHandler($this->notifications)->setHome($this->current_decks->getHomes()[$this->current_player_id])->setInitialPlants($this->initial_plants)->setFieldID($field_id)->execute()->nextState();
+        PlayerPlacesInitialPlant::create($this->gamestate)->setNotificationsHandler($this->notifications)->setHome($this->getHome())->setInitialPlants($this->initial_plants)->setFieldID($field_id)->execute()->nextState();
     }
 
     public function playerPlacesPlant($selected_market_card, $selected_home_id) {
-        PlayerPlacesPlant::create($this->gamestate)->setNotificationsHandler($this->notifications)->setCurrentDecks($this->current_decks)->setUpdateDecks($this->update_decks)->setSelectedMarketCard($selected_market_card)->setSelectedHomeID($selected_home_id)->execute()->nextState();
+        PlacePlant::create($this->gamestate)->subscribePublicNotifications($this->notifications)->subscribePrivateNotifications($this->notifications)->setHome($this->getHome())->setMarket($this->getMarket())->setSelectedElements($selected_market_card, $selected_home_id)->execute()->nextState();
     }
 
     public function playerPlacesRoom($selected_market_card, $selected_home_id) {
@@ -125,7 +125,7 @@ class Actions {
     }
 
     public function playerPlacesItemOnPlant($selected_market_card, $selected_home_id) {
-        PlayerPlacesItem::create($this->gamestate)->setNotificationsHandler($this->notifications)->setCurrentDecks($this->current_decks)->setUpdateDecks($this->update_decks)->setSelectedMarketCard($selected_market_card)->setSelectedHomeID($selected_home_id)->execute()->nextState();
+        PlaceItem::create($this->gamestate)->subscribePublicNotifications($this->notifications)->subscribePrivateNotifications($this->notifications)->setHome($this->getHome())->setMarket($this->getMarket())->setSelectedElements($selected_market_card, $selected_home_id)->execute()->nextState();
     }
 
     public function playerPlacesItemOnRoom($selected_market_card, $selected_home_id) {
@@ -142,7 +142,7 @@ class Actions {
 
     public function stNextPlayer($player_id) {
         $this->setCurrentPlayerID($player_id);
-        NextPlayer::create($this->gamestate)->setAIs($this->ais)->setCurrentPlayerID($player_id)->setHome($this->current_decks->getHomes()[$this->current_player_id])->setMarket($this->current_decks->getMarket())->execute()->nextState();
+        NextPlayer::create($this->gamestate)->setAIs($this->ais)->setCurrentPlayerID($player_id)->setHome($this->getHome())->setMarket($this->getMarket())->execute()->nextState();
     }
 
     public function stAiPlayer() {
@@ -150,6 +150,13 @@ class Actions {
     }
 
     public function stAllPlayersInspectScore() {
+    }
+
+    protected function getHome() {
+        return $this->current_decks->getHomes()[$this->current_player_id];
+    }
+    protected function getMarket() {
+        return $this->current_decks->getMarket();
     }
 }
 ?>

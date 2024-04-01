@@ -41,6 +41,16 @@ class Market extends \ArrayObject {
         return $this;
     }
 
+    public function get($element_id) {
+        list ($category, $entry) = explode('_', $element_id);
+        return $this[$category][$element_id];
+    }
+
+    public function getCategory($element_id) {
+        list ($category, $entry) = explode('_', $element_id);
+        return $category;
+    }
+
     // Implement ArrayAccess
     /*
     public function offsetExists($player_id): bool {return false;}

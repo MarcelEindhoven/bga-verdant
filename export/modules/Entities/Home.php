@@ -29,6 +29,10 @@ class Home extends \ArrayObject {
         return $this;
     }
 
+    public function getOwner() {
+        return $this->player_id;
+    }
+
     public function setOwner($player_id) : Home {
         $this->player_id = $player_id;
         return $this;
@@ -46,6 +50,11 @@ class Home extends \ArrayObject {
 
     public function placeRoomCard($card, $element_id) : Home {
         $this[Constants::ROOM_NAME][$element_id] = $card;
+        return $this;
+    }
+
+    public function placeItem($item, $element_id) : Home {
+        $this[Constants::ITEM_NAME][$element_id] = $item;
         return $this;
     }
 
