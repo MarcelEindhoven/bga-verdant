@@ -96,8 +96,8 @@ $machinestates = array(
     ),
     15 => array(
         "name" => "nextPlayer",
-        "description" => clienttranslate('Robots place initial plant card'),
-        "descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
+        "description" => clienttranslate('Next player'),
+        "descriptionmyturn" => clienttranslate('Next player'),
         "type" => "game",
         "action" => "stNextPlayer",
         "possibleactions" => array("playerPlaying", "aiPlaying", "finishedPlaying"),
