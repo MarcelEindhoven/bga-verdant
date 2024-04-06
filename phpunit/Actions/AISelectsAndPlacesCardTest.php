@@ -27,13 +27,5 @@ class AISelectsAndPlacesCardTest extends TestCase{
         $this->mock_ai = $this->createMock(AI::class);
         $this->sut->setAI($this->mock_ai);
     }
-
-    public function testExecute__Always__movePublicToPublic() {
-        // Arrange
-        $this->mock_ai->expects($this->exactly(1))->method('selectAndPlaceCard')->with();
-        // Act
-        $this->sut->execute();
-        // Assert
-    }
 }
 ?>

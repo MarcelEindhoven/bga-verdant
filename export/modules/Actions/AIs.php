@@ -49,13 +49,6 @@ class AIs extends \ArrayObject {
         }
         return $this;
     }
-
-    public function setUpdateDecks($stocks) : AIs {
-        foreach ($this as $player_id => $player) {
-            $player->setUpdateDecks($stocks);
-        }
-        return $this;
-    }
 }
 
 ?>

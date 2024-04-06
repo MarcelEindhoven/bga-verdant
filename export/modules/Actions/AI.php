@@ -40,11 +40,6 @@ class AI {
         $this->home = $home;
         return $this;
     }
-
-    public function setUpdateDecks($update_decks) : AI {
-        $this->update_decks = $update_decks;
-        return $this;
-    }
     public function getElementsPlaceCard() {
         $positions_per_category = $this->getSelectablePositionsPerCategory();
 
@@ -54,13 +49,6 @@ class AI {
         return array($category . '_0', $positions[array_rand($positions)]);
     }
 
-    public function selectAndPlaceCard() : AI {
-        $positions = $this->getSelectablePositionsPerCategory();
-
-        $category = $this->selectCategory($positions);
-
-        return $this->selectAndPlaceCardForCategory($category, $positions[$category]);
-    }
     protected function getSelectablePositionsPerCategory() {
         $positions = [];
         $positions[Constants::PLANT_NAME] = $this->home->getEmptyElementsAdjacentToRooms();
@@ -76,12 +64,6 @@ class AI {
             }
         }
         return $categories[array_rand($categories)];
-    }
-    protected function selectAndPlaceCardForCategory($category, $positions) : AI {
-        $position = $positions[array_rand($positions)];
-        $this->update_decks[$category]->movePublicToPublic(AI::MESSAGE_PLACE_SELECTED_CARD, $category, 0, $this->player_id, $position);
-        $this->update_decks[$category]->pickCardForLocation(AI::MESSAGE_PLACE_SELECTED_CARD, $category, 0);
-        return $this;
     }
 
     public function placeInitialPlant() : AI {

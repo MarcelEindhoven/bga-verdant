@@ -17,7 +17,6 @@ include_once(__DIR__.'/../BGA/UpdatePlayerRobotProperties.php');
 include_once(__DIR__.'/../BGA/UpdateStorage.php');
 
 include_once(__DIR__.'/AIs.php');
-include_once(__DIR__.'/UpdateDecks.php');
 include_once(__DIR__.'/AIsPlaceInitialPlant.php');
 include_once(__DIR__.'/AISelectsAndPlacesCard.php');
 include_once(__DIR__.'/NextPlayer.php');
@@ -37,7 +36,6 @@ class Actions {
 
     protected ?CurrentData $current_data = null;
     protected ?CurrentDecks $current_decks = null;
-    protected ?UpdateDecks $update_decks = null;
     protected ?AIs $ais = null;
 
     protected array $decks = [];
@@ -84,10 +82,6 @@ class Actions {
     public function initialize() : Actions {
         $this->stock_handler = \NieuwenhovenGames\BGA\StockHandler::create($this->notifications);
 
-        $this->update_decks = UpdateDecks::create($this->decks);
-        $this->update_decks->setStockHandler($this->stock_handler);
-        $this->update_decks->setNotificationsHandler($this->notifications);
-
         $players = $this->current_data->getAllDatas()[CurrentData::RESULT_KEY_PLAYERS];
 
         $this->current_decks = CurrentDecks::create($this->decks, $players, $this->current_player_id);
@@ -107,7 +101,6 @@ class Actions {
         $this->ais->setInitialPlants($this->initial_plants);
         $this->ais->setMarket($this->current_decks->getMarket());
         $this->ais->setHomes($this->current_decks->getHomes());
-        $this->ais->setUpdateDecks($this->update_decks);
 
         return $this;
     }
