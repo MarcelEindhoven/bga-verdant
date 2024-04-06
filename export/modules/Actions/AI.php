@@ -45,6 +45,14 @@ class AI {
         $this->update_decks = $update_decks;
         return $this;
     }
+    public function getElementsPlaceCard() {
+        $positions_per_category = $this->getSelectablePositionsPerCategory();
+
+        $category = $this->selectCategory($positions_per_category);
+        $positions = $positions_per_category[$category];
+
+        return array($category . '_0', $positions[array_rand($positions)]);
+    }
 
     public function selectAndPlaceCard() : AI {
         $positions = $this->getSelectablePositionsPerCategory();

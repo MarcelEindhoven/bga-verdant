@@ -9,9 +9,9 @@ namespace NieuwenhovenGames\Verdant;
  * 
  */
 
-include_once(__DIR__.'/../BGA/Action.php');
+include_once(__DIR__.'/PlaceCard.php');
 
-class AISelectsAndPlacesCard extends \NieuwenhovenGames\BGA\Action {
+class AISelectsAndPlacesCard extends PlaceCard {
 
     public static function create($gamestate) : AISelectsAndPlacesCard {
         return new AISelectsAndPlacesCard($gamestate);
@@ -23,8 +23,11 @@ class AISelectsAndPlacesCard extends \NieuwenhovenGames\BGA\Action {
     }
 
     public function execute() : AISelectsAndPlacesCard {
-        $this->ai->selectAndPlaceCard();
-        return $this;
+        list($selected_market_id, $selected_home_id) = $this->ai->getElementsPlaceCard();
+
+        $this->setSelectedElements($selected_market_id, $selected_home_id);
+
+        return PlaceCard::execute();
     }
 }
 ?>

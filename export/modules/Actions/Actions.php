@@ -146,7 +146,8 @@ class Actions {
     }
 
     public function stAiPlayer() {
-        AISelectsAndPlacesCard::create($this->gamestate)->setAI($this->ais[$this->current_player_id])->execute()->nextState();
+        list($selected_market_card, $selected_home_id) = $this->ais[$this->current_player_id]->getElementsPlaceCard();
+        PlacePlant::create($this->gamestate)->subscribePublicNotifications($this->notifications)->setHome($this->getHome())->setMarket($this->getMarket())->setSelectedElements($selected_market_card, $selected_home_id)->execute()->nextState();
     }
 
     public function stAllPlayersInspectScore() {

@@ -109,7 +109,7 @@ $machinestates = array(
         "descriptionmyturn" => clienttranslate('${you} must play'),
         "type" => "game",
         "action" => "stAiPlayer",
-        "transitions" => array("" => 15)
+        "transitions" => array("placeCard" => 15)
     ),
     20 => array(
         "name" => "allPlayersInspectScore",
