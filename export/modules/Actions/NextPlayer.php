@@ -20,7 +20,7 @@ include_once(__DIR__.'/../CurrentData/CurrentDecks.php');
 class NextPlayer extends \NieuwenhovenGames\BGA\Action {
     const MESSAGE_PLACE_SELECTED_CARD = 'Place initial plant ';
     const MESSAGE_PLACE_MARKET_CARD = 'Place plant ';
-    const EVENT_NEW_SELECTABLE_EMPTY_POSITIONS = 'NewSelectablePositions';
+    const EVENT_NEW_ITEM = 'NewItem';
 
     protected string $selected_home_id = '';
     protected string $selected_market_card = '';
@@ -61,8 +61,8 @@ class NextPlayer extends \NieuwenhovenGames\BGA\Action {
     }
 
     protected function replenishMarket() : NextPlayer {
-        foreach (Constants::getNames() as $name) {
-            $this->replenish($name, $this->getLocationsFromMarketRow($this->market[$name]));
+        foreach (Constants::getNames() as $category) {
+            $this->replenish($category, $this->getLocationsFromMarketRow($this->market[$category]));
         }
 
         return $this;
@@ -74,14 +74,22 @@ class NextPlayer extends \NieuwenhovenGames\BGA\Action {
         }
         return $locations;
     }
-    protected function replenish($name, $market_locations) {
+    protected function replenish($category, $market_locations) {
         $missing_locations = array_diff([0, 1, 2, 3], $market_locations);
         foreach ($missing_locations as $missing_location) {
-            $this->market->refill($name, $missing_location);
+            $this->market->refill($category, $missing_location);
 
-            $arguments = [PlayerPlacesInitialPlant::ARGUMENT_KEY_CARD => $this->market[$name][$missing_location]];
-            $this->listener_public->notifyAllPlayers(PlayerPlacesInitialPlant::EVENT_NEW_STOCK_CONTENT, '', $arguments);
+            $arguments = [PlayerPlacesInitialPlant::ARGUMENT_KEY_CARD => $this->market[$category][$missing_location]];
+            $this->listener_public->notifyAllPlayers($this->getEvent($category), '', $arguments);
             }
+    }
+
+    protected function getEvent($category) {
+        if ($category == Constants::ITEM_NAME) {
+            return NextPlayer::EVENT_NEW_ITEM;
+        } else {
+            return PlayerPlacesInitialPlant::EVENT_NEW_STOCK_CONTENT;
+        }
     }
 
     public function getTransitionName() : string {

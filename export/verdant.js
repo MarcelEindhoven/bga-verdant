@@ -1,5 +1,9 @@
 /**
  *------
+ * Backlog
+ * Minimise other people's homes
+ * Move selected market item to storage
+ * 
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
  * Verdant implementation : © <Your name here> <Your email address here>
  *
@@ -354,8 +358,8 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             dojo.subscribe( 'MoveItem', this, "notify_MoveItem" );
             this.notifqueue.setSynchronous( 'MoveItem', 500 );
 
-            dojo.subscribe( 'CreateItem', this, "notify_CreateItem" );
-            this.notifqueue.setSynchronous( 'CreateItem', 500 );
+            dojo.subscribe( 'NewItem', this, "notify_NewItem" );
+            this.notifqueue.setSynchronous( 'NewItem', 500 );
 
             dojo.subscribe( 'NewSelectablePositions', this, "notify_NewSelectablePositions" );
             this.notifqueue.setSynchronous( 'NewSelectablePositions', 1 );
@@ -396,8 +400,8 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             console.log(notif.args);
             this.own_home.setItem(notif.args.item, this);
         },
-        notify_CreateItem: function(notif) {
-            console.log('notify_CreateItem');
+        notify_NewItem: function(notif) {
+            console.log('notify_NewItem');
             console.log(notif.args);
             this.market.setItem(notif.args.item);
         },
