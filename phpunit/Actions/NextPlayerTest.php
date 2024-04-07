@@ -24,6 +24,7 @@ class MockMarket extends Market {
     }
 
     public function refill($name, $location) : Market {
+        $this[$name][$location] = 'card';
         return $this->mock_market->refill($name, $location);
     }
 
@@ -47,6 +48,9 @@ class NextPlayerTest extends TestCase{
         $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState::class);
 
         $this->sut = NextPlayer::create($this->mock_gamestate);
+
+        $this->mock_notify = $this->createMock(\NieuwenhovenGames\BGA\PlayerRobotNotifications::class);
+        $this->sut->subscribePublicNotifications($this->mock_notify);
 
         $this->mock_home = new MockHome();
         $this->mock_home->setMock($this->createMock(Home::class));

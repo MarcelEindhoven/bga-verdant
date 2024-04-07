@@ -29,6 +29,11 @@ class NextPlayer extends \NieuwenhovenGames\BGA\Action {
         return new NextPlayer($gamestate);
     }
 
+    public function subscribePublicNotifications($notifications_handler) : NextPlayer {
+        $this->listener_public = $notifications_handler;
+        return $this;
+    }
+
     public function setAIs($ais) : NextPlayer {
         $this->ais = $ais;
         return $this;
@@ -73,7 +78,10 @@ class NextPlayer extends \NieuwenhovenGames\BGA\Action {
         $missing_locations = array_diff([0, 1, 2, 3], $market_locations);
         foreach ($missing_locations as $missing_location) {
             $this->market->refill($name, $missing_location);
-        }
+
+            $arguments = [PlayerPlacesInitialPlant::ARGUMENT_KEY_CARD => $this->market[$name][$missing_location]];
+            $this->listener_public->notifyAllPlayers(PlayerPlacesInitialPlant::EVENT_NEW_STOCK_CONTENT, '', $arguments);
+            }
     }
 
     public function getTransitionName() : string {

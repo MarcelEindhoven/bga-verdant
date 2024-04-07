@@ -23,7 +23,7 @@ class AISelectsAndPlacesCard extends PlaceCard {
     }
 
     public function execute() : AISelectsAndPlacesCard {
-        list($selected_market_id, $selected_home_id) = $this->ai->getElementsPlaceCard();
+        list($selected_market_id, $selected_home_id, $selected_market_item_id) = $this->ai->getElementsPlaceCard();
 
         $this->setSelectedElements($selected_market_id, $selected_home_id);
 

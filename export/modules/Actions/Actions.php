@@ -135,7 +135,7 @@ class Actions {
 
     public function stNextPlayer($player_id) {
         $this->setCurrentPlayerID($player_id);
-        NextPlayer::create($this->gamestate)->setAIs($this->ais)->setCurrentPlayerID($player_id)->setHome($this->getHome())->setMarket($this->getMarket())->execute()->nextState();
+        NextPlayer::create($this->gamestate)->subscribePublicNotifications($this->notifications)->setAIs($this->ais)->setCurrentPlayerID($player_id)->setHome($this->getHome())->setMarket($this->getMarket())->execute()->nextState();
     }
 
     public function stAiPlayer() {

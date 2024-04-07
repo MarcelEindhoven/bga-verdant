@@ -45,8 +45,9 @@ class AI {
 
         $category = $this->selectCategory($positions_per_category);
         $positions = $positions_per_category[$category];
+        $market_column = 0;
 
-        return array($category . '_0', $positions[array_rand($positions)]);
+        return array($category . '_' . $market_column, $positions[array_rand($positions)], Constants::ITEM_NAME . '_' . $market_column);
     }
 
     protected function getSelectablePositionsPerCategory() {
