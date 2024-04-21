@@ -1,7 +1,14 @@
 # Use cases
 ## Players
 The board game Verdant is played by 4 players. Some of those players may be AI players. AI players are controlled by the server.
-Real players have a browser UI
+Human players have a standard BGA browser UI
+
+## Variants
+The rule book describes the following variants
+- Family
+- Default
+- Advanced
+- Solo
 
 ## Game start
 -  All items are created
@@ -45,11 +52,13 @@ Real players have a browser UI
 Not yet implemented
 
 # Entities
+Entities represent physical objects and their organisation into groups
 ## Decks
 Everything that is randomly drawn is put into a deck, so room cards, plant cards as well as items, 3 decks in total.
 ## Market
+Plant cards, room cards and items.
 ## Home
-Each player has a home
+Each player has a home. The home is a 9x5 potential grid that contains the maximum 5x3 card grid.
 ## Storage
 - Each player has an item storage that can contain 1 item. During a player's turn, an additional item can be available
 - Each player has a thumb token storage
@@ -61,5 +70,25 @@ Each player has a home
 
 # Game state
 - Standard player data like player score, player name and whose turn it is
-- Plant, item and room decks. This includes everything not yet drawn, the market, players storage, all cards and items in players homes
-- Not yet implemented: pots, thumb tokens, verdancy and victory cards
+- Plant, item and room decks (which is everything that can be randomly drawn). This includes everything not yet drawn, the market, players storage, all cards and items in players homes
+- Thumb tokens are modelled as a number on plant cards, room cards and as player property
+- Verdancy is modelled as a number property of plant cards
+- Not yet implemented: pots, and victory cards
+
+## Fixed properties
+Pot values, required verdancy and victory points are modelled as card properties.
+Card/item colour is modelled as card type number.
+
+# UI
+- The UI is responsible for all choices made by human players just like the server is responsible for all choices made by AI players.
+- Calculations required by human as well as AI player (for example empty positions adjacent to rooms) are executed at server side and sent to the UI whenever updated.
+- Communication from UI to server consists of simple arguments in a function call.
+- Update from the server include updated cards plus optional simple arguments.
+
+## Mapping use cases to server-UI communication
+### Place initial plant
+UI->server: element ID where plant is to be placed
+Server->UI: New stock event with card
+### Select item and card from market, place card
+UI->server: market element IDs of item and card, element ID where card is to be placed
+Server->UI: move card event with card, move item event with item (to storage), updated home event with calculations

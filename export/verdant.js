@@ -3,7 +3,7 @@
  * Backlog
  * Minimise other people's homes
  * Move selected market item to storage
- * 
+ *
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
  * Verdant implementation : © <Your name here> <Your email address here>
  *
@@ -14,7 +14,7 @@
  * verdant.js
  *
  * Verdant user interface script
- * 
+ *
  * In this file, you are describing the logic of your user interface, in Javascript language.
  *
  */
@@ -24,15 +24,16 @@ define([
     g_gamethemeurl + 'modules/js/OwnHome.js',
     g_gamethemeurl + 'modules/js/Market.js',
     g_gamethemeurl + 'modules/js/StockSetup.js',
+    g_gamethemeurl + 'modules/BGA/js/UIToServer.js',
     "ebg/core/gamegui",
     "ebg/counter",
     "ebg/stock",
 ],
-function (dojo, declare, OwnHome, Market, StockSetup) {
+function (dojo, declare, OwnHome, Market, StockSetup, UIToServer) {
     return declare("bgagame.verdant", ebg.core.gamegui, {
         constructor: function(){
             console.log('verdant constructor');
-              
+
             // Here, you can init the global variables of your user interface
             // Example:
             // this.myGlobalValue = 0;
@@ -51,24 +52,24 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             this.own_home.setServer(this);
             // this.player_id not available here
         },
-        
+
         /*
             setup:
-            
+
             This method must set up the game user interface according to current game situation specified
             in parameters.
-            
+
             The method is called each time the game interface is displayed to a player, ie:
             _ when the game starts
             _ when a player refreshes the game page (F5)
-            
+
             "gamedatas" argument contains all datas retrieved by your "getAllDatas" PHP method.
         */
         setup: function( gamedatas )
         {
             console.log( "Starting game setup" );
             this.own_home.setOwnerID(this.player_id);
-            
+
             // Setting up player boards
             console.log(gamedatas);
             this.setupStocks(gamedatas.players);
@@ -76,7 +77,7 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             {
                 var player = gamedatas.players[player_id];
                 this.own_home.fill(gamedatas.homes[player_id]);
-                         
+
                 // TODO: Setting up players boards if needed
             }
 
@@ -90,7 +91,7 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             console.log('Prototyping');
             element_name = '' + this.player_id + '_' + 14;
             console.log(element_name);
-        
+
             console.log( "Ending game setup" );
         },
         getElement: function(html_id) {return $(html_id);},
@@ -111,7 +112,7 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             console.log(card);
             element_name = this.getElementName(card);
             console.log(element_name);
-            
+
             this.stocks[element_name].addToStockWithId(this.getTypeID(card), element_name);
         },
         getElementName: function(card) {
@@ -131,7 +132,7 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
 
         ///////////////////////////////////////////////////
         //// Game & client states
-        
+
         // onEnteringState: this method is called each time we are entering into a new game state.
         //                  You can use this method to perform some user interface changes at this moment.
         //
@@ -142,10 +143,10 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             {
             /* Example:
             case 'myGameState':
-            
+
                 // Show some HTML block at this game state
                 dojo.style( 'my_html_block_id', 'display', 'block' );
-                
+
                 break;
            */
             case 'dummmy':
@@ -162,32 +163,32 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             switch( stateName )
             {
             /* Example:
-            
+
             case 'myGameState':
-            
+
                 // Hide the HTML block we are displaying only during this game state
                 dojo.style( 'my_html_block_id', 'display', 'none' );
-                
+
                 break;
            */
             case 'dummmy':
                 break;
-            }               
-        }, 
+            }
+        },
 
         // onUpdateActionButtons: in this method you can manage "action buttons" that are displayed in the
         //                        action status bar (ie: the HTML links in the status bar).
-        //        
+        //
         onUpdateActionButtons: function( stateName, args )
         {
             console.log( 'onUpdateActionButtons: '+stateName );
-                      
+
             if ('allPlayersPlaceInitialPlant' == stateName) {
                 if ('initial_plant' in this.gamedatas) {
                     this.own_home.setSelectableEmptyElements(this.gamedatas.empty_elements_adjacent_to_rooms, this.getTypeID(this.gamedatas['initial_plant']), 'placeInitialPlant');
                 }
             } else if( this.isCurrentPlayerActive() )
-            {            
+            {
                 switch( stateName )
                 {
                     case 'playerTurn':
@@ -207,23 +208,23 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
                         }
                         break;
                         // Which item will be placed?
-                            /*               
+                            /*
                  Example:
- 
+
                  case 'myGameState':
-                    
+
                     // Add 3 action buttons in the action status bar:
-                    
-                    this.addActionButton( 'button_1_id', _('Button 1 label'), 'onMyMethodToCall1' ); 
-                    this.addActionButton( 'button_2_id', _('Button 2 label'), 'onMyMethodToCall2' ); 
-                    this.addActionButton( 'button_3_id', _('Button 3 label'), 'onMyMethodToCall3' ); 
+
+                    this.addActionButton( 'button_1_id', _('Button 1 label'), 'onMyMethodToCall1' );
+                    this.addActionButton( 'button_2_id', _('Button 2 label'), 'onMyMethodToCall2' );
+                    this.addActionButton( 'button_3_id', _('Button 3 label'), 'onMyMethodToCall3' );
                     break;
 */
                 }
             } else {
                 this.market.resetSelectableCards();
             }
-        },        
+        },
         playerPlacesItemOnPlant: function(element_name) {
             this.call('playerPlacesItemOnPlant', {selected_market_card:this.selected_market_card, selected_home_id: element_name});
         },
@@ -246,7 +247,7 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             } else {
                 this.own_home.setSelectableEmptyElements(this.gamedatas.empty_elements_adjacent_to_plants, card_type, 'playerPlacesRoom');
             }
-            
+
         },
         placeInitialPlant: function(element_name) {
             this.call('playerPlacesInitialPlant', {selected_id: element_name});
@@ -266,41 +267,41 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
                 args = {};
             }
             args.lock = true;
-        
+
             this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + action + ".html", args, this, (result) => { }, handler);
         },
 
         ///////////////////////////////////////////////////
         //// Utility methods
-        
+
         /*
-        
+
             Here, you can defines some utility methods that you can use everywhere in your javascript
             script.
-        
+
         */
 
 
         ///////////////////////////////////////////////////
         //// Player's action
-        
+
         /*
-        
-            Here, you are defining methods to handle player's action (ex: results of mouse click on 
+
+            Here, you are defining methods to handle player's action (ex: results of mouse click on
             game objects).
-            
+
             Most of the time, these methods:
             _ check the action is possible at this game state.
             _ make a call to the game server
-        
+
         */
-        
+
         /* Example:
-        
+
         onMyMethodToCall1: function( evt )
         {
             console.log( 'onMyMethodToCall1' );
-            
+
             // Preventing default browser reaction
             dojo.stopEvent( evt );
 
@@ -308,39 +309,39 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             if( ! this.checkAction( 'myAction' ) )
             {   return; }
 
-            this.ajaxcall( "/verdant/verdant/myAction.html", { 
-                                                                    lock: true, 
-                                                                    myArgument1: arg1, 
+            this.ajaxcall( "/verdant/verdant/myAction.html", {
+                                                                    lock: true,
+                                                                    myArgument1: arg1,
                                                                     myArgument2: arg2,
                                                                     ...
-                                                                 }, 
+                                                                 },
                          this, function( result ) {
-                            
+
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
-                            
+
                          }, function( is_error) {
 
                             // What to do after the server call in anyway (success or failure)
                             // (most of the time: nothing)
 
-                         } );        
-        },        
-        
+                         } );
+        },
+
         */
 
-        
+
         ///////////////////////////////////////////////////
         //// Reaction to cometD notifications
 
         /*
             setupNotifications:
-            
+
             In this method, you associate each of your game notifications with your local method to handle it.
-            
+
             Note: game notification names correspond to "notifyAllPlayers" and "notifyPlayer" calls in
                   your verdant.game.php file.
-        
+
         */
         setupNotifications: function()
         {
@@ -368,18 +369,18 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
             this.notifqueue.setSynchronous( 'NewSelectableElements', 1 );
 
             // TODO: here, associate your game notifications with local methods
-            
+
             // Example 1: standard notification handling
             // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
-            
+
             // Example 2: standard notification handling + tell the user interface to wait
             //            during 3 seconds after calling the method in order to let the players
             //            see what is happening in the game.
             // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
             // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
-            // 
+            //
             console.log( 'notifications subscriptions finished setup' );
-        },  
+        },
         notify_resetSelectableEmptyElements: function(notif) {
             console.log('notify_resetSelectableEmptyElements');
             this.own_home.resetSelectableEmptyElements();
@@ -422,20 +423,20 @@ function (dojo, declare, OwnHome, Market, StockSetup) {
 
 
         // TODO: from this point and below, you can write your game notifications handling methods
-        
+
         /*
         Example:
-        
+
         notif_cardPlayed: function( notif )
         {
             console.log( 'notif_cardPlayed' );
             console.log( notif );
-            
+
             // Note: notif.args contains the arguments specified during you "notifyAllPlayers" / "notifyPlayer" PHP call
-            
+
             // TODO: play the card in the user interface.
-        },    
-        
+        },
+
         */
-   });             
+   });
 });

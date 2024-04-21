@@ -21,6 +21,7 @@
 -- Example 2: add a custom field to the standard "player" table
 -- ALTER TABLE `player` ADD `player_my_custom_field` INT UNSIGNED NOT NULL DEFAULT '0';
 
+ALTER TABLE `player` ADD `player_thumb_tokens` INT UNSIGNED NOT NULL DEFAULT '0';
 
 CREATE TABLE IF NOT EXISTS `plant` (
   `card_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -28,6 +29,10 @@ CREATE TABLE IF NOT EXISTS `plant` (
   `card_type_arg` int(11) NOT NULL,
   `card_location` varchar(16) NOT NULL,
   `card_location_arg` int(11) NOT NULL,
+  `card_thumb_tokens` int(2) NOT NULL,
+  `card_verdancy` int(2) NOT NULL,
+  `card_required_verdancy` int(2) NOT NULL,
+  `card_score` int(2) NOT NULL,
   PRIMARY KEY (`card_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
@@ -37,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `room` (
   `card_type_arg` int(11) NOT NULL,
   `card_location` varchar(16) NOT NULL,
   `card_location_arg` int(11) NOT NULL,
+  `card_thumb_tokens` int(2) NOT NULL,
   PRIMARY KEY (`card_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
