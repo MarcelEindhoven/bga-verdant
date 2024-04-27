@@ -25,11 +25,12 @@ define([
     g_gamethemeurl + 'modules/js/Market.js',
     g_gamethemeurl + 'modules/js/StockSetup.js',
     g_gamethemeurl + 'modules/BGA/js/UIToServer.js',
+    g_gamethemeurl + 'modules/js/UseCases/PlaceInitialPlant.js',
     "ebg/core/gamegui",
     "ebg/counter",
     "ebg/stock",
 ],
-function (dojo, declare, OwnHome, Market, StockSetup, UIToServer) {
+function (dojo, declare, OwnHome, Market, StockSetup, UIToServer, PlaceInitialPlant) {
     return declare("bgagame.verdant", ebg.core.gamegui, {
         constructor: function(){
             console.log('verdant constructor');
@@ -185,7 +186,8 @@ function (dojo, declare, OwnHome, Market, StockSetup, UIToServer) {
 
             if ('allPlayersPlaceInitialPlant' == stateName) {
                 if ('initial_plant' in this.gamedatas) {
-                    this.own_home.setSelectableEmptyElements(this.gamedatas.empty_elements_adjacent_to_rooms, this.getTypeID(this.gamedatas['initial_plant']), 'placeInitialPlant');
+                    this.use_case = new PlaceInitialPlant(this.gamedatas.empty_elements_adjacent_to_rooms, this.gamedatas['initial_plant']);
+                    this.use_case.execute();
                 }
             } else if( this.isCurrentPlayerActive() )
             {
@@ -353,6 +355,9 @@ function (dojo, declare, OwnHome, Market, StockSetup, UIToServer) {
             dojo.subscribe( 'newStockContent', this, "notify_newStockContent" );
             this.notifqueue.setSynchronous( 'newStockContent', 5 );
 
+            dojo.subscribe( 'initialPlantPlaced', this, "notify_initialPlantPlaced" );
+            this.notifqueue.setSynchronous( 'initialPlantPlaced', 5 );
+
             dojo.subscribe( 'MoveFromStockToStock', this, "notify_MoveFromStockToStock" );
             this.notifqueue.setSynchronous( 'MoveFromStockToStock', 500 );
 
@@ -388,6 +393,10 @@ function (dojo, declare, OwnHome, Market, StockSetup, UIToServer) {
         notify_newStockContent: function(notif) {
             console.log('notify_newStockContent');
             this.fillCard(notif.args.card);
+        },
+        notify_initialPlantPlaced: function(notif) {
+            console.log('notify_initialPlantPlaced');
+            delete this.gamedatas['initial_plant'];
         },
         notify_MoveFromStockToStock: function(notif) {
             console.log('notify_MoveFromStockToStock');

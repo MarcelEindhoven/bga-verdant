@@ -77,19 +77,18 @@ define(['dojo/_base/declare'], (declare) => {
         getElementName: function(card) {
             return card['element_id'];
         },
-        setSelectableEmptyElements(elements, selected_card_type_id, callback_method) {
+        subscribe: function(event_name, subscriber) {
+            this.subscriber = subscriber;
+        },
+        setSelectableEmptyElements(elements, card) {
             this.removeCardFromPositions();
 
-            this.setSelectables(elements, callback_method, 'onSelectEmptyPosition');
+            this.setSelectables(elements);
 
-            this.addCardToPositions(elements, selected_card_type_id);
+            this.addCardToPositions(elements, this.getTypeID(card));
         },
         setSelectableCards(elements, callback_method) {
-            this.setSelectables(elements, callback_method, 'onSelectCard');
-        },
-        onSelectEmptyPosition(field_id){
-            this.resetSelectableEmptyElements();
-            this.server[this.callback_method](field_id);
+            this.setSelectables(elements);
         },
         resetSelectableEmptyElements() {
             this.removeCardFromPositions();
@@ -105,23 +104,17 @@ define(['dojo/_base/declare'], (declare) => {
                 this.stocks[elements[e]].addToStockWithId(selected_card_type_id, elements[e]);
             }
         },
-        setSelectables(elements, callback_method, callback_method_selection) {
+        setSelectables(elements) {
             this.resetSelectablePositions();
 
-            this.SetSelectablePositions(elements, callback_method_selection);
-
-            this.callback_method = callback_method;
+            this.SetSelectablePositions(elements);
         },
-        SetSelectablePositions(elements, callback_method_selection) {
+        SetSelectablePositions(elements) {
             for(var e in elements) {
                 this.toolkit.addClass(elements[e], 'selectable');
-                this.connection_handlers.push(this.toolkit.connect(this.stocks[elements[e]], 'onChangeSelection', this, callback_method_selection));
+                this.connection_handlers.push(this.toolkit.connect(this.stocks[elements[e]], 'onChangeSelection', this.subscriber, 'element_selected'));
             }
             this.selectable_elements = elements;
-        },
-        onSelectCard(field_id){
-            this.resetSelectablePositions();
-            this.server[this.callback_method](field_id);
         },
         resetSelectablePositions() {
             this.resetConnections();

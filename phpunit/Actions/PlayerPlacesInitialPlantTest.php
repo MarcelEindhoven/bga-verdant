@@ -78,6 +78,10 @@ class PlayerPlacesInitialPlantTest extends TestCase{
     public function testExecute_SingleAI_placeInitialPlant() {
         // Arrange
         $this->arrangeNotifyNewStock();
+
+        $this->mock_notify
+        ->expects($this->exactly(2))
+        ->method('notifyPlayer');
         // Act
         $this->sut->execute();
         // Assert

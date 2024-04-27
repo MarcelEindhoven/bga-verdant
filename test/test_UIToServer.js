@@ -19,7 +19,8 @@ describe('UIToServer', function () {
             sut.call('Action');
             // Assert
             sinon.assert.calledOnce(ajaxcallwrapper.ajaxcall);
-            //sinon.assert.calledOnceWithExactly(ajaxcallwrapper.ajaxcall, '/Name/Name/Action.html', {'lock':true});
+            assert.equal(ajaxcallwrapper.ajaxcall.getCall(0).args[0], '/Name/Name/Action.html');
+            assert.equal(ajaxcallwrapper.ajaxcall.getCall(0).args[1]['lock'], true);
         });
         it('Arguments', function () {
             // Arrange
@@ -27,7 +28,9 @@ describe('UIToServer', function () {
             sut.call('Action', {arg1: 'A', arg: 'B'});
             // Assert
             sinon.assert.calledOnce(ajaxcallwrapper.ajaxcall);
-            //sinon.assert.calledOnceWithExactly(ajaxcallwrapper.ajaxcall, '/Name/Name/Action.html', {'lock':true}, ajaxcallwrapper, (result) => { });
+            assert.equal(ajaxcallwrapper.ajaxcall.getCall(0).args[1]['lock'], true);
+            assert.equal(ajaxcallwrapper.ajaxcall.getCall(0).args[1]['arg1'], 'A');
+            assert.equal(ajaxcallwrapper.ajaxcall.getCall(0).args[1]['arg'], 'B');
         });
     });
 });

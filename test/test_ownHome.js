@@ -25,6 +25,12 @@ describe('OwnHome', function () {
         };
         sut.setServer(server);
 
+        subscriber = {
+            playerPlacesInitialPlant: sinon.spy(),
+            placeOnObjectPos: sinon.spy(),
+        };
+        sut.subscribe('element_selected', subscriber);
+
         position = 14;
         field_id = owner_id + '_' + position;
         stock = {
@@ -38,18 +44,9 @@ describe('OwnHome', function () {
         selected_card_type_id = 15;
     });
     function act_default_set(elements) {
-        sut.setSelectableEmptyElements(elements, selected_card_type_id, 'playerPlacesInitialPlant');
+        card = {type: 1, type_arg: 3};
+        sut.setSelectableEmptyElements(elements, card);
     };
-    describe('Callbacks', function () {
-        it('Call server', function () {
-            // Arrange
-            act_default_set([]);
-            // Act
-            sut.onSelectEmptyPosition(field_id);
-            // Assert
-            assert.ok(server.playerPlacesInitialPlant.calledOnceWithExactly(field_id), 'Call server that player places card on empty position');
-        });
-    });
     describe('Set selectable empty elements', function () {
     it('Set zero selectable empty elements', function () {
         // Arrange
@@ -64,7 +61,7 @@ describe('OwnHome', function () {
         act_default_set([field_id]);
         // Assert
         assert.ok(dojo.addClass.calledOnceWithExactly(field_id, 'selectable'), 'Add selectable class for all selectable empty elements');
-        assert.ok(dojo.connect.calledOnceWithExactly(stock, 'onChangeSelection', sut, 'onSelectEmptyPosition'), 'Add callback for all selectable empty elements');
+        assert.ok(dojo.connect.calledOnceWithExactly(stock, 'onChangeSelection', subscriber, 'element_selected'), 'Add callback for all selectable empty elements');
         assert.ok(stock.addToStockWithId.calledOnceWithExactly(selected_card_type_id, field_id), 'Add selected card for all selectable empty elements');
     });
     it('Reset zero selectable empty elements', function () {

@@ -15,6 +15,7 @@ include_once(__DIR__.'/PlayerPlacesCard.php');
 
 class PlayerPlacesInitialPlant extends PlayerPlacesCard {
     const EVENT_NEW_STOCK_CONTENT = 'newStockContent';
+    const EVENT_INITIAL_PLANT_PLACED = 'initialPlantPlaced';
     const MESSAGE_PLACE_SELECTED_CARD = 'Place initial plant ';
     const ARGUMENT_KEY_CARD = 'card';
 
@@ -39,6 +40,8 @@ class PlayerPlacesInitialPlant extends PlayerPlacesCard {
         $this->moveCardFromInitialPlantsToHome();
 
         $this->notifyNewCardInClientInterfaces();
+
+        $this->notificationsHandler->notifyPlayer($this->player_id, PlayerPlacesInitialPlant::EVENT_INITIAL_PLANT_PLACED, '', []);
 
         return PlayerPlacesCard::execute();
     }
