@@ -14,12 +14,12 @@ describe('PlaceInitialPlant', function () {
             subscribe: sinon.spy(),
             resetSelectableEmptyElements: sinon.spy(),
         };
-        sut.set_home(home);
+        sut.setHome(home);
 
         server = {
             call: sinon.spy(),
         };
-        sut.set_server(server);
+        sut.setServer(server);
     });
     describe('execute', function () {
         it('setSelectableEmptyElements', function () {

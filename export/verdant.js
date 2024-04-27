@@ -186,7 +186,9 @@ function (dojo, declare, OwnHome, Market, StockSetup, UIToServer, PlaceInitialPl
 
             if ('allPlayersPlaceInitialPlant' == stateName) {
                 if ('initial_plant' in this.gamedatas) {
-                    this.use_case = new PlaceInitialPlant(this.gamedatas.empty_elements_adjacent_to_rooms, this.gamedatas['initial_plant']);
+                    this.use_case = new PlaceInitialPlant(this.gamedatas['initial_plant'], this.gamedatas.empty_elements_adjacent_to_rooms);
+                    this.use_case.setHome(this.own_home);
+                    this.use_case.setServer(new UIToServer(this, this.game_name));
                     this.use_case.execute();
                 }
             } else if( this.isCurrentPlayerActive() )
@@ -199,7 +201,7 @@ function (dojo, declare, OwnHome, Market, StockSetup, UIToServer, PlaceInitialPl
                         if (this.gamedatas.empty_elements_adjacent_to_plants.length > 0) {categories.push('room');}
                         this.market.makeRowsSelectable(categories, 'marketCardSelected');
                         break;
-                        case 'placeItem':
+                    case 'placeItem':
                         item = this.market.getItemFromSelectedColumn();
                         this.selected_market_card = item.location + '_'+ item.location_arg;
                         console.log(this.selected_market_card);
@@ -250,10 +252,6 @@ function (dojo, declare, OwnHome, Market, StockSetup, UIToServer, PlaceInitialPl
                 this.own_home.setSelectableEmptyElements(this.gamedatas.empty_elements_adjacent_to_plants, card_type, 'playerPlacesRoom');
             }
 
-        },
-        placeInitialPlant: function(element_name) {
-            this.call('playerPlacesInitialPlant', {selected_id: element_name});
-            delete this.gamedatas['initial_plant'];
         },
         playerPlacesPlant: function(element_name) {
             this.call('playerPlacesPlant', {selected_market_card:this.selected_market_card, selected_home_id: element_name});

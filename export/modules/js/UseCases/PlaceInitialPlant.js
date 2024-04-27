@@ -7,15 +7,15 @@ define(['dojo/_base/declare'], (declare) => {
             this.initial_plant = initial_plant;
             this.selectable_empty_positions = selectable_empty_positions;
         },
-        set_home: function(home) {
+        setHome: function(home) {
             this.home = home;
         },
-        set_server: function(server) {
+        setServer: function(server) {
             this.server = server;
         },
         execute: function() {
-            this.home.setSelectableEmptyElements(this.selectable_empty_positions, this.initial_plant, this);
             this.home.subscribe('element_selected', this);
+            this.home.setSelectableEmptyElements(this.selectable_empty_positions, this.initial_plant);
         },
         element_selected: function(selected_element) {
             this.home.resetSelectableEmptyElements();
