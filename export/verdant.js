@@ -23,7 +23,7 @@ define([
     "dojo","dojo/_base/declare",
     g_gamethemeurl + 'modules/js/OwnHome.js',
     g_gamethemeurl + 'modules/js/Market.js',
-    g_gamethemeurl + 'modules/js/StockSetup.js',
+    g_gamethemeurl + 'modules/js/Gateways/StockSetup.js',
     g_gamethemeurl + 'modules/BGA/js/UIToServer.js',
     g_gamethemeurl + 'modules/js/UseCases/PlaceInitialPlant.js',
     "ebg/core/gamegui",

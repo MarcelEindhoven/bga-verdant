@@ -1,7 +1,7 @@
 var assert = require('assert');
 var sinon = require('sinon');
 
-var sut_module = require('../export/modules/js/StockSetup');
+var sut_module = require('../export/modules/js/Gateways/StockSetup');
 
 describe('StockSetup', function () {
     beforeEach(function() {
