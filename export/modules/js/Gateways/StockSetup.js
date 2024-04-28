@@ -14,6 +14,7 @@ define(['dojo/_base/declare'], (declare) => {
         SetURLPrefix(gamethemeurl){this.gamethemeurl = gamethemeurl},
         setWebToolkit(toolkit){this.toolkit = toolkit},
         SetStockClass(stock_class){this.stock_class = stock_class},
+        SetElementClass(card_element_class){this.card_element_class = card_element_class},
         setCategory(category){this.category = category},
         setServer(server){this.server = server},
 
@@ -37,6 +38,21 @@ define(['dojo/_base/declare'], (declare) => {
                 }
             }
             return stocks;
+        },
+        setupPlayersElements: function(players) {
+            var elements = [];
+            for(var player_id in players) {
+                for (var row = 0; row < 5; row ++) {
+                    for (var place = 0; place < 9; place ++) {
+                        element_id = ''+ player_id + '_' + row + place;
+                        console.log(element_id);
+                        elements[element_id] = new this.card_element_class(element_id);
+                        elements[element_id].setWebToolkit(this.toolkit);
+                        elements[element_id].setStock(this.setupCardStock(element_id, (row + place) % 2 ? 'plant' : 'room'));
+                    }
+                }
+            }
+            return elements;
         },
         setupCardStock(template_id, category){
             hand = new this.stock_class();

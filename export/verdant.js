@@ -24,13 +24,14 @@ define([
     g_gamethemeurl + 'modules/js/OwnHome.js',
     g_gamethemeurl + 'modules/js/Market.js',
     g_gamethemeurl + 'modules/js/Gateways/StockSetup.js',
+    g_gamethemeurl + 'modules/js/Gateways/CardPosition.js',
     g_gamethemeurl + 'modules/BGA/js/UIToServer.js',
     g_gamethemeurl + 'modules/js/UseCases/PlaceInitialPlant.js',
     "ebg/core/gamegui",
     "ebg/counter",
     "ebg/stock",
 ],
-function (dojo, declare, OwnHome, Market, StockSetup, UIToServer, PlaceInitialPlant) {
+function (dojo, declare, OwnHome, Market, StockSetup, CardPosition, UIToServer, PlaceInitialPlant) {
     return declare("bgagame.verdant", ebg.core.gamegui, {
         constructor: function(){
             console.log('verdant constructor');
@@ -101,12 +102,15 @@ function (dojo, declare, OwnHome, Market, StockSetup, UIToServer, PlaceInitialPl
             setup.setServer(this);
             setup.setWebToolkit(dojo);
             setup.SetStockClass(ebg.stock);
+            setup.SetElementClass(CardPosition);
             setup.SetURLPrefix(g_gamethemeurl);
 
             var stocks_market = setup.setupMarketStocks();
             this.market.setStocks(stocks_market);
             var stocks_players = setup.setupPlayersStocks(players)
             this.own_home.setStocks(stocks_players);
+            var home_elements = setup.setupPlayersElements(players)
+            this.own_home.setElements(home_elements);
             this.stocks = {...stocks_market, ...stocks_players};
         },
         fillCard: function(card) {

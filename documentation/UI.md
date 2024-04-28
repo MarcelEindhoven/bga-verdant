@@ -26,8 +26,10 @@ During a player's turn the selected market item must be displayed.
 - Supports selection of cards and items.
 - Selectable cards/items blink.
 - Raises a callback when a market location is selected.
+
 ### Home
 Display only
+![alt text](https://github.com/MarcelEindhoven/bga-verdant/documentation/Finished home example.jpg?raw=true)
 ### Own home
 - Support selection of cards and spaces.
 - Raises a callback when a home location is selected.

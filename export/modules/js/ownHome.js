@@ -16,6 +16,7 @@ define(['dojo/_base/declare'], (declare) => {
         setOwnerID(owner_id){this.owner_id = owner_id},
         setServer(server){this.server = server},
         setStocks(stocks){this.stocks = stocks},
+        setElements(elements){this.elements = elements},
 
         setItem(item) {
             var id = 'item_id_' + item.id;
@@ -66,7 +67,7 @@ define(['dojo/_base/declare'], (declare) => {
             element_name = this.getElementName(card);
             console.log(element_name);
             
-            this.stocks[element_name].addToStockWithId(this.getTypeID(card), element_name);
+            this.elements[element_name].set(card);
         },
         getTypeID: function(card) {
             return this.getCardTypeID(+card['type'], +card['type_arg']);
@@ -80,58 +81,29 @@ define(['dojo/_base/declare'], (declare) => {
         subscribe: function(event_name, subscriber) {
             this.subscriber = subscriber;
         },
-        setSelectableEmptyElements(elements, card) {
-            this.removeCardFromPositions();
-
-            this.setSelectables(elements);
-
-            this.addCardToPositions(elements, this.getTypeID(card));
+        setSelectableEmptyElements(element_ids, card) {
+            for(var e in element_ids) {
+                this.elements[e].subscribe(this.subscriber);
+                this.elements[e].setSelectableForNew(card);
+            }
+            this.selectable_element_ids = element_ids;
         },
-        setSelectableCards(elements, callback_method) {
-            this.setSelectables(elements);
+        setSelectableCards(element_ids) {
+            for(var e in element_ids) {
+                this.elements[e].subscribe(this.subscriber);
+                this.elements[e].setSelectable();
+            }
+            this.selectable_element_ids = element_ids;
         },
         resetSelectableEmptyElements() {
-            this.removeCardFromPositions();
-            this.resetSelectablePositions();
-        },
-        removeCardFromPositions() {
-            for(var e in this.selectable_elements) {
-                this.stocks[this.selectable_elements[e]].removeFromStockById(this.selectable_elements[e]);
+            for(var e in this.selectable_element_ids) {
+                this.elements[e].resetSelectableForNew();
             }
         },
-        addCardToPositions(elements, selected_card_type_id) {
-            for(var e in elements) {
-                this.stocks[elements[e]].addToStockWithId(selected_card_type_id, elements[e]);
+        resetSelectableCards() {
+            for(var e in this.selectable_element_ids) {
+                this.elements[e].resetSelectable();
             }
-        },
-        setSelectables(elements) {
-            this.resetSelectablePositions();
-
-            this.SetSelectablePositions(elements);
-        },
-        SetSelectablePositions(elements) {
-            for(var e in elements) {
-                this.toolkit.addClass(elements[e], 'selectable');
-                this.connection_handlers.push(this.toolkit.connect(this.stocks[elements[e]], 'onChangeSelection', this.subscriber, 'element_selected'));
-            }
-            this.selectable_elements = elements;
-        },
-        resetSelectablePositions() {
-            this.resetConnections();
-
-            this.resetPositions();
-        },
-        resetConnections() {
-            for(var c in this.connection_handlers) {
-                this.toolkit.disconnect(this.connection_handlers[c]);
-            }
-            this.connection_handlers = [];
-        },
-        resetPositions() {
-            for(var e in this.selectable_elements) {
-                this.toolkit.removeClass(this.selectable_elements[e], 'selectable');
-            }
-            this.selectable_elements = [];
         },
 });
 });
