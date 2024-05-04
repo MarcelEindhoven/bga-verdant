@@ -26,20 +26,19 @@
 -->
 <div id="Game">
 <div id = "Market" style="display: inline-block">
-    <h3>Market</h3>
     <table>
     <tr>
     <td>
     .....Market 0....
     </td>
     <td>
-    .....Market 0....
+    .....Market 1....
     </td>
     <td>
-    .....Market 0....
+    .....Market 2....
     </td>
     <td>
-    .....Market 0....
+    .....Market 3....
     </td>
     </tr>
     <!-- BEGIN market_row -->
@@ -98,31 +97,31 @@
     </table>
     <table style="display: inline-block">
     <tr>
-    <td>
+    <td id = "{PLAYER_ID}_header_0">
     ....Market 0....
     </td>
-    <td>
+    <td id = "{PLAYER_ID}_header_1">
     ....Market 0....
     </td>
-    <td>
+    <td id = "{PLAYER_ID}_header_2">
     ....Market 0....
     </td>
-    <td>
+    <td id = "{PLAYER_ID}_header_3">
     ....Market 0....
     </td>
-    <td>
+    <td id = "{PLAYER_ID}_header_4">
     ....Market 0....
     </td>
-    <td>
+    <td id = "{PLAYER_ID}_header_5">
     ....Market 0....
     </td>
-    <td>
+    <td id = "{PLAYER_ID}_header_6">
     ....Market 0....
     </td>
-    <td>
+    <td id = "{PLAYER_ID}_header_7">
     ....Market 0....
     </td>
-    <td>
+    <td id = "{PLAYER_ID}_header_8">
     ....Market 0....
     </td>
     </tr>
