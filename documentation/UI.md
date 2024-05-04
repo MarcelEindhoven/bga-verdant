@@ -85,3 +85,49 @@ Select a market card and market item. Select a matching space in own home where 
 - Server->UI: new cards
 - UI->server: 
 - Server->UI: 
+
+## Gateway layer
+### Element
+- The key concept is the element.
+- Each element is a location on the screen that can hold up to 1 card plus any number of objects on top of the optional card.
+- It is decided that if an element holds multiple objects, they are all interchangeable (verdancy tokens, thumb tokens, supply of pots with the same value).
+### HTML
+- Each element has an HTML ID. Each smallest HTML ID is represented by one element.
+- The HTML ID is used through all layers from HTML to the database to specify an elements location.
+- Markets and homes are elements grouped into tables.
+- All fixed HTML is generated at start-up. Real estate can be optimised by generating homes on the fly.
+### Stock
+- Each element that can contain a card has a BGA stock object. 
+- Elements that can contain multiple objects also have a stock with one card to give them real estate to hold the object.
+### Item
+- Market tokens can be placed directly on their corresponding HTML division.
+- Other objects must be placed with an offset compared to the card on which they are placed.
+### Buttons
+### Element Interface
+- Set stock is called from setup
+- Set card introduces a card onto the screen on this element. Use cases: setup and market refill
+- Discard removes the card from this market element from screen. Use case: discard market cards
+- Move card moves a card from one market element to a home element. Use case: place market card into home
+- Add item introduces an object onto the screen on this element. The element ensures each object on the element has an appropriate relative position compared to the card. If an element has no card (market), there is no position. Use cases: setup and many other
+- Move one item moves any one object from one element to another element.
+- Move all items moves all objects (verdancy tokens) from one element to another element.
+- Discard item removes the market token from screen.
+- Set selectable makes the element selectable with a callback.
+- Reset selectable makes the element no longer selectable.
+### Use cases
+Setup.
+Place initial plant.
+Select market card, market token and select home location.
+Move market card into home.
+Gain thumb tokens from market card.
+Move thumb tokens back into general supply.
+Move thumb token from supply onto market card/storage card.
+Select home cards for selected token.
+Add verdancy tokens.
+Replace verdancy tokens by pot with highest value.
+Discard market cards.
+Discard market tokens.
+Discard token from storage.
+Swap stored token with just obtained token.
+End of turn and discard selected market token.
+End of game and display score.
