@@ -55,13 +55,47 @@
     </table>
 </div>
 
-<!-- BEGIN player -->
-    <div style="display: inline-block" id="home_{PLAYER_ID}">
-    <h3>{PLAYER_NAME}</h3>
-<div style="display: inline-block">
-    <div id="{PLAYER_ID}_Storage" class="single_card">
-    </div>
+<div style="display: inline-block" id="obtained_item">
 </div>
+
+<div style="display: inline-block">
+    <table style="display: inline-block">
+        <tr>
+        <td>
+            <div id="goal_plant" class="single_card">
+            </div>
+        </td>
+        <td>
+            <div id="goal_item" class="single_card">
+            </div>
+        </td>
+        <td>
+            <div id="goal_room" class="single_card">
+            </div>
+        </td>
+        </tr>
+    </table>
+</div>
+
+<!-- BEGIN player -->
+<div style="display: inline-block" id="home_{PLAYER_ID}">
+    <div style="display: inline-block"">
+        <h3>{PLAYER_NAME}</h3>
+    </div>
+    <table style="display: inline-block">
+        <tr>
+        <td>
+            <div id="{PLAYER_ID}_Storage" class="single_card">
+            </div>
+        </td>
+        </tr>
+        <tr>
+        <td>
+            <div id="{PLAYER_ID}_Thumbs" class="single_card">
+            </div>
+        </td>
+        </tr>
+    </table>
     <table style="display: inline-block">
     <tr>
     <td>
@@ -103,8 +137,31 @@
     </tr>
     <!-- END card_row -->
     </table>
-    </div>
+</div>
 <!-- END player -->
+
+<div style="display: inline-block">
+    <table style="display: inline-block">
+        <tr>
+            <td>
+                <div id="pots_3" class="single_card">
+                </div>
+            </td>
+            <td>
+                <div id="pots_2" class="single_card">
+                </div>
+            </td>
+            <td>
+                <div id="pots_1" class="single_card">
+                </div>
+            </td>
+            <td>
+                <div id="pots_0" class="single_card">
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
 
 </div>
 <script type="text/javascript">

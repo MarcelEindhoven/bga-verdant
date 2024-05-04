@@ -24,7 +24,8 @@ Next to the market there is sufficient space for 3 goal cards
 - It is acceptable for the own home to be a fixed size rectangle of 9x5 card spaces (this makes selection of spaces easier).
 - The own home support selection of stored item, selectable cards and selectable spaces.
 ### Tokens
-At the bottom lies the public supply of pot tokens, green thumb tokens and verdancy tokens
+At the bottom lies the public supply of pot tokens.
+Optionally, also green thumb tokens and verdancy tokens, to be decided.
 ### Decks and bag with item tokens
 Not visible on screen
 
