@@ -82,7 +82,11 @@ define(['dojo/_base/declare'], (declare) => {
             this.subscriber = subscriber;
         },
         setSelectableEmptyElements(element_ids, card) {
+            console.log(element_ids);
+            console.log(this.elements);
             for(var e in element_ids) {
+                console.log(e);
+                console.log(this.elements[e]);
                 this.elements[e].subscribe(this.subscriber);
                 this.elements[e].setSelectableForNew(card);
             }

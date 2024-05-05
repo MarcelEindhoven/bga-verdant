@@ -88,33 +88,7 @@ Select a market card and market item. Select a matching space in own home where 
 - Server->UI: 
 
 ## Gateway layer
-### Element
-- The key concept is the element.
-- Each element is a location on the screen that can hold up to 1 card plus any number of objects on top of the optional card.
-- It is decided that if an element holds multiple objects, they are all interchangeable (verdancy tokens, thumb tokens, supply of pots with the same value).
-### HTML
-- Each element has an HTML ID. Each smallest HTML ID is represented by one element.
-- The HTML ID is used through all layers from HTML to the database to specify an elements location.
-- Markets and homes are elements grouped into tables.
-- All fixed HTML is generated at start-up. Real estate can be optimised by generating homes on the fly.
-### Stock
-- Each element that can contain a card has a BGA stock object. 
-- Elements that can contain multiple objects also have a stock with one card to give them real estate to hold the object.
-### Item
-- Market tokens can be placed directly on their corresponding HTML division.
-- Other objects must be placed with an offset compared to the card on which they are placed.
-### Buttons
-### Element Interface
-- Set stock is called from setup
-- Set card introduces a card onto the screen on this element. Use cases: setup and market refill
-- Discard removes the card from this market element from screen. Use case: discard market cards
-- Move card moves a card from one market element to a home element. Use case: place market card into home
-- Add item introduces an object onto the screen on this element. The element ensures each object on the element has an appropriate relative position compared to the card. If an element has no card (market), there is no position. Use cases: setup and many other
-- Move one item moves any one object from one element to another element.
-- Move all items moves all objects (verdancy tokens) from one element to another element.
-- Discard item removes the market token from screen.
-- Set selectable makes the element selectable with a callback.
-- Reset selectable makes the element no longer selectable.
+How to translate use cases into BGA objects and calls and resources. What gateway objects can abstract BGA to offer a use case based interface?
 ### Use cases
 Setup.
 Place initial plant.
@@ -132,3 +106,67 @@ Discard token from storage.
 Swap stored token with just obtained token.
 End of turn and discard selected market token.
 End of game and display score.
+### dojo
+addClass(this.element_id, 'selectable');
+removeClass(this.element_id, 'selectable');
+connect( this.myStockControl, 'onChangeSelection', this, 'onMyMethodToCall' );
+disconnect(this.connection_handler);
+place(block, this.element_id);
+### ebg/core/gamegui
+constructor
+setup
+g_gamethemeurl
+gamedatas
+gamedatas.players
+game_name
+player_id
+addTooltip(card_div.id, "" + this.colour_names[Math.floor(card_type_id/12)]);
+getElement(element_id)
+format_block('jstpl_item', {nr:item.id, background_horizontal: color, background_vertical: type});
+placeOnObjectPos(mobile_obj: ElementOrId, target_obj: ElementOrId, target_x: number, target_y: number)
+slideToObjectPos( "some_token", "some_place_on_board", 0, 10 ).play()
+onUpdateActionButtons(stateName)
+isCurrentPlayerActive()
+ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + action + ".html", args, this, (result) => { }, handler);
+setupNotifications
+dojo.subscribe( 'initialPlantPlaced', this, "notify_initialPlantPlaced" );
+this.notifqueue.setSynchronous( 'initialPlantPlaced', 5 );
+### ebg/stock
+new ebg/stock();
+create( page, container_div, item_width, item_height );
+addItemType(card_type_id, card_type_id, this.gamethemeurl+'img/' + category + '.png', card_type_id);
+image_items_per_row = 
+onItemCreate = dojo.hitch( this, 'setupNewCard' );
+setupNewCard: function(card_div, card_type_id, card_id)
+getPresentTypeList()
+card_type = this.stocks[notif.args.from].getItemById(notif.args.from).type;
+this.stocks[notif.args.to].addToStockWithId(card_type, notif.args.to);
+this.stocks[notif.args.from].removeFromStockById(notif.args.from);
+### HTML
+- Each element has an HTML ID. Each smallest HTML ID is represented by one element.
+- The HTML ID is used through all layers from HTML to the database to specify an elements location.
+- Markets and homes are elements grouped into tables.
+- All fixed HTML is generated at start-up. Real estate can be optimised by generating homes on the fly.
+### Element
+- The key concept is the element.
+- Each element is a location on the screen that can hold up to 1 card plus any number of objects on top of the optional card.
+- It is decided that if an element holds multiple objects, they are all interchangeable (verdancy tokens, thumb tokens, supply of pots with the same value).
+### Stock
+- Each element that can contain a card has a BGA stock object. 
+- Elements that can contain multiple objects also have a stock with one card to give them real estate to hold the object.
+### Item
+- Market tokens can be placed directly on their corresponding HTML division.
+- Other objects must be placed with an offset compared to the card on which they are placed.
+### Buttons
+### Element Interface
+- Set stock is called from setup
+- Set card introduces a card onto the screen on this element. Use cases: setup and market refill
+- Discard removes the card from this market element from screen. Use case: discard market cards
+- Move card moves a card from one market element to a home element. Use case: place market card into home
+- Add item introduces an object onto the screen on this element. The element ensures each object on the element has an appropriate relative position compared to the card. If an element has no card (market), there is no position. Use cases: setup and many other
+- Move one item moves any one object from one element to another element.
+- Move all items moves all objects (verdancy tokens) from one element to another element.
+- Discard item removes the market token from screen.
+- Set selectable makes the element selectable with a callback.
+- Set selectable for new card/object makes the empty home element selectable for a new card or makes the home card selectable for a new object (verdancy, room item)
+- Reset selectable makes the element no longer selectable.

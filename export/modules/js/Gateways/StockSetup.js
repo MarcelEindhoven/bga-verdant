@@ -29,7 +29,7 @@ define(['dojo/_base/declare'], (declare) => {
         setupPlayersStocks: function(players) {
             var stocks = [];
             for(var player_id in players) {
-                for (var row = 0; row < 5; row ++) {
+                for (var row = 1; row < 5; row ++) {
                     for (var place = 0; place < 9; place ++) {
                         template_id = ''+ player_id + '_' + row + place;
                         console.log(template_id);
@@ -42,7 +42,7 @@ define(['dojo/_base/declare'], (declare) => {
         setupPlayersElements: function(players) {
             var elements = [];
             for(var player_id in players) {
-                for (var row = 0; row < 5; row ++) {
+                for (var row = 1; row < 5; row ++) {
                     for (var place = 0; place < 9; place ++) {
                         element_id = ''+ player_id + '_' + row + place;
                         console.log(element_id);

@@ -80,7 +80,6 @@
 <div style="display: inline-block" id="home_{PLAYER_ID}">
     <div style="display: inline-block"">
         <h3>{PLAYER_NAME}</h3>
-    </div>
     <table style="display: inline-block">
         <tr>
         <td>
@@ -95,34 +94,31 @@
         </td>
         </tr>
     </table>
+    </div>
     <table style="display: inline-block">
     <tr>
     <td id = "{PLAYER_ID}_header_0">
-    ....Market 0....
     </td>
     <td id = "{PLAYER_ID}_header_1">
-    ....Market 0....
     </td>
     <td id = "{PLAYER_ID}_header_2">
-    ....Market 0....
     </td>
     <td id = "{PLAYER_ID}_header_3">
-    ....Market 0....
     </td>
     <td id = "{PLAYER_ID}_header_4">
-    ....Market 0....
+    ....Home 4.....
     </td>
     <td id = "{PLAYER_ID}_header_5">
-    ....Market 0....
+    ....Home 5.....
     </td>
     <td id = "{PLAYER_ID}_header_6">
-    ....Market 0....
+    ....Home 6.....
     </td>
     <td id = "{PLAYER_ID}_header_7">
-    ....Market 0....
+    ....Home 7.....
     </td>
     <td id = "{PLAYER_ID}_header_8">
-    ....Market 0....
+    ....Home 8.....
     </td>
     </tr>
     <!-- BEGIN card_row -->

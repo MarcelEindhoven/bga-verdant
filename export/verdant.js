@@ -110,6 +110,7 @@ function (dojo, declare, OwnHome, Market, StockSetup, CardPosition, UIToServer, 
             var stocks_players = setup.setupPlayersStocks(players)
             this.own_home.setStocks(stocks_players);
             var home_elements = setup.setupPlayersElements(players)
+            console.log(home_elements);
             this.own_home.setElements(home_elements);
             this.stocks = {...stocks_market, ...stocks_players};
         },

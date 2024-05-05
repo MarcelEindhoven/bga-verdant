@@ -14,6 +14,7 @@ describe('CardPosition', function () {
         };
         sut.setStock(stock);
         card = {type: 1, type_arg: 3};
+        expected_id = 15;
         onItemCreate = {'a':'b'};
 
         connection_handler = {'a':'b'};
@@ -39,7 +40,7 @@ describe('CardPosition', function () {
             act_default_set();
             // Assert
             sinon.assert.calledOnce(stock.addToStockWithId);
-            assert.equal(stock.addToStockWithId.getCall(0).args[0], 15);
+            assert.equal(stock.addToStockWithId.getCall(0).args[0], expected_id);
             assert.equal(stock.addToStockWithId.getCall(0).args[1], element_id);
         });
     });
